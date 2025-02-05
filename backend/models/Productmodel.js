@@ -26,13 +26,16 @@ const ProductSchema= new mongoose.Schema({
     
     },
     quantity:{
-        type:String,
-        unique:true
+        type:Number,
+        unique:true,
+        default:0
     },
     image:{
         type:String,
 
     },
+    supplier: { type: mongoose.Schema.Types.ObjectId, 
+        ref: "Supplier" },
     createdAt:{
         type:Date,
         default:Date.now
