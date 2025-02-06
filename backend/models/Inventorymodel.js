@@ -10,7 +10,7 @@ const InventorySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Auto-update stock status before saving
+
 InventorySchema.pre("save", function (next) {
   if (this.quantity === 0) {
     this.status = "out-of-stock";
