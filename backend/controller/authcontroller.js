@@ -1,6 +1,5 @@
 const User=require('../models/Usermodel')
 const bcrypt=require('bcrypt')
-const jwt=require("jsonwebtoken")
 const {generateToken}=require('../libs/Tokengenerator')
 module.exports.signup=async(req,res)=>{
     try {
