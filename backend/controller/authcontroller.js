@@ -96,3 +96,42 @@ module.exports.logout=async(req,res)=>{
     
   }
 }
+module.exports.updateProfile=async(req,res)=>{
+  try {
+    const { ProfilePic } = req.body;
+    const userId = req.user?._id;
+
+    if (!userId) {
+      return res.status(400).json({ message: "User not authenticated" });
+    }
+
+    if (ProfilePic) {
+      
+      const uploadResponse = await cloudinary.uploader.upload(ProfilePic, {
+        folder: "profile_inventory_system", 
+        upload_preset: "upload", 
+      });
+
+      
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: userId },
+        { ProfilePic: uploadResponse.secure_url },
+        { new: true }
+      );
+
+      if (!updatedUser) {
+        return res.status(404).json({ message: "User not found" });
+      }
+updateProfile
+      return res.status(200).json({
+        message: "Profile updated successfully",
+        updatedUser,
+      });
+    } else {
+      return res.status(400).json({ message: "No profile picture provided" });
+    }
+  } catch (error) {
+    console.log("Error in update profile Controller", error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};

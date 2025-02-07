@@ -25,6 +25,11 @@ const UserSchema= new mongoose.Schema({
         default:'staff',
     
     },
+    ProfilePic:{
+        type:String
+   
+
+    },
     createdAt:{
         type:Date,
         default:Date.now

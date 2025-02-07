@@ -10,7 +10,7 @@ module.exports.generateToken=async(user,res)=>{
             throw new Error("Secret key is not defined in the environment variables.");
         }
         const token=jwt.sign({userId:user._id,role:user.role},process.env.SecretKey)
-    res.cookie("Jobpostingapp", token, {
+    res.cookie("Inventorymanagmentsystem", token, {
         maxAge: 7 * 24 * 60 * 60 * 1000,
         httpOnly: true, 
         sameSite: "strict", 
