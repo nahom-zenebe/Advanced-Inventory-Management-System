@@ -24,10 +24,9 @@ const ActivityLogSchema= new mongoose.Schema({
         default:Date.now
 
     },
-    Timestamp:true
-
-
-})
+},
+{ timestamps: true }
+)
 
 const ActivityLog=mongoose.model("User",ActivityLogSchema)
 

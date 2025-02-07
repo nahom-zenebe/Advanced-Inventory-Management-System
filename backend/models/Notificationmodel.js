@@ -24,10 +24,9 @@ const NotificationSchema= new mongoose.Schema({
         default:Date.now
 
     },
-    Timestamp:true
-
-
-})
+},
+{ timestamps: true }
+)
 
 const Notification=mongoose.model("User",NotificationSchema)
 

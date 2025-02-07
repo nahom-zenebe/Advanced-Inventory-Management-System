@@ -26,10 +26,13 @@ const SupplierSchema= new mongoose.Schema({
 
     },
 
-    Timestamp:true
 
 
-})
+
+},    { timestamps: true }
+
+
+)
 
 const Supplier=mongoose.model("User",SupplierSchema)
 

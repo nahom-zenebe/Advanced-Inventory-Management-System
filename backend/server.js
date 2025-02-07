@@ -2,8 +2,8 @@ const express=require("express")
 const {MongoDBconfig }=require('./libs/mongoconfig')
 const app=express()
 const cors=require('cors')
-const auth=require('./Routers/authRouther')
-
+const authrouter=require('./Routers/authRouther')
+const cookieParser = require('cookie-parser');
 
 
 
@@ -18,8 +18,9 @@ app.use(cors({
     allowedHeaders: "Content-Type,Authorization", 
     credentials: true, }
 ))
+app.use(cookieParser())
 
-app.use('/api/auth',auth)
+app.use('/api/auth',authrouter)
 
 
 app.listen(PORT,()=>{

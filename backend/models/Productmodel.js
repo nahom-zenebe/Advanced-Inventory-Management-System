@@ -41,10 +41,10 @@ const ProductSchema= new mongoose.Schema({
         default:Date.now
 
     },
-    Timestamp:true
+},
+{ timestamps: true }
 
-
-})
+)
 
 const Product=mongoose.model("User",ProductSchema)
 

@@ -43,10 +43,9 @@ const OrderSchema= new mongoose.Schema({
     type:String
 },
 
-    Timestamp:true
-
-
-})
+},
+{ timestamps: true }
+)
 
 const Product=mongoose.model("User",ProductSchema)
 

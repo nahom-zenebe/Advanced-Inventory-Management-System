@@ -28,11 +28,12 @@ const StockTranscationSchema= new mongoose.Schema({
     type:mongoose.Schema.Types.ObjectId,
     ref:"Supplier"
    },
+},
+{ timestamps: true }
 
-    Timestamp:true
 
 
-})
+)
 
 const StockTranscation=mongoose.model("User",StockTranscationSchema)
 

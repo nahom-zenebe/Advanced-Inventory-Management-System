@@ -7,7 +7,9 @@ const InventorySchema = new mongoose.Schema(
     status: { type: String, enum: ["in-stock", "low-stock", "out-of-stock"], default: "in-stock" },
     lastUpdated: { type: Date, default: Date.now },
   },
-  { timestamps: true }
+
+{ timestamps: true }
+
 );
 
 

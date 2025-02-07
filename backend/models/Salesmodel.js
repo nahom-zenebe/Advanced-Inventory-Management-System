@@ -16,7 +16,8 @@ const SaleSchema = new mongoose.Schema(
     invoiceUrl: { type: String }, 
     status: { type: String, enum: ["pending", "completed", "cancelled"], default: "pending" },
   },
-  { timestamps: true }
+
+{ timestamps: true }
 );
 
 module.exports = mongoose.model("Sale", SaleSchema);
