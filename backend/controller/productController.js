@@ -26,6 +26,26 @@ try {
 }
 
 
+module.exports.getProduct=async(req,res)=>{
+    try {
+      
+     const Products=await Product.find({})
+     if(!Products){
+        return res.status(404).json({message:"product is not found"})
+     }
+
+     res.status(200).json(Products)
+
+        
+    } catch (error) {
+        res.status(500).json({ message: "Error getting product", error: error.message });
+    }
+}
+
+
+
+
+
 
 module.exports.RemoveProduct=async(req,res)=>{
     try {
