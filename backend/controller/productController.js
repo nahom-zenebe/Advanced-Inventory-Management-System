@@ -43,3 +43,51 @@ module.exports.RemoveProduct=async(req,res)=>{
         res.status(500).json({ message: "Error deleting product", error: error.message });
     }
 }
+
+
+
+module.exports.EditProduct=async(req,res)=>{
+    try {
+    const {productId}=req.params
+    const {updatedata}=req.body
+
+    const updatedproduct=await Product.findByIdAndUpdate(productId,updatedata,{new:true})
+   
+    res.json( updatedproduct); 
+        
+    } catch (error) {
+        res.status(500).json({ message: "Error deleting product", error: error.message });
+    }
+}
+
+
+
+
+
+module.exports.SearchProduct=async(req,res)=>{
+    try {
+    const {query}=req.query
+    if(!query){
+        return res.status(400).json({ message: "Query parameter is required" })
+    }
+
+    const products=await Product.find({
+        $or:[
+            {name:{$regex:query,$options:"i"}},
+            {Category:{$regex:query,$optons:"i"}},
+            {Desciption:{$regex:query,$options:"i"}}
+        ]
+    })
+
+
+    res.json(products);
+
+     
+        
+    } catch (error) {
+        res.status(500).json({ message: "Error deleting product", error: error.message });
+    }
+}
+
+
+

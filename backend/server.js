@@ -3,6 +3,7 @@ const {MongoDBconfig }=require('./libs/mongoconfig')
 const app=express()
 const cors=require('cors')
 const authrouter=require('./Routers/authRouther')
+const productrouter=require('./Routers/ProductRouter')
 const cookieParser = require('cookie-parser');
 
 
@@ -21,7 +22,7 @@ app.use(cors({
 app.use(cookieParser())
 
 app.use('/api/auth',authrouter)
-
+app.use('/api/product',productrouter)
 
 app.listen(PORT,()=>{
     MongoDBconfig()
