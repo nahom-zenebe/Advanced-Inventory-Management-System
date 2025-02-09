@@ -6,6 +6,7 @@ const authrouter=require('./Routers/authRouther')
 const productrouter=require('./Routers/ProductRouter')
 const orderrouter=require('./Routers/orderRouter')
 const categoryrouter=require("./Routers/categoryRouter")
+const notificationrouter=require("./Routers/notificationRouters")
 const cookieParser = require('cookie-parser');
 
 
@@ -28,7 +29,7 @@ app.use('/api/auth',authrouter)
 app.use('/api/product',productrouter)
 app.use('/api/order',orderrouter)
 app.use('/api/category',categoryrouter)
-
+app.use('/api/notification', notificationrouter)
 app.listen(PORT,()=>{
     MongoDBconfig()
     console.log(`The server is running at port ${PORT}`)
