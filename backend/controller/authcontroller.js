@@ -1,6 +1,7 @@
 const User=require('../models/Usermodel')
 const bcrypt=require('bcrypt')
 const {generateToken}=require('../libs/Tokengenerator')
+const Cloundinary=require('../libs/Cloundinary') 
 
 
 
@@ -110,7 +111,7 @@ module.exports.updateProfile=async(req,res)=>{
 
     if (ProfilePic) {
       
-      const uploadResponse = await cloudinary.uploader.upload(ProfilePic, {
+      const uploadResponse = await Cloundinary.uploader.upload(ProfilePic, {
         folder: "profile_inventory_system", 
         upload_preset: "upload", 
       });
