@@ -1,0 +1,70 @@
+const StockTransaction = require('../models/StockTranscationmodel');
+
+
+exports.createStockTransaction = async (req, res) => {
+  try {
+    const { product, type, quantity, supplier } = req.body;
+
+    if (!product || !type || !quantity) {
+      return res.status(400).json({ success: false, message: "Product, type, and quantity are required." });
+    }
+
+    const newTransaction = new StockTransaction({
+      product,
+      type,
+      quantity,
+      supplier,
+    });
+
+    await newTransaction.save();
+
+    res.status(201).json({ success: true, message: "Stock transaction created successfully", transaction: newTransaction });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error creating stock transaction", error });
+  }
+};
+
+
+exports.getAllStockTransactions = async (req, res) => {
+  try {
+    const transactions = await StockTransaction.find().populate('Product Supplier').sort({ transactionDate: -1 });
+
+    res.status(200).json({ success: true, transactions });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error fetching stock transactions", error });
+  }
+};
+
+
+exports.getStockTransactionsByProduct = async (req, res) => {
+  try {
+    const { productId } = req.params;
+
+    const transactions = await StockTransaction.find({ product: productId }).populate('Supplier').sort({ transactionDate: -1 });
+
+    if (!transactions || transactions.length === 0) {
+      return res.status(404).json({ success: false, message: "No transactions found for this product." });
+    }
+
+    res.status(200).json({ success: true, transactions });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error fetching transactions by product", error });
+  }
+};
+
+
+exports.getStockTransactionsBySupplier = async (req, res) => {
+  try {
+    const { supplierId } = req.params;
+
+    const transactions = await StockTransaction.find({ supplier: supplierId }).populate('product').sort({ transactionDate: -1 });
+
+    if (!transactions || transactions.length === 0) {
+      return res.status(404).json({ success: false, message: "No transactions found for this supplier." });
+    }
+
+    res.status(200).json({ success: true, transactions });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error fetching transactions by supplier", error });
+  }
+};
