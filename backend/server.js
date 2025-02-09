@@ -11,6 +11,7 @@ const activityrouter=require("./Routers/activityRouter")
 const inventoryrouter=require('./Routers/inventoryRouter')
 const salesrouter=require('./Routers/salesRouter')
 const supplierrouter=require('./Routers/supplierrouter')
+const stocktransactionrouter=require('./Routers/stocktransactionrouter')
 const cookieParser = require('cookie-parser');
 
 
@@ -40,6 +41,7 @@ app.use('/api/activitylogs',activityrouter)
 app.use('/api/inventory',inventoryrouter)
 app.use('/api/salesrouter',salesrouter)
 app.use('/api/supplier',supplierrouter)
+app.use("/api/stocktransaction",stocktransactionrouter)
 
 app.listen(PORT,()=>{
     MongoDBconfig()
