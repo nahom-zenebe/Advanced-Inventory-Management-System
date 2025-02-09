@@ -35,6 +35,6 @@ const StockTranscationSchema= new mongoose.Schema({
 
 )
 
-const StockTranscation=mongoose.model("User",StockTranscationSchema)
+const StockTranscation=mongoose.model("StockTranscation",StockTranscationSchema)
 
 module.exports=StockTranscation

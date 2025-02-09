@@ -1,6 +1,10 @@
 const User=require('../models/Usermodel')
 const bcrypt=require('bcrypt')
 const {generateToken}=require('../libs/Tokengenerator')
+
+
+
+
 module.exports.signup=async(req,res)=>{
     try {
     const{name,email, password,role}=req.body

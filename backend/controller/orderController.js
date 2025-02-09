@@ -9,9 +9,9 @@ const Order=require('../models/Ordermodel')
 module.exports.createOrder=async()=>{
     try {
 
-        const { user,Desciption, Product,price, totalAmount}=req.body
+        const { user,Desciption, Product,price, totalAmount, status}=req.body
 
-         if(!user||!Desciption|| !Product||!price|| !totalAmount){
+         if(!user||!Desciption|| !Product||!price|| !totalAmount||! status){
             return res.status(400).json({message:"please provide all neccesary information"})
          }
 
@@ -23,7 +23,7 @@ module.exports.createOrder=async()=>{
 
         })
          const newOrder=new Order({
-            user,Desciption, Product,price, totalAmount:totalorderAmount}
+            user,Desciption, Product,price, totalAmount:totalorderAmount, status,orderDate}
          )
          await newOrder.save()
          res.status(201).json(newOrder)
@@ -70,4 +70,24 @@ module.exports.getOrder=async(req,res)=>{
     } catch (error) {
         res.status(500).json({ message: "Error getting Orders", error: error.message });
     }
+}
+
+module.exports.updatestatusOrder=async(req,res)=>{
+    try {
+        const {status,OrderId}=req.body
+        const updateorder=await Order.findByIdAndUpdate(OrderId,status,{new:true})
+
+            if(!updateorder)
+                {
+                    return  res.status(400).json({message:"order is not found"})
+
+                }
+                
+                res.status(200).json({message:"order successfully updated"})
+
+
+    } catch (error) {
+        res.status(500).json({ message: "Error in update status Orders", error: error.message });
+    }
+
 }
