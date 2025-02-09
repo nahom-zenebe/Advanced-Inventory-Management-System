@@ -22,6 +22,8 @@ app.use(cors({
     allowedHeaders: "Content-Type,Authorization", 
     credentials: true, }
 ))
+
+
 app.use(cookieParser())
 
 
@@ -30,6 +32,8 @@ app.use('/api/product',productrouter)
 app.use('/api/order',orderrouter)
 app.use('/api/category',categoryrouter)
 app.use('/api/notification', notificationrouter)
+
+
 app.listen(PORT,()=>{
     MongoDBconfig()
     console.log(`The server is running at port ${PORT}`)
