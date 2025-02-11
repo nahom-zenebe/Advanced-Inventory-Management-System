@@ -2,7 +2,7 @@ const Inventory =require('../models/Inventorymodel')
 const Product = require("../models/Productmodel");
 
 
-exports.addOrUpdateInventory = async (req, res) => {
+module.exports.addOrUpdateInventory = async (req, res) => {
   try {
     const { product, quantity } = req.body;
 
@@ -36,7 +36,7 @@ exports.addOrUpdateInventory = async (req, res) => {
 
 
 
-exports.getAllInventory = async (req, res) => {
+module.exports.getAllInventory = async (req, res) => {
   try {
     const inventories = await Inventory.find().populate("product");
 
@@ -47,7 +47,7 @@ exports.getAllInventory = async (req, res) => {
 };
 
 
-exports.getInventoryByProduct = async (req, res) => {
+module.exports.getInventoryByProduct = async (req, res) => {
   try {
     const { productId } = req.params;
 
@@ -64,7 +64,7 @@ exports.getInventoryByProduct = async (req, res) => {
 };
 
 
-exports.deleteInventory = async (req, res) => {
+module.exports.deleteInventory = async (req, res) => {
   try {
     const { productId } = req.params;
 

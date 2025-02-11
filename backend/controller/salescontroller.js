@@ -2,7 +2,7 @@ const Sale = require("../models/Salesmodel");
 const Product = require("../models/Productmodel");
 
 
-exports.createSale = async (req, res) => {
+module.exports.createSale = async (req, res) => {
   try {
     const { customerName, products, paymentMethod} = req.body;
 
@@ -34,7 +34,7 @@ exports.createSale = async (req, res) => {
 };
 
 
-exports.getAllSales = async (req, res) => {
+module.exports.getAllSales = async (req, res) => {
   try {
     const sales = await Sale.find().populate("products.product").sort({ createdAt: -1 });
 
@@ -45,7 +45,7 @@ exports.getAllSales = async (req, res) => {
 };
 
 
-exports.getSaleById = async (req, res) => {
+module.exports.getSaleById = async (req, res) => {
   try {
     const { saleId } = req.params;
 
@@ -62,7 +62,7 @@ exports.getSaleById = async (req, res) => {
 };
 
 
-exports.updateSaleStatus = async (req, res) => {
+module.exports.updateSaleStatus = async (req, res) => {
   try {
     const { saleId } = req.params;
     const { status } = req.body;
@@ -86,7 +86,7 @@ exports.updateSaleStatus = async (req, res) => {
 };
 
 
-exports.updatePaymentStatus = async (req, res) => {
+module.exports.updatePaymentStatus = async (req, res) => {
   try {
     const { saleId } = req.params;
     const { paymentStatus } = req.body;

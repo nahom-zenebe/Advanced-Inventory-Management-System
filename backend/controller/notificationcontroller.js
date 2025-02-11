@@ -1,7 +1,7 @@
 const Notification = require("../models/Notificationmodel");
 
 
-exports.createNotification = async (req, res) => {
+module.exports.createNotification = async (req, res) => {
   try {
     const { name, type } = req.body;
 
@@ -19,7 +19,7 @@ exports.createNotification = async (req, res) => {
 };
 
 
-exports.getAllNotifications = async (req, res) => {
+module.exports.getAllNotifications = async (req, res) => {
   try {
     const notifications = await Notification.find().sort({ createdAt: -1 });
     res.status(200).json({ success: true, notifications });
@@ -29,7 +29,7 @@ exports.getAllNotifications = async (req, res) => {
 };
 
 
-exports.getUnreadNotifications = async (req, res) => {
+module.exports.getUnreadNotifications = async (req, res) => {
   try {
     const unreadNotifications = await Notification.find({ read: false }).sort({ createdAt: -1 });
     res.status(200).json({ success: true, unreadNotifications });
@@ -39,7 +39,7 @@ exports.getUnreadNotifications = async (req, res) => {
 };
 
 
-exports.markAsRead = async (req, res) => {
+module.exports.markAsRead = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -55,7 +55,7 @@ exports.markAsRead = async (req, res) => {
 };
 
 
-exports.deleteNotification = async (req, res) => {
+module.exports.deleteNotification = async (req, res) => {
   try {
     const { id } = req.params;
 

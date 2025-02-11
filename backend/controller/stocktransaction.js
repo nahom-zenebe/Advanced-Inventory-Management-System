@@ -1,7 +1,7 @@
 const StockTransaction = require('../models/StockTranscationmodel');
 
 
-exports.createStockTransaction = async (req, res) => {
+module.exports.createStockTransaction = async (req, res) => {
   try {
     const { product, type, quantity, supplier } = req.body;
 
@@ -25,7 +25,7 @@ exports.createStockTransaction = async (req, res) => {
 };
 
 
-exports.getAllStockTransactions = async (req, res) => {
+module.exports.getAllStockTransactions = async (req, res) => {
   try {
     const transactions = await StockTransaction.find().populate('Product Supplier').sort({ transactionDate: -1 });
 
@@ -36,7 +36,7 @@ exports.getAllStockTransactions = async (req, res) => {
 };
 
 
-exports.getStockTransactionsByProduct = async (req, res) => {
+module.exports.getStockTransactionsByProduct = async (req, res) => {
   try {
     const { productId } = req.params;
 
@@ -53,7 +53,7 @@ exports.getStockTransactionsByProduct = async (req, res) => {
 };
 
 
-exports.getStockTransactionsBySupplier = async (req, res) => {
+module.exports.getStockTransactionsBySupplier = async (req, res) => {
   try {
     const { supplierId } = req.params;
 

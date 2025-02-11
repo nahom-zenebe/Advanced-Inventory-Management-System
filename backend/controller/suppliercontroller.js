@@ -1,7 +1,7 @@
 const Supplier = require("../models/Suppliermodel");
 
 
-exports.createSupplier = async (req, res) => {
+module.exports.createSupplier = async (req, res) => {
   try {
     const { name, contactInfo, productsSupplied } = req.body;
 
@@ -24,7 +24,7 @@ exports.createSupplier = async (req, res) => {
 };
 
 
-exports.getAllSuppliers = async (req, res) => {
+module.exports.getAllSuppliers = async (req, res) => {
   try {
     const suppliers = await Supplier.find().populate("productsSupplied");
 
@@ -35,7 +35,7 @@ exports.getAllSuppliers = async (req, res) => {
 };
 
 
-exports.getSupplierById = async (req, res) => {
+module.exports.getSupplierById = async (req, res) => {
   try {
     const { supplierId } = req.params;
 
@@ -52,7 +52,7 @@ exports.getSupplierById = async (req, res) => {
 };
 
 
-exports.updateSupplier = async (req, res) => {
+module.exports.updateSupplier = async (req, res) => {
   try {
     const { supplierId } = req.params;
     const { name, contactInfo, productsSupplied } = req.body;
@@ -77,7 +77,7 @@ exports.updateSupplier = async (req, res) => {
 };
 
 
-exports.deleteSupplier = async (req, res) => {
+module.exports.deleteSupplier = async (req, res) => {
   try {
     const { supplierId } = req.params;
 

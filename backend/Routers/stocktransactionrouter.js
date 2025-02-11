@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const StockTransactionController = require('../controllers/StockTransactionController');
+const {createStockTransaction,getAllStockTransactions,getStockTransactionsByProduct,getStockTransactionsBySupplier} = require('../controller/stocktransaction');
 
 
-router.post('/createStockTransaction', StockTransactionController.createStockTransaction);
-router.get('/getallStockTransaction', StockTransactionController.getAllStockTransactions);
-router.get('/product/:productId', StockTransactionController.getStockTransactionsByProduct);
-router.get('/supplier/:supplierId', StockTransactionController.getStockTransactionsBySupplier);
+router.post('/createStockTransaction', createStockTransaction);
+router.get('/getallStockTransaction', getAllStockTransactions);
+router.get('/product/:productId',getStockTransactionsByProduct);
+router.get('/supplier/:supplierId',getStockTransactionsBySupplier);
 
 module.exports = router;

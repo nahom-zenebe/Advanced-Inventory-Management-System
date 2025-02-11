@@ -28,8 +28,15 @@ function SignupPage() {
 
   const onSubmit = (data) => {
     console.log("Form Submitted:", data);
-    dispatch(signup(data)); 
-    navigator('/')
+    dispatch(signup(data))
+    .then(()=>{
+      navigator('/')
+    }) 
+    .catch((error) => {
+    
+      console.error("Error in Signup:", error);
+    });
+   
   
   };
 

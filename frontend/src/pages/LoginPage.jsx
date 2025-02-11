@@ -25,8 +25,14 @@ const navigator=useNavigate()
 
   const onSubmit = (data) => {
     console.log("Form Submitted:", data);
-    dispatch(login(data)); 
-    navigator('/')
+    dispatch(login(data))
+    .then(()=>{
+      navigator('/')
+    }) 
+    .catch((error) => {
+    
+      console.error("Error in Login:", error);
+    });
   };
 
   useEffect(() => {

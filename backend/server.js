@@ -22,12 +22,13 @@ require("dotenv").config()
 const PORT=process.env.PORT || 3003
 
 app.use(cors({
-    origin: "http://your-frontend.com", 
+    origin: "http://localhost:3001", 
     methods: "GET,POST,PUT,DELETE", 
     allowedHeaders: "Content-Type,Authorization", 
     credentials: true, }
 ))
 
+app.use(express.json());  
 
 app.use(cookieParser())
 

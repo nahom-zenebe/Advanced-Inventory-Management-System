@@ -1,7 +1,7 @@
 const ActivityLog = require("../models/ActivityLogmodel");
 
 
-exports.createActivityLog = async (req, res) => {
+module.exports.createActivityLog = async (req, res) => {
   try {
     const { action, description, entity, entityId, userId } = req.body;
 
@@ -27,7 +27,7 @@ exports.createActivityLog = async (req, res) => {
 };
 
 
-exports.getAllActivityLogs = async (req, res) => {
+module.exports.getAllActivityLogs = async (req, res) => {
   try {
     const logs = await ActivityLog.find().sort({ createdAt: -1 });
 
@@ -38,7 +38,7 @@ exports.getAllActivityLogs = async (req, res) => {
 };
 
 
-exports.getActivityLogsByEntity = async (req, res) => {
+module.exports.getActivityLogsByEntity = async (req, res) => {
   try {
     const { entity } = req.params;
 
@@ -55,7 +55,7 @@ exports.getActivityLogsByEntity = async (req, res) => {
 };
 
 
-exports.getActivityLogsByUser = async (req, res) => {
+module.exports.getActivityLogsByUser = async (req, res) => {
   try {
     const { userId } = req.params;
 
@@ -72,7 +72,7 @@ exports.getActivityLogsByUser = async (req, res) => {
 };
 
 
-exports.deleteActivityLog = async (req, res) => {
+module.exports.deleteActivityLog = async (req, res) => {
   try {
     const { id } = req.params;
 

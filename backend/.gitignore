@@ -38,4 +38,5 @@ pids
 *.tar
 .nyc_output/
 coverage/
+.env
 

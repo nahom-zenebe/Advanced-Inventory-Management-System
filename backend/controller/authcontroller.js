@@ -1,6 +1,6 @@
 const User=require('../models/Usermodel')
-const bcrypt=require('bcrypt')
-const {generateToken}=require('../libs/Tokengenerator')
+const bcrypt = require("bcryptjs");
+const generateToken=require('../libs/Tokengenerator')
 const Cloundinary=require('../libs/Cloundinary') 
 
 
@@ -26,23 +26,29 @@ const hashedpassword=await bcrypt.hash(password,10)
         ,role,
     })
     const savedUser=await newUser.save();
-    generateToken(savedUser._id,res)
+
+    const token=await generateToken(savedUser._id,res)
 
     res.status(201).json({
         message:"Signup successfully",
         savedUser:{
             name:savedUser.name,
             email:savedUser.email,
-            role:savedUser.role
+            role:savedUser.role,
+            token
         }
     })
     } 
     catch (error) {
      res.status(400).json({
-        error:"Error in Signup to the page "
+        error:"Error in Signup to the page "+ error.message
      }) 
     }
 }
+
+
+
+
 
 module.exports.login=async(req,res)=>{
     try {
@@ -57,14 +63,14 @@ module.exports.login=async(req,res)=>{
      }
 
 
-     const hasedpassword=await bcrypt.compare(password,user.password)
+     const hasedpassword=await bcrypt.compare(password,duplicatedUser.password)
 
 
       if(!hasedpassword){
             return res.status(400).json({message:'Invalid credentials'})
         }
 
-        generateToken(duplicatedUser._id,res)
+        const token=await generateToken(duplicatedUser._id,res)
 
    return res.status(201).json({
     message:"login successfully",
@@ -72,6 +78,7 @@ module.exports.login=async(req,res)=>{
         name:duplicatedUser.name,
         email:duplicatedUser.email,
         role:duplicatedUser.role,
+        token
 
     }
 
