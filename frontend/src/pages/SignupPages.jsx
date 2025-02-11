@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link ,useNavigate} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signup } from "../features/authSlice";
 import { useForm } from "react-hook-form";
@@ -9,6 +9,7 @@ import * as yup from "yup";
 function SignupPage() {
   const { Authuser, isUserSignup } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const navigator=useNavigate()
 
   const schema = yup.object().shape({
     name: yup.string().required("Name is required"),
@@ -28,6 +29,8 @@ function SignupPage() {
   const onSubmit = (data) => {
     console.log("Form Submitted:", data);
     dispatch(signup(data)); 
+    navigator('/')
+  
   };
 
   useEffect(() => {
