@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FaArrowRightLong } from "react-icons/fa6";
 import Navbar from '../Components/Navbar';
+import { Link } from 'react-router-dom';
 function HomePage() {
   const[arrowshow, setArrowShow] = useState(false);
 
@@ -18,7 +19,7 @@ function HomePage() {
     <Navbar/>
   
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-6 relative overflow-hidden">
-      {/* Background Pattern */}
+
       <div className="absolute inset-0 bg-white opacity-20" style={{
         backgroundImage: "linear-gradient(45deg, rgba(0,0,0,0.1) 80%, transparent 25%, transparent 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1) 75%, transparent 75%, transparent)",
         backgroundSize: "40px 40px"
@@ -46,7 +47,7 @@ function HomePage() {
             onClick={handlebtn1} 
             className="group flex bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition duration-300 font-semibold"
           >
-            Get Started
+            <Link to='/SignupPage'>Get Started</Link>
             <FaArrowRightLong 
               className={`ml-2 mt-1 transition-opacity duration-300 ${arrowshow ? "opacity-100" : "opacity-0"} group-hover:opacity-100`} 
             />

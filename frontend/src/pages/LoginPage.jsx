@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 function LoginPage() {
   return (
     <div className="min-h-screen flex bg-gray-50">
@@ -15,8 +15,9 @@ function LoginPage() {
 
         
           <form>
+            
             <div className="mb-6">
-              <label className="block text-gray-700 text-sm font-medium mb-2">Email Address</label>
+              <label className="block text-gray-700 text-sm font-medium mb-2">Email</label>
               <input
                 type="email"
                 className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -42,7 +43,7 @@ function LoginPage() {
                 id="2fa"
                 className="mr-2"
               />
-              <label htmlFor="2fa" className="text-gray-600 text-sm">Enable two-factor authentication</label>
+              <label htmlFor="2fa" className="text-gray-600 text-sm">Agree on term and conditions</label>
             </div>
 
             
@@ -56,7 +57,7 @@ function LoginPage() {
 
 
           <div className="text-center mt-6">
-            <a href="#" className="text-blue-600 text-sm hover:underline">Forgot your password?</a>
+            <a href="#" >Doesn't have an Account?<Link to='/SignupPage' className="text-blue-600 text-sm hover:underline">Click here</Link></a>
           </div>
         </div>
       </div>
