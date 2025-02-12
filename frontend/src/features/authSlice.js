@@ -59,13 +59,15 @@ const authSlice = createSlice({
   extraReducers:(   builder)=>{
     builder
    .addCase(signup.pending,(state)=>{
-        
-         state.isUserSignup=true
+ 
+     state.isUserSignup=true
+   
    })
    .addCase(signup.fulfilled,(state,action)=>{
     state.isUserSignup=false
     state.Authuser=action.payload
     state.token = action.payload.token;
+
     toast.success("succcessfully signup")
 
    })
@@ -78,7 +80,7 @@ const authSlice = createSlice({
    
    .addCase(login.pending,(state)=>{
        state.isUserLogin=true
-      
+       
 
 
    })
@@ -91,7 +93,6 @@ const authSlice = createSlice({
    })
 
    .addCase(login.rejected,(state,action)=>{
-
     state.isUserLogin=false
     toast.error(action.payload || 'Error during logout');
    })
@@ -103,7 +104,6 @@ const authSlice = createSlice({
      state.token=null
 
     toast.success("succcessfully logout")
-
    })
 
    .addCase(logout.rejected,(state,action)=>{

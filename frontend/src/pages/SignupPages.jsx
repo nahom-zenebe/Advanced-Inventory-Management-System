@@ -30,7 +30,16 @@ function SignupPage() {
     console.log("Form Submitted:", data);
     dispatch(signup(data))
     .then(()=>{
-      navigator('/')
+    if(data.role==="staff"){
+      navigator('/StaffDashboard')
+    } 
+    else if(data.role=="admin"){
+      navigator('/AdminDashboard')
+    }
+    else{
+      navigator('/ManagerDashboard')
+    }
+     
     }) 
     .catch((error) => {
     

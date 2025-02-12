@@ -5,6 +5,11 @@ import Navbar from "./Components/Navbar";
 import SignupPage from "./pages/SignupPages";
 import ServicePage from "./pages/ServicePage";
 import LoginPage from './pages/LoginPage'
+import ManagerDashboard from "./pages/ManagerDashboard";
+import AdminDashboard from "./pages/AdminDashboard";
+import StaffDashboard from "./pages/StaffDashboard";
+
+
 import toast, { Toaster } from 'react-hot-toast';
 function App() {
   return (
@@ -17,6 +22,9 @@ function App() {
         <Route path="/about" element={< ServicePage/>} />
         <Route path="/SignupPage" element={<SignupPage/>} />
         <Route path="/LoginPage" element={<LoginPage/>} />
+        <Route path="/ManagerDashboard" element={<ManagerDashboard/>} />
+        <Route path="/AdminDashboard" element={<AdminDashboard/>} />
+        <Route path="/ StaffDashboard" element={< StaffDashboard/>} />
 
   
       

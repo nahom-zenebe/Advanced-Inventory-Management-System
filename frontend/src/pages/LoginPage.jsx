@@ -28,6 +28,18 @@ const navigator=useNavigate()
     dispatch(login(data))
     .then(()=>{
       navigator('/')
+
+      if(Authuser.user.role==="staff"){
+        navigator('/StaffDashboard')
+      } 
+      else if(Authuser.user.role=="admin"){
+        navigator('/AdminDashboard')
+      }
+      else{
+        navigator('/ManagerDashboard')
+      }
+
+
     }) 
     .catch((error) => {
     

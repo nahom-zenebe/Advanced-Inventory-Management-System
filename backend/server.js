@@ -22,7 +22,7 @@ require("dotenv").config()
 const PORT=process.env.PORT || 3003
 
 app.use(cors({
-    origin: "http://localhost:3001", 
+    origin: "http://localhost:3000", 
     methods: "GET,POST,PUT,DELETE", 
     allowedHeaders: "Content-Type,Authorization", 
     credentials: true, }
