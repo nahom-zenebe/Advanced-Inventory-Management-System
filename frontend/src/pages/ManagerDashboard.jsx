@@ -1,9 +1,19 @@
-import React from 'react'
+import React from 'react';
+import Sidebar from '../Components/Sidebar';
+import { Outlet } from 'react-router-dom';
 
 function ManagerDashboard() {
   return (
-    <div>ManagerDashboard</div>
-  )
+    <div className="flex bg-gray-200 min-h-screen">
+    
+      <Sidebar />
+
+
+      <div className="flex-1 ">
+        <Outlet />
+      </div>
+    </div>
+  );
 }
 
-export default ManagerDashboard
+export default ManagerDashboard;

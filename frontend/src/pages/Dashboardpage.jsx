@@ -1,0 +1,69 @@
+import React from 'react';
+import TopNavbar from '../Components/TopNavbar';
+
+function Dashboardpage() {
+  return (
+    <div className="min-h-screen bg-gray-100 ">
+      <TopNavbar />
+      <div className="max-w-7xl mx-auto mt-8">
+
+        <h1 className="text-3xl font-bold text-gray-900 mb-4">Inventory Dashboard</h1>
+        <p className="text-gray-700 mb-8">
+          Welcome to your Inventory Dashboard! Here, you can manage and track all your inventory items efficiently.
+          You can add new items, update existing ones, and view detailed reports on your inventory status.
+        </p>
+
+  
+        <div className="mb-8">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-4">How to Use the Dashboard</h2>
+          <p className="text-gray-700 mb-4">
+            This dashboard provides an overview of your inventory and allows you to perform the following actions:
+          </p>
+          <ul className="list-disc list-inside text-gray-700 space-y-2">
+            <li><strong>View Inventory:</strong> See a detailed list of all inventory items, including their quantities and status.</li>
+            <li><strong>Add New Items:</strong> Add new products or items to your inventory with ease.</li>
+            <li><strong>Update Stock:</strong> Modify the quantity or details of existing items.</li>
+            <li><strong>Generate Reports:</strong> Create reports to analyze inventory performance, low stock items, and reorder needs.</li>
+          </ul>
+        </div>
+
+      
+        <div className="mb-8">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-4">Inventory Overview</h2>
+          <p className="text-gray-700 mb-4">
+            Below is a summary of your current inventory status. Use this information to make informed decisions about restocking and inventory management.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-white p-6 rounded-lg shadow-md text-center">
+              <h3 className="text-lg font-medium text-gray-900">Total Items</h3>
+              <p className="text-2xl font-bold text-blue-600">1,234</p>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow-md text-center">
+              <h3 className="text-lg font-medium text-gray-900">Low Stock Items</h3>
+              <p className="text-2xl font-bold text-yellow-600">45</p>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow-md text-center">
+              <h3 className="text-lg font-medium text-gray-900">Items to Reorder</h3>
+              <p className="text-2xl font-bold text-red-600">12</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Quick Actions */}
+        <div>
+          <h2 className="text-2xl font-semibold text-gray-900 mb-4">Quick Actions</h2>
+          <p className="text-gray-700 mb-4">
+            Use the navigation bar at the top to quickly access the following features:
+          </p>
+          <ul className="list-disc list-inside text-gray-700 space-y-2">
+            <li><strong>Inventory List:</strong> View and manage all inventory items.</li>
+            <li><strong>Add Item:</strong> Add a new item to your inventory.</li>
+            <li><strong>Reports:</strong> Generate inventory reports for better insights.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Dashboardpage;
