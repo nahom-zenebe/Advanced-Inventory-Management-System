@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 
 function Sidebar() {
   return (
-    <div className="flex flex-col w-64 bg-white text-black min-h-screen p-6 shadow-lg">
+    <div className="flex flex-col w-64 bg-white text-black min-h-screen p-6 shadow-lg ">
       <h1 className="text-2xl font-bold text-center text-gray-700 mb-10">Company Logo</h1>
       
       <nav className="space-y-4">

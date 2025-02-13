@@ -3,27 +3,27 @@ const Product=require('../models/Productmodel')
 
 module.exports.Addproduct=async(req,res)=>{
 
-try {
-   const { name,Desciption,Category, Price, quantity,supplier}=req.body
-
-       if(!name||!Desciption|| !Category||! Price||!quantity||!supplier){
-        return res.status(400).json({error:"please provide detail information"})
-       }
-
-    const createdProduct=new Product({
-        name,Desciption,Category, Price, quantity,supplier
-    })
-
-    await createdProduct.save()
-
-    res.status(201).json({message:"Product created successfully"})
-
-} catch (error) {
-    res.status(500).json({message:"error in creating product"},error)
-    
-}
-
-}
+    try {
+      //supllier and category
+        const { name, Description, Price, quantity } = req.body;
+     
+        if (!name || !Description|| !Price || !quantity) {
+           return res.status(400).json({ error: "Please provide all product details." });
+        }
+     
+        const createdProduct = new Product({
+           name, Description, Category, Price, quantity,
+        });
+     
+        await createdProduct.save();
+     
+        res.status(201).json({ message: "Product created successfully" });
+     
+     } catch (error) {
+        
+        res.status(500).json({ message: "Error in creating product", error: error.message });
+     }
+    }  
 
 
 module.exports.getProduct=async(req,res)=>{
