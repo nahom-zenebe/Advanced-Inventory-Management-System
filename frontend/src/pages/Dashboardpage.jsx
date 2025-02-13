@@ -5,7 +5,7 @@ function Dashboardpage() {
   return (
     <div className="min-h-screen bg-gray-100 ">
       <TopNavbar />
-      <div className="max-w-7xl mx-auto mt-8">
+      <div className="max-w-7xl ml-10 mt-8">
 
         <h1 className="text-3xl font-bold text-gray-900 mb-4">Inventory Dashboard</h1>
         <p className="text-gray-700 mb-8">
@@ -28,28 +28,9 @@ function Dashboardpage() {
         </div>
 
       
-        <div className="mb-8">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">Inventory Overview</h2>
-          <p className="text-gray-700 mb-4">
-            Below is a summary of your current inventory status. Use this information to make informed decisions about restocking and inventory management.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white p-6 rounded-lg shadow-md text-center">
-              <h3 className="text-lg font-medium text-gray-900">Total Items</h3>
-              <p className="text-2xl font-bold text-blue-600">1,234</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md text-center">
-              <h3 className="text-lg font-medium text-gray-900">Low Stock Items</h3>
-              <p className="text-2xl font-bold text-yellow-600">45</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md text-center">
-              <h3 className="text-lg font-medium text-gray-900">Items to Reorder</h3>
-              <p className="text-2xl font-bold text-red-600">12</p>
-            </div>
-          </div>
-        </div>
+        
 
-        {/* Quick Actions */}
+      
         <div>
           <h2 className="text-2xl font-semibold text-gray-900 mb-4">Quick Actions</h2>
           <p className="text-gray-700 mb-4">

@@ -49,7 +49,7 @@ module.exports.getProduct=async(req,res)=>{
 
 module.exports.RemoveProduct=async(req,res)=>{
     try {
-    const {ProductId}=req.body
+    const {ProductId}=req.params
     const DeletedProduct=await Product.findByIdAndDelete(ProductId)
 
      if(!DeletedProduct){
