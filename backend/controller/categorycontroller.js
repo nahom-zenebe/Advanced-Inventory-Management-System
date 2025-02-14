@@ -1,31 +1,28 @@
-const Category=require('../controller/orderController')
+const Category=require('../models/ Categorymodel')
 
 
 
-module.exports.createCategory=async(req,res)=>{
-
+module.exports.createCategory = async (req, res) => {
     try {
+        const { name, description } = req.body;
 
-        const { name,description}=req.body
-
-        if(!name||!description){
-           return res.status(400).json({message:"please provide all neccesary information"})
+        if (!name || !description) {
+            return res.status(400).json({ message: "Please provide all necessary information." });
         }
 
-     
-     
-        const newCategory=new Category({
-            name,description
-        }
-        )
-        await newOrder.save()
-        res.status(201).json(newCategory)
-       
-   } catch (error) {
-       res.status(500).json({ message: "Error in creating Category", error: error.message });
+        const newCategory = new Category({
+            name, 
+            description
+        });
 
+        await newCategory.save();
+        res.status(201).json(newCategory);
 
-   }}
+    } catch (error) {
+        res.status(500).json({ message: "Error in creating Category", error: error.message });
+    }
+};
+
 
 
 
@@ -58,7 +55,7 @@ module.exports.getCategory=async(req,res)=>{
         return res.status(404).json({message:"Category is not found"})
      }
 
-     res.status(200).json(allCategory)
+     res.status(200).json({allCategory})
 
         
     } catch (error) {

@@ -1,13 +1,13 @@
 const Product=require('../models/Productmodel')
-
+const Category=require('../models/ Categorymodel')
 
 module.exports.Addproduct=async(req,res)=>{
 
     try {
-      //supllier and category
-        const { name, Description, Price, quantity } = req.body;
+      //supllier 
+        const { name, Description,Category, Price, quantity } = req.body;
      
-        if (!name || !Description|| !Price || !quantity) {
+        if (!name|| !Category || !Description|| !Price || !quantity) {
            return res.status(400).json({ error: "Please provide all product details." });
         }
      
@@ -25,23 +25,21 @@ module.exports.Addproduct=async(req,res)=>{
      }
     }  
 
-
-module.exports.getProduct=async(req,res)=>{
-    try {
-      
-     const Products=await Product.find({})
-     if(!Products){
-        return res.status(404).json({message:"product is not found"})
-     }
-
-     res.status(200).json(Products)
-
-        
-    } catch (error) {
-        res.status(500).json({ message: "Error getting product", error: error.message });
-    }
-}
-
+    module.exports.getProduct = async (req, res) => {
+        try {
+          
+            const Products = await Product.find({}).populate('Category');  
+            
+            if (!Products || Products.length === 0) {
+                return res.status(404).json({ message: "Products not found" });
+            }
+    
+            res.status(200).json(Products);  
+        } catch (error) {
+            res.status(500).json({ message: "Error getting products", error: error.message });
+        }
+    };
+    
 
 
 

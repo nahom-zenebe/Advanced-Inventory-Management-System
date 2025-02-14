@@ -39,9 +39,9 @@ export const Addproduct=createAsyncThunk('product/addproduct',async(product,{rej
 
 
 
-  export const getallproducts=createAsyncThunk('product/getproduct',async(_,{rejectWithValue})=>{
+  export const gettingallproducts=createAsyncThunk('product/getproduct',async(_,{rejectWithValue})=>{
     try {
-       const response=await axiosInstance.get("product/getproduct",_,{ withCredentials: true,})
+       const response=await axiosInstance.get("product/getproduct",{ withCredentials: true,})
        return response.data;
   
       
@@ -84,20 +84,19 @@ extraReducers:(builder)=>{
 
 
 
- .addCase( getallproducts.pending,(state)=>{
+ .addCase( gettingallproducts.pending,(state)=>{
 
     state.isallproductget=true
   
   })
-  .addCase( getallproducts.fulfilled,(state,action)=>{
-   state.isallproductget=false
-   state.getallproduct=action.payload
-   toast.success( action.payload||" Product add succcessfully")
- 
+  .addCase(gettingallproducts.fulfilled, (state, action) => {
+    state.isallproductget = false;
+    state.getallproduct = action.payload.Products || [];
+    toast.success("Products fetched successfully");
   })
   
  
-  .addCase( getallproducts.rejected,(state,action)=>{
+  .addCase( gettingallproducts.rejected,(state,action)=>{
      state.isallproductget=false
    toast.error( action.payload|| 'Error In adding product logout');
   })

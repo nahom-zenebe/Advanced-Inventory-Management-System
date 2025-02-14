@@ -27,7 +27,6 @@ const ProductSchema= new mongoose.Schema({
     },
     quantity:{
         type:Number,
-        unique:true,
         default:0
     },
     image:{
