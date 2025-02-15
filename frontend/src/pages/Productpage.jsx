@@ -3,16 +3,17 @@ import TopNavbar from '../Components/TopNavbar';
 import { IoMdAdd } from "react-icons/io";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { Addproduct, gettingallproducts } from '../features/productSlice';
+import { Addproduct, gettingallproducts, Searchproduct } from '../features/productSlice';
 import { gettingallCategory } from '../features/categorySlice';
 import { FaImage } from "react-icons/fa";
 import toast from 'react-hot-toast';
 
 function Productpage() {
-  const { getallproduct, isproductadd } = useSelector((state) => state.product);
+  const { getallproduct, isproductadd, searchdata } = useSelector((state) => state.product);
   const { getallCategory } = useSelector((state) => state.category);
   const dispatch = useDispatch();
-  
+  const [query, setquery] = useState("");
+
   const [name, setName] = useState("");
   const [Category, setCategory] = useState("");
   const [Price, setPrice] = useState("");
@@ -25,22 +26,24 @@ function Productpage() {
     if (!getallproduct || getallproduct.length === 0) {
       dispatch(gettingallproducts());
     }
-    console.log(getallproduct); 
-  }, [dispatch, getallproduct])
-
-console.log(getallproduct)
+  }, [dispatch, getallproduct]);
 
   useEffect(() => {
-    
     if (!getallCategory || getallCategory.length === 0) {
       dispatch(gettingallCategory());
     }
   }, [dispatch, getallCategory]);
 
+  useEffect(() => {
+    if (query.trim() !== "") {
+      const repeatTimeout = setTimeout(() => {
+        dispatch(Searchproduct(query));
+      }, 500);
+      return () => clearTimeout(repeatTimeout);
+    }
+  }, [query, dispatch]);
 
-
-
-  const productData = { name, Description,Category,Price, quantity };
+  const productData = { name, Description, Category, Price, quantity };
 
   const submitProduct = async (event) => {
     event.preventDefault();
@@ -62,6 +65,8 @@ console.log(getallproduct)
         <div className="flex items-center space-x-4">
           <input
             type="text"
+            value={query}
+            onChange={(e) => setquery(e.target.value)}
             className="w-full md:w-96 h-12 pl-4 pr-12 border-2 border-gray-300 rounded-lg"
             placeholder="Enter your product"
           />
@@ -87,17 +92,16 @@ console.log(getallproduct)
             </div>
 
             <div className='mt-4 mb-2'>
-  <label>Category</label>
-  <select value={Category} onChange={(e) => setCategory(e.target.value)} className="w-full h-10 px-2 border-2 rounded-lg mt-2">
-    <option value="">Select a category</option>
-    {getallCategory?.map((category) => (
-      <option key={category._id} value={category._id}>
-        {category.name}  
-      </option>
-    ))}
-  </select>
-</div>
-
+              <label>Category</label>
+              <select value={Category} onChange={(e) => setCategory(e.target.value)} className="w-full h-10 px-2 border-2 rounded-lg mt-2">
+                <option value="">Select a category</option>
+                {getallCategory?.map((category) => (
+                  <option key={category._id} value={category._id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
 
             <div className="mb-4">
               <label>Description</label>
@@ -120,7 +124,6 @@ console.log(getallproduct)
           </div>
         )}
 
-        
         <div className="mt-10">
           <h2 className="text-xl font-semibold mb-4">Product List</h2>
           <div className="overflow-x-auto">
@@ -136,26 +139,25 @@ console.log(getallproduct)
                 </tr>
               </thead>
               <tbody>
-  {getallproduct?.length > 0 ? (
-    getallproduct.map((product, index) => (
-      <tr key={product._id} className="hover:bg-gray-50">
-        <td className="px-4 py-2 border text-center">{index + 1}</td>
-        <td className="px-4 py-2 border">{product.name}</td>
-        <td className="px-4 py-2 border">
-          {product.Category ? product.Category.name : "No Category"}
-        </td>
-        <td className="px-4 py-2 border">{product.Description}</td>
-        <td className="px-4 py-2 border">${product.Price}</td>
-        <td className="px-4 py-2 border">{product.quantity}</td>
-      </tr>
-    ))
-  ) : (
-    <tr>
-      <td colSpan="6" className="px-4 py-2 border text-center">No products available</td>
-    </tr>
-  )}
-</tbody>
-
+                {(query.trim() === "" ? getallproduct : searchdata)?.length > 0 ? (
+                  (query.trim() === "" ? getallproduct : searchdata).map((product, index) => (
+                    <tr key={product._id} className="hover:bg-gray-50">
+                      <td className="px-4 py-2 border text-center">{index + 1}</td>
+                      <td className="px-4 py-2 border">{product.name}</td>
+                      <td className="px-4 py-2 border">
+                        {product.Category ? product.Category.name : "No Category"}
+                      </td>
+                      <td className="px-4 py-2 border">{product.Description}</td>
+                      <td className="px-4 py-2 border">${product.Price}</td>
+                      <td className="px-4 py-2 border">{product.quantity}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="6" className="px-4 py-2 border text-center">No products available</td>
+                  </tr>
+                )}
+              </tbody>
             </table>
           </div>
         </div>

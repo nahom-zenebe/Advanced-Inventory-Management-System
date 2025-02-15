@@ -8,7 +8,9 @@ const initialState={
     getallproduct:null,
     isallproductget:false,
     isproductadd:false,
-    isproductremove:false
+    isproductremove:false,
+    searchdata:null,
+    issearchdata:false
   
 }
 
@@ -52,9 +54,9 @@ export const Addproduct=createAsyncThunk('product/addproduct',async(product,{rej
 
 
 
-   export const Searchproduct=createAsyncThunk('product/searchproduct',async(_,{rejectWithValue})=>{
+   export const Searchproduct=createAsyncThunk('product/searchproduct',async(query,{rejectWithValue})=>{
     try {
-       const response=await axiosInstance.get('product/searchproduct',{ withCredentials: true,})
+       const response=await axiosInstance.get(`product/searchproduct?query=${query}`,query,{ withCredentials: true,})
        return response.data;
   
       
@@ -134,6 +136,27 @@ extraReducers:(builder)=>{
   })
 
 
+
+
+
+
+  .addCase(  Searchproduct.pending,(state)=>{
+     state.issearchdata=true
+
+  
+  })
+  .addCase( Searchproduct.fulfilled,(state,action)=>{
+    state.issearchdata=false 
+    state.searchdata=action.payload
+ 
+ 
+  })
+  
+ 
+  .addCase(   Searchproduct.rejected,(state,action)=>{
+    state.issearchdata=false
+   toast.error( 'Error In founding  product');
+  })
 
 
 

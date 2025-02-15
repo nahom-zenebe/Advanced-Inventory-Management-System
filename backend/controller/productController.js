@@ -69,7 +69,7 @@ module.exports.EditProduct=async(req,res)=>{
     const {productId}=req.params
     const {updatedata}=req.body
 
-    const updatedproduct=await Product.findByIdAndUpdate(productId,updatedata,{new:true})
+    const updatedproduct=await Product.findByIdAndUpdate(productId, { ...updatedData },{new:true})
    
     res.json( updatedproduct); 
         
@@ -81,31 +81,28 @@ module.exports.EditProduct=async(req,res)=>{
 
 
 
-
-module.exports.SearchProduct=async(req,res)=>{
+module.exports.SearchProduct = async (req, res) => {
     try {
-    const {query}=req.query
-    if(!query){
-        return res.status(400).json({ message: "Query parameter is required" })
-    }
-
-    const products=await Product.find({
-        $or:[
-            {name:{$regex:query,$options:"i"}},
-            {Category:{$regex:query,$optons:"i"}},
-            {Desciption:{$regex:query,$options:"i"}}
-        ]
-    })
-
-
-    res.json(products);
-
-     
-        
+      const { query } = req.query;
+      if (!query) {
+        return res.status(400).json({ message: "Query parameter is required" });
+      }
+  
+      
+      const products = await Product.find({
+        $or: [
+          { name: { $regex: query, $options: "i" } },
+          { Description: { $regex: query, $options: "i" } },
+       
+          { 'Category.name': { $regex: query, $options: 'i' } },
+        ],
+      });
+  
+      res.json(products);
     } catch (error) {
-        res.status(500).json({ message: "Error deleting product", error: error.message });
+      res.status(500).json({ message: "Error finding product", error: error.message });
     }
-}
-
-
+  };
+  
+  
 
