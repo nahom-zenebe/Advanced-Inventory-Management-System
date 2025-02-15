@@ -59,7 +59,7 @@ const categorySlice = createSlice({
       .addCase(gettingallCategory.fulfilled, (state, action) => {
         state.isgetallCategory = false;
         state.getallCategory = action.payload.allCategory || [];
-        toast.success("Categories retrieved successfully");
+
       })
       
       

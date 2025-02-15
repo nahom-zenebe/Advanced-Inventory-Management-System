@@ -52,6 +52,19 @@ export const Addproduct=createAsyncThunk('product/addproduct',async(product,{rej
 
 
 
+   export const Searchproduct=createAsyncThunk('product/searchproduct',async(_,{rejectWithValue})=>{
+    try {
+       const response=await axiosInstance.get('product/searchproduct',{ withCredentials: true,})
+       return response.data;
+  
+      
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || "Product adding failed");
+    }
+  })
+
+
+
 
 
 

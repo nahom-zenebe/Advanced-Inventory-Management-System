@@ -124,7 +124,7 @@ console.log(getallproduct)
         <div className="mt-10">
           <h2 className="text-xl font-semibold mb-4">Product List</h2>
           <div className="overflow-x-auto">
-            <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
+            <table className="min-w-full bg-white border ml-10 border-gray-200 rounded-lg shadow-md">
               <thead className="bg-gray-100">
                 <tr>
                   <th className="px-4 py-2 border">#</th>

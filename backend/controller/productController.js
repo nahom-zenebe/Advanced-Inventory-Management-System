@@ -34,7 +34,7 @@ module.exports.Addproduct=async(req,res)=>{
                 return res.status(404).json({ message: "Products not found" });
             }
     
-            res.status(200).json(Products);  
+            res.status(200).json({Products});  
         } catch (error) {
             res.status(500).json({ message: "Error getting products", error: error.message });
         }
