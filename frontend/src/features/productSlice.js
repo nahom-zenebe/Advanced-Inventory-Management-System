@@ -79,23 +79,6 @@ initialState:initialState,
 reducers:{},
 extraReducers:(builder)=>{
   builder
- .addCase(Addproduct.pending,(state)=>{
-
-   state.isproductadd=true
- 
- })
- .addCase(Addproduct.fulfilled,(state,action)=>{
-  state.isproductadd=false
-
-  toast.success(" Product add succcessfully")
-
- })
- 
-
- .addCase(Addproduct.rejected,(state,action)=>{
-    state.isproductadd=false
-  toast.error( 'Error adding product logout');
- })
 
 
 
@@ -136,6 +119,24 @@ extraReducers:(builder)=>{
   })
 
 
+
+  .addCase(Addproduct.pending,(state)=>{
+
+    state.isproductadd=true
+  
+  })
+  .addCase(Addproduct.fulfilled,(state,action)=>{
+   state.isproductadd=false
+   state.getallproduct.push(action.payload);
+   toast.success(" Product add succcessfully")
+ 
+  })
+  
+ 
+  .addCase(Addproduct.rejected,(state,action)=>{
+     state.isproductadd=false
+   toast.error( 'Error adding product logout');
+  })
 
 
 

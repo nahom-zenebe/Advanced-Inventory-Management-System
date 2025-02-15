@@ -22,17 +22,26 @@ function Productpage() {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
 
+
+
+
+  
+
   useEffect(() => {
     if (!getallproduct || getallproduct.length === 0) {
       dispatch(gettingallproducts());
     }
   }, [dispatch, getallproduct]);
 
+
+
   useEffect(() => {
     if (!getallCategory || getallCategory.length === 0) {
       dispatch(gettingallCategory());
     }
   }, [dispatch, getallCategory]);
+
+
 
   useEffect(() => {
     if (query.trim() !== "") {
@@ -43,6 +52,9 @@ function Productpage() {
     }
   }, [query, dispatch]);
 
+
+
+
   const productData = { name, Description, Category, Price, quantity };
 
   const submitProduct = async (event) => {
@@ -51,6 +63,14 @@ function Productpage() {
       .unwrap()
       .then(() => {
         toast.success("Product added successfully");
+
+        setName("");
+        setCategory("");
+        setPrice("");
+        setQuantity("");
+        setDescription("");
+
+
       })
       .catch(() => {
         toast.error("Product add unsuccessful");
@@ -126,7 +146,7 @@ function Productpage() {
 
         <div className="mt-10">
           <h2 className="text-xl font-semibold mb-4">Product List</h2>
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto overflow-y-auto">
             <table className="min-w-full bg-white border ml-10 border-gray-200 rounded-lg shadow-md">
               <thead className="bg-gray-100">
                 <tr>
