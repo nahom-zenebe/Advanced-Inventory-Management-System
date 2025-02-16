@@ -45,22 +45,23 @@ module.exports.Addproduct=async(req,res)=>{
 
 
 
-module.exports.RemoveProduct=async(req,res)=>{
-    try {
-    const {ProductId}=req.params
-    const DeletedProduct=await Product.findByIdAndDelete(ProductId)
-
-     if(!DeletedProduct){
-       return  res.status(404).json({message:"Product is not found!"})
-     }
-
-     res.status(200).json({message:"Product delete successfully"})
-
-        
-    } catch (error) {
+    module.exports.RemoveProduct = async (req, res) => {
+      try {
+        const { productId } = req.params; 
+    
+        const deletedProduct = await Product.findByIdAndDelete(productId);
+    
+        if (!deletedProduct) {
+          return res.status(404).json({ message: "Product not found!" });
+        }
+    
+        res.status(200).json({ message: "Product deleted successfully" });
+    
+      } catch (error) {
         res.status(500).json({ message: "Error deleting product", error: error.message });
-    }
-}
+      }
+    };
+    
 
 
 

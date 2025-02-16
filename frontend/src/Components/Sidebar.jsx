@@ -7,8 +7,34 @@ import { TfiSupport } from "react-icons/tfi";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { RxActivityLog, RxDashboard } from "react-icons/rx";
 import { Link } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import {logout  } from "../features/authSlice";
+import toast from 'react-hot-toast';
+
 
 function Sidebar() {
+
+  const dispatch = useDispatch();
+  const navigator=useNavigate();
+
+
+
+  const handleLogout=async()=>{
+
+    dispatch(logout())
+    .then(()=>{
+      toast.success("logout successfully")
+    })
+    .catch((error)=>{
+      toast.error("error in logout")
+    })
+
+  }
+
+
+
+
   return (
     <div className="flex flex-col w-64 bg-white text-black min-h-screen p-6 shadow-lg ">
       <h1 className="text-2xl font-bold text-center text-gray-700 mb-10">Company Logo</h1>
@@ -62,7 +88,7 @@ function Sidebar() {
       <div className="mt-auto border-t pt-4">
         <div className="flex items-center space-x-3 text-lg text-gray-700 hover:text-red-600 cursor-pointer p-2 rounded-md transition">
           <FiLogOut className="text-xl" />
-          <span>Logout</span>
+          <span onClick={handleLogout}>Logout</span>
         </div>
       </div>
     </div>

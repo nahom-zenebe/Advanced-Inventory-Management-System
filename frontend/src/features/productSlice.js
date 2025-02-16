@@ -28,16 +28,17 @@ export const Addproduct=createAsyncThunk('product/addproduct',async(product,{rej
   })
 
 
-  export const Removeproduct=createAsyncThunk('product/removeproduct',async(ProductId,{rejectWithValue})=>{
+  export const Removeproduct=createAsyncThunk('product/removeproduct',async(productId,{rejectWithValue})=>{
     try {
-       const response=await axiosInstance.post(`product/removeproduct/${ProductId}`,ProductId,{ withCredentials: true,})
+       const response=await axiosInstance.delete(`product/removeproduct/${productId}`,productId,{ withCredentials: true,})
        return response.data;
   
       
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Product adding failed");
+      return rejectWithValue(error.response?.data?.message || "Product remove failed");
     }
   })
+
 
 
 
@@ -105,12 +106,14 @@ extraReducers:(builder)=>{
     state.isproductremove=true
   
   })
-  .addCase(Removeproduct.fulfilled,(state,action)=>{
-   state.isproductremove=false
   
-   toast.success(" Product remove succcessfully")
- 
+
+  .addCase(Removeproduct.fulfilled, (state, action) => {
+    state.isproductremove = false;
+    state.getallproduct = state.getallproduct.filter(product => product._id !== action.meta.arg);
+    toast.success("Product removed successfully");
   })
+  
   
  
   .addCase( Removeproduct.rejected,(state,action)=>{
@@ -128,14 +131,15 @@ extraReducers:(builder)=>{
   .addCase(Addproduct.fulfilled,(state,action)=>{
    state.isproductadd=false
    state.getallproduct.push(action.payload);
-   toast.success(" Product add succcessfully")
+   toast.success( 'product remove successfully');
  
   })
   
  
   .addCase(Addproduct.rejected,(state,action)=>{
-     state.isproductadd=false
-   toast.error( 'Error adding product logout');
+     state.isproductadd=false   
+     toast.error( 'Error In remove product');
+  
   })
 
 

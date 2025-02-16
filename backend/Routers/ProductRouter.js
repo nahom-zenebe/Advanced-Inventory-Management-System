@@ -4,7 +4,7 @@ const {Addproduct,RemoveProduct,SearchProduct,EditProduct,getProduct}=require('.
 
 
 router.post("/addproduct",Addproduct)
-router.delete("/removeproduct/:ProductId",RemoveProduct)
+router.delete("/removeproduct/:productId",RemoveProduct)
 router.get("/getproduct",getProduct)
 router.get("/searchproduct",SearchProduct)
 router.put("/editproduct/:productId",EditProduct)
