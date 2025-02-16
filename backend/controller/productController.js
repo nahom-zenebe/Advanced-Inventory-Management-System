@@ -65,19 +65,18 @@ module.exports.Addproduct=async(req,res)=>{
 
 
 
-module.exports.EditProduct=async(req,res)=>{
-    try {
-    const {productId}=req.params
-    const {updatedata}=req.body
-
-    const updatedproduct=await Product.findByIdAndUpdate(productId, { ...updatedData },{new:true})
-   
-    res.json( updatedproduct); 
-        
-    } catch (error) {
-        res.status(500).json({ message: "Error deleting product", error: error.message });
-    }
-}
+    module.exports.EditProduct = async (req, res) => {
+      try {
+        const { productId } = req.params;
+        const { updatedata } = req.body;
+    
+        const updatedproduct = await Product.findByIdAndUpdate(productId, { ...updatedata }, { new: true });
+    
+        res.json(updatedproduct);
+      } catch (error) {
+        res.status(500).json({ message: "Error updating product", error: error.message });
+      }
+    };
 
 
 

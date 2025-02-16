@@ -10,7 +10,9 @@ const initialState={
     isproductadd:false,
     isproductremove:false,
     searchdata:null,
-    issearchdata:false
+    issearchdata:false,
+    editedProduct:null,
+    iseditedProduct:false
   
 }
 
@@ -38,6 +40,20 @@ export const Addproduct=createAsyncThunk('product/addproduct',async(product,{rej
       return rejectWithValue(error.response?.data?.message || "Product remove failed");
     }
   })
+
+  
+  export const EditProduct = createAsyncThunk(
+    'product/editproduct',
+    async ({ id, updatedData }, { rejectWithValue }) => {
+      try {
+        const response = await axiosInstance.put(`product/editproduct/${id}`, { productId: id, updatedData }, { withCredentials: true });
+        return response.data;
+      } catch (error) {
+        return rejectWithValue(error.response?.data?.message || "Product edit failed");
+      }
+    }
+  );
+
 
 
 
@@ -162,6 +178,30 @@ extraReducers:(builder)=>{
     state.issearchdata=false
    toast.error( 'Error In founding  product');
   })
+
+
+
+
+  .addCase(EditProduct.pending,(state)=>{
+    state.iseditedProduct=true
+
+ 
+ })
+ .addCase(EditProduct.fulfilled,(state,action)=>{
+   state.iseditedProduct=false 
+   state.editedProduct=action.payload
+
+
+ })
+ 
+
+ .addCase( EditProduct.rejected,(state,action)=>{
+   state.iseditedProduct=false
+  toast.error( 'Error In founding  product');
+ })
+
+
+
 
 
 
