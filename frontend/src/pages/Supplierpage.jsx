@@ -3,16 +3,18 @@ import TopNavbar from "../Components/TopNavbar";
 import { useDispatch, useSelector } from "react-redux";
 import { IoMdAdd } from "react-icons/io";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
-import { CreateSupplier, gettingallSupplier, deleteSupplier } from "../features/SupplierSlice";
+import {
+  CreateSupplier,
+  gettingallSupplier,
+  deleteSupplier,
+} from "../features/SupplierSlice";
 import toast from "react-hot-toast";
-
+import FormattedTime from "../lib/FormattedTime ";
 function Supplierpage() {
   const { getallSupplier, isSupplieradd, searchdata } = useSelector(
     (state) => state.supplier
   );
-  const { getallproduct, isproductadd } = useSelector(
-    (state) => state.product
-  );
+  const { getallproduct, isproductadd } = useSelector((state) => state.product);
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
   const [name, setName] = useState("");
@@ -21,17 +23,17 @@ function Supplierpage() {
   const [Email, setEmail] = useState("");
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedSupplier, setSelectedSupplier] = useState(null);
-  const[Product,setProduct]=useState("")
+  const [Product, setProduct] = useState("");
 
   useEffect(() => {
     dispatch(gettingallSupplier());
   }, [dispatch]);
 
+  console.log(getallSupplier);
+
   useEffect(() => {
     if (query.trim() !== "") {
-      const repeatTimeout = setTimeout(() => {
-        // implement search functionality here (if needed)
-      }, 500);
+      const repeatTimeout = setTimeout(() => {}, 500);
       return () => clearTimeout(repeatTimeout);
     } else {
       dispatch(gettingallSupplier());
@@ -58,9 +60,13 @@ function Supplierpage() {
 
   const submitSupplier = async (event) => {
     event.preventDefault();
-    const contactInfo = { Phone, Address, Email };
+    const contactInfo = [
+      { type: "Phone", value: Phone },
+      { type: "Email", value: Email },
+      { type: "Address", value: Address },
+    ];
 
-    dispatch(CreateSupplier({ name, contactInfo }))
+    dispatch(CreateSupplier({ name, contactInfo, Product }))
       .unwrap()
       .then(() => {
         toast.success("Supplier added successfully");
@@ -71,7 +77,7 @@ function Supplierpage() {
       });
   };
 
-  const displaySuppliers = query.trim() !== "" ? searchdata : getallSupplier;
+  const displaySuppliers = false ? searchdata : getallSupplier;
 
   return (
     <div>
@@ -154,7 +160,6 @@ function Supplierpage() {
                 />
               </div>
 
-
               <div className="mb-4">
                 <label>Product</label>
                 <select
@@ -187,25 +192,37 @@ function Supplierpage() {
             <table className="min-w-full bg-white border mb-24 border-gray-200 rounded-lg shadow-md">
               <thead className="bg-gray-100">
                 <tr>
+                <th className="px-3 py-2 border">#</th>
                   <th className="px-3 py-2 border">Name</th>
                   <th className="px-3 py-2 border">Phone</th>
                   <th className="px-3 py-2 border">Email</th>
                   <th className="px-3 py-2 border">Address</th>
+                  <th className="px-3 py-2 border">Add time</th>
                   <th className="px-3 py-2 border">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {Array.isArray(displaySuppliers) && displaySuppliers.length > 0 ? (
-                  displaySuppliers.map((supplier) => (
+                {Array.isArray(displaySuppliers) &&
+                displaySuppliers.length > 0 ? (
+                  displaySuppliers.map((supplier,index) => (
                     <tr key={supplier._id} className="hover:bg-gray-50">
+                         <td className="px-3 py-2 border">{index+1}</td>
                       <td className="px-3 py-2 border">{supplier.name}</td>
-                      <td className="px-3 py-2 border">{supplier.contactInfo?.Phone}</td>
-                      <td className="px-3 py-2 border">{supplier.contactInfo?.Email}</td>
-                      <td className="px-3 py-2 border">{supplier.contactInfo?.Address}</td>
+                      <td className="px-3 py-2 border">
+                        {supplier.contactInfo?.phone}
+                      </td>
+                      <td className="px-3 py-2 border">
+                        {supplier.contactInfo?.email}
+                      </td>
+                      <td className="px-3 py-2 border">
+                        {supplier.contactInfo?.address}
+                      </td>
+                      <td className="px-3 py-2 border"> <FormattedTime timestamp={supplier.createdAt} /></td>
+
                       <td className="px-4 py-2 border">
                         <button
                           onClick={() => handleRemove(supplier._id)}
-                          className="h-10 bg-red-500 hover:bg-red-700 rounded-md text-white"
+                          className="h-10 w-24 bg-red-500 hover:bg-red-700 rounded-md text-white"
                         >
                           Remove
                         </button>
@@ -214,7 +231,7 @@ function Supplierpage() {
                             setSelectedSupplier(supplier);
                             setIsFormVisible(true);
                           }}
-                          className="h-10 bg-green-500 hover:bg-green-700 rounded-md text-white ml-2"
+                          className="h-10 w-24 bg-green-500 hover:bg-green-700 rounded-md text-white ml-2"
                         >
                           Edit
                         </button>

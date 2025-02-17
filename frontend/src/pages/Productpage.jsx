@@ -238,18 +238,20 @@ function Productpage() {
             <table className="min-w-full bg-white border mb-24 border-gray-200 rounded-lg shadow-md">
               <thead className="bg-gray-100">
                 <tr>
+                <th className="px-3 py-2 border w-5">#</th>
                   <th className="px-3 py-2 border">Name</th>
                   <th className="px-3 py-2 border">Category</th>
                   <th className="px-3 py-2 border">Description</th>
                   <th className="px-3 py-2 border">Price</th>
-                  <th className="px-3 py-2 border">Operations</th>
+                  <th className="px-3 py-2 w-72 border">Operations</th>
                 </tr>
               </thead>
               <tbody>
                 {Array.isArray(displayProducts) &&
                 displayProducts.length > 0 ? (
-                  displayProducts.map((product) => (
+                  displayProducts.map((product,index) => (
                     <tr key={product._id} className="hover:bg-gray-50">
+                       <td className="px-3 py-2 border">{index+1}</td>
                       <td className="px-3 py-2 border">{product.name}</td>
                       <td className="px-3 py-2 border">
                         {product.Category?.name || "No Category"}
@@ -258,16 +260,16 @@ function Productpage() {
                         {product.Description}
                       </td>
                       <td className="px-3 py-2 border">${product.Price}</td>
-                      <td className="px-4 grid grid-cols-1 py-2 border">
+                      <td className="px-4  py-2 border">
                         <button
                           onClick={() => handleremove(product._id)}
-                          className="h-10 bg-red-500 hover:bg-red-700 rounded-md text-white"
+                          className="h-10 w-24 bg-red-500 hover:bg-red-700 rounded-md text-white"
                         >
                           Remove
                         </button>
                         <button
                           onClick={() => handleEditClick(product)}
-                          className="h-10 bg-green-500 hover:bg-green-700 rounded-md text-white"
+                          className="h-10 w-24 bg-green-500 ml-10 hover:bg-green-700 rounded-md text-white"
                         >
                           Edit
                         </button>

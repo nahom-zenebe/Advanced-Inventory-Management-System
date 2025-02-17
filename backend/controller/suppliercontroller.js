@@ -7,6 +7,12 @@ module.exports.createSupplier = async (req, res) => {
 
     if (!name || !contactInfo || !productsSupplied) {
       return res.status(400).json({ success: false, message: "All fields are required." });
+
+      
+    if (!Array.isArray(contactInfo)) {
+      return res.status(400).json({ success: false, message: "Contact info should be an array" });
+    }
+
     }
 
     const newSupplier = new Supplier({
@@ -17,7 +23,7 @@ module.exports.createSupplier = async (req, res) => {
 
     await newSupplier.save();
 
-    res.status(201).json({ success: true, message: "Supplier created successfully", supplier: newSupplier });
+    res.status(201).json({ success: true, message: "Supplier created successfully", newSupplier });
   } catch (error) {
     res.status(500).json({ success: false, message: "Error creating supplier", error });
   }
@@ -28,7 +34,7 @@ module.exports.getAllSuppliers = async (req, res) => {
   try {
     const Suppliers = await Supplier.find().populate("productsSupplied");
 
-    res.status(200).json( Suppliers );
+    res.status(200).json(Suppliers);
   } catch (error) {
     res.status(500).json({ success: false, message: "Error fetching suppliers", error });
   }

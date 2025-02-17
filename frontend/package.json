@@ -8,6 +8,7 @@
     "@tailwindcss/postcss": "^4.0.6",
     "axios": "^1.7.9",
     "cra-template": "1.2.0",
+    "date-fns": "^2.29.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.2",
