@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const logger=require('../libs/logger')
+
 
 const ActivityLogSchema = new mongoose.Schema(
   {
@@ -32,7 +34,14 @@ const ActivityLogSchema = new mongoose.Schema(
     
   },
   { timestamps: true }
+
 );
+
+
+
+
+
+
 
 const ActivityLog = mongoose.model("ActivityLog", ActivityLogSchema);
 

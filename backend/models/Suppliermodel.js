@@ -17,7 +17,7 @@ const SupplierSchema= new mongoose.Schema({
     },
     productsSupplied:[{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"Prodcut"
+        ref:"Product"
 
     }],
     createdAt:{

@@ -26,9 +26,9 @@ module.exports.createSupplier = async (req, res) => {
 
 module.exports.getAllSuppliers = async (req, res) => {
   try {
-    const suppliers = await Supplier.find().populate("productsSupplied");
+    const Suppliers = await Supplier.find().populate("productsSupplied");
 
-    res.status(200).json({ success: true, suppliers });
+    res.status(200).json( Suppliers );
   } catch (error) {
     res.status(500).json({ success: false, message: "Error fetching suppliers", error });
   }

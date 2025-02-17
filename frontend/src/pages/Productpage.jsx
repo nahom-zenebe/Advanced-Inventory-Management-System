@@ -122,7 +122,7 @@ function Productpage() {
     setIsFormVisible(true);
   };
 
-  // Display products based on search or all products
+
   const displayProducts = query.trim() !== "" ? searchdata : getallproduct;
 
   return (
