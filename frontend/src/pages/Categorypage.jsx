@@ -11,7 +11,7 @@ import TopNavbar from "../Components/TopNavbar";
 
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { gettingallCategory,CreateCategory } from "../features/categorySlice";
+import { gettingallCategory,CreateCategory , RemoveCategory } from "../features/categorySlice";
 import toast from "react-hot-toast";
 
 
@@ -26,8 +26,8 @@ function Categorypage() {
   const dispatch = useDispatch();
   const [query, setquery] = useState("");
 
-  const [name, setName] = useState("");
-  const [Description, setDescription] = useState("");
+  const [name, setname] = useState("");
+  const [description, setdescription] = useState("");
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
@@ -43,7 +43,7 @@ function Categorypage() {
     dispatch(gettingallCategory());
   }, [dispatch]);
 
-  console.log(getallCategory)
+  
 
   /*
   useEffect(() => {
@@ -57,24 +57,24 @@ function Categorypage() {
     }
   }, [query, dispatch]); */
 
-  /*
-  const handleremove = async (productId) => {
-    dispatch(Removeproduct(productId))
+
+  const handleremove = async (categoryId) => {
+    dispatch( RemoveCategory (categoryId))
       .unwrap()
       .then(() => {
-        toast.success("Product removed successfully");
+        toast.success("category removed successfully");
       })
       .catch((error) => {
-        toast.error(error || "Failed to remove product");
+        toast.error(error || "Failed to categoryproduct");
       });
-  };*/
+  };
 
   
 
   // Handle add product form submission
   const submitCategory = async (event) => {
     event.preventDefault();
-    const CategoryData = { name, Description};
+    const CategoryData = { name, description};
 
     dispatch( CreateCategory( CategoryData))
       .unwrap()
@@ -89,8 +89,8 @@ function Categorypage() {
 
   // Reset form fields
   const resetForm = () => {
-    setName("");
-    setDescription("");
+    setname("");
+    setdescription("");
   };
 
   
@@ -142,7 +142,7 @@ function Categorypage() {
                 <input
                   value={name}
                   placeholder="Enter product name"
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => setname(e.target.value)}
                   type="text"
                   className="w-full h-10 px-2 border-2 rounded-lg mt-2"
                 />
@@ -153,9 +153,9 @@ function Categorypage() {
               <div className="mb-4">
                 <label>Description</label>
                 <input
-                  value={Description}
+                  value={description}
                   placeholder="Enter product description"
-                  onChange={(e) => setDescription(e.target.value)}
+                  onChange={(e) => setdescription(e.target.value)}
                   type="text"
                   className="w-full h-10 px-2 border-2 rounded-lg mt-2"
                 />
@@ -208,6 +208,7 @@ function Categorypage() {
 
                       <td className="px-4  py-2 border">
                         <button
+                          onClick={() => handleremove(Category._id)}
                          
                           className="h-10 w-24 bg-red-500 hover:bg-red-700 rounded-md text-white"
                         >

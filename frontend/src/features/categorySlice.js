@@ -6,6 +6,7 @@ const initialState = {
   getallCategory: null,
   isgetallCategory: false,
   iscreatedCategory: false,
+  iscategoryremove:false
 };
 
 
@@ -33,6 +34,23 @@ export const gettingallCategory = createAsyncThunk(
   }
 );
 
+
+
+
+export const RemoveCategory = createAsyncThunk(
+  'category/removecategory',
+  async (CategoryId, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.delete(`category/removecategory/${CategoryId}`,CategoryId, { withCredentials: true });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || "Category delete failed");
+    }
+  }
+);
+
+
+
 const categorySlice = createSlice({
   name: "category",
   initialState: initialState,
@@ -47,7 +65,7 @@ const categorySlice = createSlice({
       })
       .addCase(gettingallCategory.fulfilled, (state, action) => {
         state.isgetallCategory = false;
-        state.getallCategory = action.payload.categoryswithProductCount || [];
+        state.getallCategory = action.payload.categorieswithProductCount || [];
 
       })
       
@@ -71,6 +89,31 @@ const categorySlice = createSlice({
         state.iscreatedCategory = false;
         toast.error('Error creating category');
       })
+
+
+
+
+
+      .addCase(RemoveCategory.pending,(state)=>{
+
+        state.iscategoryremove=true
+      
+      })
+      
+    
+      .addCase(RemoveCategory.fulfilled, (state, action) => {
+        state.iscategoryremove = true;
+        state.getallCategory= state.getallCategory.filter(category => category ._id !== action.meta.arg);
+        toast.success("category removed successfully");
+      })
+      
+      
+     
+      .addCase( RemoveCategory.rejected,(state,action)=>{
+         state.iscategoryremove=true
+       toast.error( 'Error In remove category');
+      })
+    
       
 
 

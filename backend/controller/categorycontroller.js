@@ -30,7 +30,7 @@ module.exports.createCategory = async (req, res) => {
 
 module.exports.RemoveCategory=async(req,res)=>{
     try {
-        const {CategoryId}=req.body
+        const {CategoryId}=req.params
         const DeletedCategory=await Category.findByIdAndDelete(CategoryId)
     
          if(!DeletedCategory){
@@ -47,35 +47,36 @@ module.exports.RemoveCategory=async(req,res)=>{
 
 }
 
-module.exports.getCategory=async(req,res)=>{
+
+module.exports.getCategory = async (req, res) => {
     try {
-      
-     const allCategory=await Category.find({})
-
-     if(!allCategory){
-        return res.status(404).json({message:"Category is not found"})
-     }
-
-
-     const categoryswithProductCount=await Promise.all(
-        allCategory.map(async(category)=>{
-            const productCount=await Product.countDocuments({category:Category._id})
-
-         return{
-            ...category.toObject(),
-            productCount: productCount
-
-         }
-
+      // Fetch all categories
+      const allCategory = await Category.find({});
+  
+      if (!allCategory) {
+        return res.status(404).json({ message: "Categories not found" });
+      }
+  
+      // Get product count for each category
+      const categorieswithProductCount = await Promise.all(
+        allCategory.map(async (category) => {
+          // Use category._id to count products in that specific category
+          const productCount = await Product.countDocuments({ category:category._id });
+  
+          return {
+            ...category.toObject(),  // Spread the existing category data
+            productCount: productCount,  // Add the product count
+          };
         })
-     )
-     res.status(200).json({categoryswithProductCount})
-
-        
+      );
+  
+      res.status(200).json({ categorieswithProductCount });
+  
     } catch (error) {
-        res.status(500).json({ message: "Error getting Category", error: error.message });
+      res.status(500).json({ message: "Error getting categories", error: error.message });
     }
-}
+  };
+  
 
 module.exports.updateCategory=async(req,res)=>{
     try {

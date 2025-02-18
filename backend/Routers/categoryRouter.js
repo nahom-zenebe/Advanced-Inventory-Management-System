@@ -6,7 +6,7 @@ const {createCategory,RemoveCategory,getCategory,updateCategory}=require('../con
 
 router.post("/createcategory",createCategory)
 router.get("/getcategory",getCategory)
-router.delete("/removecategory",RemoveCategory)
+router.delete("/removecategory/:CategoryId",RemoveCategory)
 router.put("/updateCategory",updateCategory)
 
 
