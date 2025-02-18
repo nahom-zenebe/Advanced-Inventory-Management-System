@@ -35,6 +35,7 @@ function Productpage() {
     dispatch(gettingallCategory());
   }, [dispatch]);
 
+
   // Handle search query with debounce
   useEffect(() => {
     if (query.trim() !== "") {
@@ -128,7 +129,28 @@ function Productpage() {
   return (
     <div>
       <TopNavbar />
-      <div className="mt-10 ml-5">
+
+
+
+
+      <div className="mt-10 flex ">
+      <div className="bg-blue-950 w-56 rounded-xl  ml-10 block h-24">
+          <h1 className="text-white ml-12 block pt-5 font-bold">Total Product</h1>
+          <p className="text-white font-bold  pt-2  ml-20">{getallproduct.totalProduct }</p>
+
+        </div>
+        <div className="bg-blue-950 ml-10 rounded-xl block w-56 h-24">
+        <h1 className="text-white font-bold ml-12 pt-5">Total store value</h1>
+        <p className="text-white font-bold  pt-2  ml-20">$100</p>
+</div>
+<div className="bg-blue-950 w-56 rounded-xl ml-10 block h-24">
+     <h1 className="text-white font-bold ml-12 pt-5">Total Category</h1>
+     <p className="text-white font-bold   pt-2  ml-20">100</p>
+</div>
+
+
+      </div>
+      <div className="mt-12 ml-5">
         <div className="flex items-center space-x-4">
           <input
             type="text"

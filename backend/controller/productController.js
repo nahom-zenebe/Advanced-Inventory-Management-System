@@ -28,13 +28,18 @@ module.exports.Addproduct=async(req,res)=>{
     module.exports.getProduct = async (req, res) => {
         try {
           
-            const Products = await Product.find({}).populate('Category');  
+          const Products = await Product.find({}).populate('Category'); 
+
+
+          const totalProduct=await Product.countDocuments({})
+     
             
             if (!Products || Products.length === 0) {
                 return res.status(404).json({ message: "Products not found" });
             }
+
     
-            res.status(200).json({Products});  
+            res.status(200).json({Products,totalProduct});  
         } catch (error) {
             res.status(500).json({ message: "Error getting products", error: error.message });
         }

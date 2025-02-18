@@ -25,6 +25,7 @@ function Sidebar() {
     dispatch(logout())
     .then(()=>{
       toast.success("logout successfully")
+      navigator('/')
     })
     .catch((error)=>{
       toast.error("error in logout")
