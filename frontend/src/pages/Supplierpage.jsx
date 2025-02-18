@@ -11,10 +11,10 @@ import {
 import toast from "react-hot-toast";
 import FormattedTime from "../lib/FormattedTime ";
 function Supplierpage() {
-  const { getallSupplier, isSupplieradd, searchdata } = useSelector(
+  const { getallSupplier, searchdata } = useSelector(
     (state) => state.supplier
   );
-  const { getallproduct, isproductadd } = useSelector((state) => state.product);
+  const { getallproduct} = useSelector((state) => state.product);
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
   const [name, setName] = useState("");

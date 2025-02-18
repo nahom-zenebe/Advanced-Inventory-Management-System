@@ -40,25 +40,14 @@ const categorySlice = createSlice({
   extraReducers: (builder) => {
     builder
  
-      .addCase(CreateCategory.pending, (state) => {
-        state.iscreatedCategory = true;
-      })
-      .addCase(CreateCategory.fulfilled, (state, action) => {
-        state.iscreatedCategory = false;
-        toast.success("Category created successfully");
-      })
-      .addCase(CreateCategory.rejected, (state, action) => {
-        state.iscreatedCategory = false;
-        toast.error('Error creating category');
-      })
-      
+   
   
       .addCase(gettingallCategory.pending, (state) => {
         state.isgetallCategory = true;
       })
       .addCase(gettingallCategory.fulfilled, (state, action) => {
         state.isgetallCategory = false;
-        state.getallCategory = action.payload.allCategory || [];
+        state.getallCategory = action.payload.categoryswithProductCount || [];
 
       })
       
@@ -66,7 +55,26 @@ const categorySlice = createSlice({
       .addCase(gettingallCategory.rejected, (state, action) => {
         state.isgetallCategory = false;
         toast.error(action.payload || 'Error retrieving categories');
-      });
+      })
+
+
+
+      .addCase(CreateCategory.pending, (state) => {
+        state.iscreatedCategory = true;
+      })
+      .addCase(CreateCategory.fulfilled, (state, action) => {
+        state.iscreatedCategory = false;
+        state.getallCategory.push(action.payload);
+        toast.success("Category created successfully");
+      })
+      .addCase(CreateCategory.rejected, (state, action) => {
+        state.iscreatedCategory = false;
+        toast.error('Error creating category');
+      })
+      
+
+
+
   },
 });
 

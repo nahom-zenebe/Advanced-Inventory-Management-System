@@ -1,3 +1,4 @@
+const Product=require('../models/Productmodel')
 const Category=require('../models/ Categorymodel')
 
 
@@ -55,7 +56,20 @@ module.exports.getCategory=async(req,res)=>{
         return res.status(404).json({message:"Category is not found"})
      }
 
-     res.status(200).json({allCategory})
+
+     const categoryswithProductCount=await Promise.all(
+        allCategory.map(async(category)=>{
+            const productCount=await Product.countDocuments({category:Category._id})
+
+         return{
+            ...category.toObject(),
+            productCount: productCount
+
+         }
+
+        })
+     )
+     res.status(200).json({categoryswithProductCount})
 
         
     } catch (error) {
