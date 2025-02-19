@@ -31,7 +31,7 @@ function App() {
           <Route path="/about" element={<ServicePage />} />
           <Route path="/SignupPage" element={<SignupPage />} />
           <Route path="/LoginPage" element={<LoginPage />} />
-          <Route path="/   Profilepage" element={<   Profilepage />} />
+    
           
        
           <Route path="/ManagerDashboard" element={<ManagerDashboard />}>
@@ -43,6 +43,7 @@ function App() {
             <Route path="category" element={<Categorypage />} />
             <Route path="inventory" element={<Inventorypage />} />
             <Route path="notifications" element={<Notificationpage />} />
+            <Route path="Profilepage" element={<   Profilepage />} />
             <Route path="supplier" element={<Supplierpage />} />
             <Route path="activity-log" element={<Activitylogpage />} />
           </Route>

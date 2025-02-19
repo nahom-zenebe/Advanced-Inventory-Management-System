@@ -10,6 +10,8 @@ const initialState={
       isUserSignup:false,
       isUserLogin:false,
       token:localStorage.getItem("token")||null,
+      updateProfile:null,
+      isupdateProfile:false
     
 }
 
@@ -47,6 +49,20 @@ export const logout=createAsyncThunk("auth/logout",async(_,{rejectWithValue})=>{
     
   } catch (error) {
     return rejectWithValue(error.response?.data?.message || "Logout failed");
+  }
+})
+
+export const updateProfile=createAsyncThunk("auth/updateProfile",async(profiledata,{rejectWithValue})=>{
+  try {
+
+    const response=await axiosInstance.put("auth/updateProfile",profiledata,{ withCredentials: true,})
+    return response.data
+    
+
+
+  } catch (error) {
+
+    return rejectWithValue(error.response?.data?.message || "Update Profile failed");
   }
 })
 
@@ -113,7 +129,28 @@ const authSlice = createSlice({
    })
 
 
+   .addCase(updateProfile.pending,(state)=>{
+  state.isupdateProfile=true
+   })
 
+
+
+   .addCase(updateProfile.fulfilled,(state,action)=>{
+     
+     state.isupdateProfile=false
+     state.updateProfile=action.payload
+    toast.success("succcessfully logout")
+   })
+
+   .addCase(updateProfile.rejected,(state,action)=>{
+   state.isupdateProfile=false
+    toast.error(action.payload || 'Error during update profile');
+
+   })
+
+
+
+ 
 
 
    
