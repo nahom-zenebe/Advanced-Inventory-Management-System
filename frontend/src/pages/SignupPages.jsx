@@ -3,7 +3,7 @@ import { Link ,useNavigate} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signup } from "../features/authSlice";
 import { useForm } from "react-hook-form";
-
+import homeImage from '../images/welcomeimage.webp'
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
@@ -38,7 +38,7 @@ function SignupPage() {
     if(data.role==="staff"){
       navigator('/StaffDashboard')
     } 
-    else if(data.role=="admin"){
+    else if(data.role==="admin"){
       navigator('/AdminDashboard')
     }
     else{
@@ -143,15 +143,15 @@ function SignupPage() {
         </div>
       </div>
 
-      <div
+      <div   style={{ backgroundImage: `url(${homeImage})` }}
   
-  className="w-full sm:w-1/2 p-10 bg-cover bg-center text-white flex flex-col justify-center rounded-r-xl"
+  className="w-full sm:w-1/2  p-10 bg-cover bg-center text-white flex flex-col justify-center rounded-r-xl"
 >
         <h2 className="text-2xl font-bold mb-4">Efficient Inventory Management</h2>
-        <p className="mb-6">Streamline your operations with real-time tracking, automated reports, and seamless integrations.</p>
-        <div className="bg-white p-6 rounded-md text-gray-900">
-          <p className="text-lg font-semibold">Dashboard Preview</p>
-          <p className="text-sm text-gray-700">Monitor stock levels, generate insights, and optimize workflows.</p>
+        <p className="mb-6 text-white">Streamline your operations with real-time tracking, automated reports, and seamless integrations.</p>
+        <div className=" p-6 rounded-md text-gray-900">
+          <p className="text-lg text-white font-semibold">Dashboard Preview</p>
+          <p className="text-sm text-white">Monitor stock levels, generate insights, and optimize workflows.</p>
         </div>
       </div>
     </div>

@@ -8,7 +8,7 @@ const Cloundinary=require('../libs/Cloundinary')
 
 module.exports.signup=async(req,res)=>{
     try {
-    const{name,email, password,role}=req.body
+    const{name,email, password,ProfilePic,role}=req.body
 
 const duplicatedUser=await User.findOne({email})
 if(duplicatedUser){
@@ -22,7 +22,7 @@ const hashedpassword=await bcrypt.hash(password,10)
    
    
     const newUser=new User({
-        name,email, password:hashedpassword
+        name,email, password:hashedpassword,ProfilePic
         ,role,
     })
     const savedUser=await newUser.save();
@@ -35,7 +35,8 @@ const hashedpassword=await bcrypt.hash(password,10)
             name:savedUser.name,
             email:savedUser.email,
             role:savedUser.role,
-            token
+            token,
+            ProfilePic:savedUser.ProfilePic
         }
     })
     } 
@@ -78,6 +79,7 @@ module.exports.login=async(req,res)=>{
         name:duplicatedUser.name,
         email:duplicatedUser.email,
         role:duplicatedUser.role,
+        ProfilePic:duplicatedUser.ProfilePic,
         token
 
     }
@@ -107,7 +109,7 @@ module.exports.logout=async(req,res)=>{
     
   }
 }
-module.exports.updateProfile=async(req,res)=>{
+module.exports.updateProfile = async (req, res) => {
   try {
     const { ProfilePic } = req.body;
     const userId = req.user?._id;
@@ -117,13 +119,11 @@ module.exports.updateProfile=async(req,res)=>{
     }
 
     if (ProfilePic) {
-      
       const uploadResponse = await Cloundinary.uploader.upload(ProfilePic, {
         folder: "profile_inventory_system", 
         upload_preset: "upload", 
       });
 
-      
       const updatedUser = await User.findOneAndUpdate(
         { _id: userId },
         { ProfilePic: uploadResponse.secure_url },
@@ -133,7 +133,7 @@ module.exports.updateProfile=async(req,res)=>{
       if (!updatedUser) {
         return res.status(404).json({ message: "User not found" });
       }
-updateProfile
+
       return res.status(200).json({
         message: "Profile updated successfully",
         updatedUser,
@@ -143,6 +143,6 @@ updateProfile
     }
   } catch (error) {
     console.log("Error in update profile Controller", error.message);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error", error });
   }
 };

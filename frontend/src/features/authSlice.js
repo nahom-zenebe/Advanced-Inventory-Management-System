@@ -10,7 +10,7 @@ const initialState={
       isUserSignup:false,
       isUserLogin:false,
       token:localStorage.getItem("token")||null,
-      updateProfile:null,
+      updatenewProfile:null,
       isupdateProfile:false
     
 }
@@ -52,10 +52,10 @@ export const logout=createAsyncThunk("auth/logout",async(_,{rejectWithValue})=>{
   }
 })
 
-export const updateProfile=createAsyncThunk("auth/updateProfile",async(profiledata,{rejectWithValue})=>{
+export const updateProfile=createAsyncThunk("auth/updateProfile",async( base64Image,{rejectWithValue})=>{
   try {
 
-    const response=await axiosInstance.put("auth/updateProfile",profiledata,{ withCredentials: true,})
+    const response=await axiosInstance.put("auth/updateProfile",  { ProfilePic: base64Image }, { headers: { 'Content-Type': 'application/json' } })
     return response.data
     
 
@@ -135,12 +135,12 @@ const authSlice = createSlice({
 
 
 
-   .addCase(updateProfile.fulfilled,(state,action)=>{
-     
-     state.isupdateProfile=false
-     state.updateProfile=action.payload
-    toast.success("succcessfully logout")
-   })
+   .addCase(updateProfile.fulfilled, (state, action) => {
+    state.isupdateProfile = false;
+    state.updatenewProfile = action.payload; 
+    toast.success("Profile updated successfully!");
+  })
+  
 
    .addCase(updateProfile.rejected,(state,action)=>{
    state.isupdateProfile=false

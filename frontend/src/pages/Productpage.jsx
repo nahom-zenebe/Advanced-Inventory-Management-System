@@ -20,7 +20,6 @@ function Productpage() {
   const { getallCategory } = useSelector((state) => state.category);
   const dispatch = useDispatch();
   const [query, setquery] = useState("");
-  const [total, setTotal] = useState(0);
   const [name, setName] = useState("");
   const [Category, setCategory] = useState("");
   const [Price, setPrice] = useState("");
@@ -49,22 +48,7 @@ function Productpage() {
   }, [query, dispatch]);
 
 
-  const calculatetotalPice=()=>{
-  
-    getallproduct.map((product)=>{
-
-      setTotal(total+=product.Price)
-      return setTotal
-
-    })
-  }
-
-
-  useEffect(() => {
-    calculateTotalPrice();
-  }, [getallproduct]); 
-
-
+ 
 
 
   const handleremove = async (productId) => {
@@ -143,15 +127,7 @@ function Productpage() {
   };
 
   
-  const calculateTotalPrice = () => {
-    if (!getallproduct || getallproduct.length === 0) {
-      setTotal(0);
-      return;
-    }
-    
-    let newTotal = getallproduct.reduce((acc, product) => acc + (product.Price || 0), 0);
-    setTotal(newTotal);
-  };
+ 
 
   const displayProducts = query.trim() !== "" ? searchdata : getallproduct;
 
@@ -171,7 +147,7 @@ function Productpage() {
         <div className="bg-blue-950 ml-10 rounded-xl block w-56 h-24">
         <h1 className="text-white font-bold ml-12 pt-5">Total store value</h1>
         <p className="text-white font-bold pt-2 ml-20">
-      {getallproduct.length > 0 ? `$${total.toFixed(2)}` : "$00.0"}
+     100
     </p>
 </div>
 <div className="bg-blue-950 w-56 rounded-xl ml-10 block h-24">
