@@ -1,8 +1,11 @@
 import React from 'react'
-
+import TopNavbar from "../Components/TopNavbar";
 function Activitylogpage() {
   return (
-    <div>Activitylogpage</div>
+    <div>
+
+<TopNavbar />
+    </div>
   )
 }
 
