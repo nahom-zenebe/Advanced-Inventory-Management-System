@@ -32,7 +32,7 @@ export const signup = createAsyncThunk(
 export const login=createAsyncThunk('auth/login',async(credentials,{rejectWithValue})=>{
   try {
      const response=await axiosInstance.post("auth/login",credentials,{ withCredentials: true,})
-     localStorage.setItem("token",response.data.token)
+     localStorage.setItem("user",response.data.savedUser)
      return response.data;
 
     
