@@ -18,6 +18,8 @@
     "react-router-dom": "^7.1.5",
     "react-scripts": "5.0.1",
     "redux": "^5.0.1",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
     "web-vitals": "^4.2.4",
     "yup": "^1.6.1"
   },

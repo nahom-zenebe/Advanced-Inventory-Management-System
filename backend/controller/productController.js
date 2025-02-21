@@ -1,19 +1,34 @@
 const Product=require('../models/Productmodel')
 const Category=require('../models/ Categorymodel')
+const logActivity=require('../libs/logger')
 
 module.exports.Addproduct=async(req,res)=>{
 
     try {
       //supllier 
         const { name, Description,Category, Price, quantity } = req.body;
+        const userId=req.user._id;
+        const ipAddress=req.ip
      
         if (!name|| !Category || !Description|| !Price || !quantity) {
            return res.status(400).json({ error: "Please provide all product details." });
         }
+
      
         const createdProduct = new Product({
            name, Description, Category, Price, quantity,
         });
+
+        await logActivity({
+
+     action:"Add Product",
+      description:`Product "${name} was added`,
+      entity:"Product",
+      entityId:createdProduct._id,
+      userId:userId,
+      ipAddress:ipAddress,
+
+        })
      
         await createdProduct.save();
      
@@ -38,6 +53,8 @@ module.exports.Addproduct=async(req,res)=>{
                 return res.status(404).json({ message: "Products not found" });
             }
 
+            
+
     
             res.status(200).json({Products,totalProduct});  
         } catch (error) {
@@ -59,6 +76,15 @@ module.exports.Addproduct=async(req,res)=>{
         if (!deletedProduct) {
           return res.status(404).json({ message: "Product not found!" });
         }
+
+        await logActivity({
+          action: "Delete Product",
+          description: `Product "${deletedProduct.name}" was deleted.`,
+          entity: "Product",
+          entityId: deletedProduct._id,
+          userId: userId,
+          ipAddress: ipAddress,
+        });
     
         res.status(200).json({ message: "Product deleted successfully" });
     
@@ -77,6 +103,19 @@ module.exports.Addproduct=async(req,res)=>{
     
         const updatedproduct = await Product.findByIdAndUpdate(productId, { ...updatedata }, { new: true });
     
+
+
+        await logActivity({
+          action: "Update Product",
+          description: `Product "${updatedproduct.name}" was updated.`,
+          entity: "Product",
+          entityId: updatedproduct._id,
+          userId: userId,
+          ipAddress: ipAddress,
+        });
+
+        
+        
         res.json(updatedproduct);
       } catch (error) {
         res.status(500).json({ message: "Error updating product", error: error.message });

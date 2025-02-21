@@ -6,8 +6,8 @@ const {createOrder,updatestatusOrder,Removeorder,getOrder}=require('../controlle
 
 router.post("/createorder",createOrder)
 router.get("/getorders",getOrder)
-router.delete("/removeorder",Removeorder)
-router.put("/updatestatusOrder",updatestatusOrder)
+router.delete("/removeorder/:OrdertId",Removeorder)
+router.put("/updatestatusOrder/:OrderId",updatestatusOrder)
 
 
 

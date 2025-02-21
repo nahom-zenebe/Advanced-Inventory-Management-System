@@ -39,7 +39,7 @@ module.exports.createOrder=async()=>{
 
 module.exports.Removeorder=async(req,res)=>{
     try {
-        const {OrdertId}=req.body
+        const {OrdertId}=req.params
         const Deletedorder=await Order.findByIdAndDelete(OrdertId)
     
          if(!Deletedorder){
@@ -74,7 +74,8 @@ module.exports.getOrder=async(req,res)=>{
 
 module.exports.updatestatusOrder=async(req,res)=>{
     try {
-        const {status,OrderId}=req.body
+        const {OrderId}=req.params
+        const {status}=req.body
         const updateorder=await Order.findByIdAndUpdate(OrderId,status,{new:true})
 
             if(!updateorder)
