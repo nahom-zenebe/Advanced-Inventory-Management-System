@@ -2,7 +2,7 @@ const User=require('../models/Usermodel')
 const bcrypt = require("bcryptjs");
 const generateToken=require('../libs/Tokengenerator')
 const Cloundinary=require('../libs/Cloundinary') 
-
+const logActivity = require('../libs/logger');
 
 
 
@@ -25,9 +25,24 @@ const hashedpassword=await bcrypt.hash(password,10)
         name,email, password:hashedpassword,ProfilePic
         ,role,
     })
+    const ipAddress = req.ip; 
     const savedUser=await newUser.save();
 
     const token=await generateToken(savedUser._id,res)
+
+
+    await logActivity({
+      action: "User Signup",
+      description: `User "${name}" signed up.`,
+      entity: "User",
+      entityId: savedUser._id,
+      userId: savedUser._id, 
+      ipAddress: ipAddress,
+    });
+
+
+
+
 
     res.status(201).json({
         message:"Signup successfully",
@@ -55,7 +70,7 @@ module.exports.login=async(req,res)=>{
     try {
         
      const {email,password}=req.body;
-
+     const ipAddress = req.ip; 
      const duplicatedUser=await User.findOne({email})
 
      if(!duplicatedUser){
@@ -73,6 +88,18 @@ module.exports.login=async(req,res)=>{
 
         const token=await generateToken(duplicatedUser._id,res)
 
+
+
+
+
+ await logActivity({
+      action: "User Login",
+      description: `User "${duplicatedUser.name}" logged in.`,
+      entity: "User",
+      entityId: duplicatedUser._id,
+      userId: duplicatedUser._id, 
+      ipAddress: ipAddress,
+    });
    return res.status(201).json({
     message:"login successfully",
     user:{
@@ -113,6 +140,7 @@ module.exports.updateProfile = async (req, res) => {
   try {
     const { ProfilePic } = req.body;
     const userId = req.user?._id;
+    const ipAddress = req.ip; 
 
     if (!userId) {
       return res.status(400).json({ message: "User not authenticated" });
@@ -133,6 +161,17 @@ module.exports.updateProfile = async (req, res) => {
       if (!updatedUser) {
         return res.status(404).json({ message: "User not found" });
       }
+
+
+      await logActivity({
+        action: "Update Profile",
+        description: `User "${updatedUser.name}" updated their profile.`,
+        entity: "User",
+        entityId: updatedUser._id,
+        userId: updatedUser._id, 
+        ipAddress: ipAddress,
+      });
+
 
       return res.status(200).json({
         message: "Profile updated successfully",
