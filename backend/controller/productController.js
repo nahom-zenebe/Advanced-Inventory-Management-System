@@ -70,6 +70,8 @@ module.exports.Addproduct=async(req,res)=>{
     module.exports.RemoveProduct = async (req, res) => {
       try {
         const { productId } = req.params; 
+        const userId=req.user._id;
+        const ipAddress=req.ip
     
         const deletedProduct = await Product.findByIdAndDelete(productId);
     
@@ -100,6 +102,8 @@ module.exports.Addproduct=async(req,res)=>{
       try {
         const { productId } = req.params;
         const { updatedata } = req.body;
+        const userId=req.user._id;
+        const ipAddress=req.ip
     
         const updatedproduct = await Product.findByIdAndUpdate(productId, { ...updatedata }, { new: true });
     

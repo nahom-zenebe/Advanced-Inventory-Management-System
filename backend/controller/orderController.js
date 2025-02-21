@@ -10,6 +10,9 @@ module.exports.createOrder=async()=>{
     try {
 
         const { user,Desciption, Product,price, totalAmount, status}=req.body
+        const userId=req.user._id;
+        const ipAddress=req.ip
+        
 
          if(!user||!Desciption|| !Product||!price|| !totalAmount||! status){
             return res.status(400).json({message:"please provide all neccesary information"})
@@ -25,6 +28,18 @@ module.exports.createOrder=async()=>{
          const newOrder=new Order({
             user,Desciption, Product,price, totalAmount:totalorderAmount, status,orderDate}
          )
+
+         await logActivity({
+
+            action:"Add Order",
+             description:`Order  was created`,
+             entity:"Product",
+             entityId:newOrder._id,
+             userId:userId,
+             ipAddress:ipAddress,
+       
+               })
+         
          await newOrder.save()
          res.status(201).json(newOrder)
         
@@ -40,12 +55,25 @@ module.exports.createOrder=async()=>{
 module.exports.Removeorder=async(req,res)=>{
     try {
         const {OrdertId}=req.params
+        const userId=req.user._id;
+        const ipAddress=req.ip
         const Deletedorder=await Order.findByIdAndDelete(OrdertId)
     
          if(!Deletedorder){
            return  res.status(404).json({message:"Order is not found!"})
          }
     
+
+         await logActivity({
+            action: "Delete order",
+            description: `order  was deleted.`,
+            entity: "order",
+            entityId: deletedProduct._id,
+            userId: userId,
+            ipAddress: ipAddress,
+          });
+
+
          res.status(200).json({message:"Order delete successfully"})
     
             
@@ -76,6 +104,8 @@ module.exports.updatestatusOrder=async(req,res)=>{
     try {
         const {OrderId}=req.params
         const {status}=req.body
+        const userId=req.user._id;
+        const ipAddress=req.ip
         const updateorder=await Order.findByIdAndUpdate(OrderId,status,{new:true})
 
             if(!updateorder)
@@ -84,6 +114,16 @@ module.exports.updatestatusOrder=async(req,res)=>{
 
                 }
                 
+
+
+        await logActivity({
+          action: "Update Order",
+          description: `Order  was updated.`,
+          entity: "Order",
+          entityId: updateorder._id,
+          userId: userId,
+          ipAddress: ipAddress,
+        });
                 res.status(200).json({message:"order successfully updated"})
 
 
