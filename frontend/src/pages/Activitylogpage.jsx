@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 import { useEffect, useState } from "react";
 import { getAllActivityLogs } from "../features/activitySlice";
 import TopNavbar from "../Components/TopNavbar";
-
+import FormattedTime from "../lib/FormattedTime ";
 function Activitylogpage() {
   const [logs, setLogs] = useState([]);
   const { activityLogs, isFetching } = useSelector((state) => state.activity);
@@ -19,7 +19,7 @@ function Activitylogpage() {
     socket.on("newActivityLog", (newLog) => {
       setLogs((prevLogs) => [newLog, ...prevLogs]);
     });
-
+    console.log(activityLogs)
     return () => {
       socket.off("newActivityLog"); 
     };
@@ -29,22 +29,67 @@ function Activitylogpage() {
     setLogs(activityLogs); 
   }, [activityLogs]);
 
-  if (isFetching) return <div>Loading...</div>;
+
+ 
+
+  
 
   return (
     <div>
       <TopNavbar />
-      <div>
-        <h1>Activity Logs</h1>
-        {logs.length > 0 ? (
-          <ul>
-            {logs.map((log) => (
-              <li key={log._id}>{log.description}</li>
-            ))}
-          </ul>
-        ) : (
-          <p>No activity logs available</p>
-        )}
+      <div className="mt-10 ml-5">
+      <h1 className="text-xl font-semibold mb-4">Activity Logs</h1>
+        <div className="overflow-x-auto">
+            <table className="min-w-full bg-white border mb-24 border-gray-200 rounded-lg shadow-md">
+              <thead className="bg-gray-100">
+                <tr>
+                <th className="px-3 py-2 border w-5">#</th>
+                <th className="px-3 py-2 border">Name</th>
+                <th className="px-3 py-2 border">Email</th>
+                  <th className="px-3 py-2 border">action</th>
+                  <th className="px-3 py-2 border">affected part</th>
+                  <th className="px-3 py-2 border">Description</th>
+                  <th className="px-3 py-2 border">Time</th>
+                  <th className="px-3 py-2 border">Ip Address</th>
+            
+             
+                </tr>
+              </thead>
+              <tbody>
+                {Array.isArray(logs) &&
+                logs.length > 0 ? (
+                  logs.map((log,index) => (
+                    <tr key={log._id} className="hover:bg-gray-50">
+                       <td className="px-3 py-2 border">{index+1}</td>
+                       <td className="px-3 py-2 border">{log.userId.name}</td>
+                       <td className="px-3 py-2 border">{log.userId.email}</td>
+                      <td className="px-3 py-2 border">{log.action}</td>
+                      <td className="px-3 py-2 border">
+                        {log.entity}
+                      </td>
+                      <td className="px-3 py-2 border">
+                        {log.description}
+                      </td>
+                  
+                      <td className="px-4  py-2 border">
+                 
+                     <FormattedTime timestamp={log.createdAt} />
+                      </td>
+                      <td className="px-4  py-2 border">{log.ipAddress }</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="5" className="text-center py-4">
+                    <p>No activity logs available</p>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+      
+       
       </div>
     </div>
   );

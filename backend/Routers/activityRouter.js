@@ -21,7 +21,7 @@ module.exports = (app) => {
 
   // Emit new log event
   const emitNewLog = async (logId) => {
-    const log = await ActivityLog.findById(logId).populate("userId");
+    const log = await ActivityLog.findById(logId).populate("userId").select("-password");
     io.emit("newActivityLog", log); // Emit to all connected clients
   };
 
@@ -30,7 +30,7 @@ module.exports = (app) => {
     try {
       const newLog = new ActivityLog(req.body);
       const savedLog = await newLog.save();
-
+      console.log("Saved log:", savedLog);
       emitNewLog(savedLog._id);
 
       res.status(201).json(savedLog);

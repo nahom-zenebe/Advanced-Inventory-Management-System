@@ -33,7 +33,7 @@ module.exports.createOrder=async()=>{
 
             action:"Add Order",
              description:`Order  was created`,
-             entity:"Product",
+             entity:"order",
              entityId:newOrder._id,
              userId:userId,
              ipAddress:ipAddress,
@@ -119,7 +119,7 @@ module.exports.updatestatusOrder=async(req,res)=>{
         await logActivity({
           action: "Update Order",
           description: `Order  was updated.`,
-          entity: "Order",
+          entity: "order",
           entityId: updateorder._id,
           userId: userId,
           ipAddress: ipAddress,
@@ -130,5 +130,18 @@ module.exports.updatestatusOrder=async(req,res)=>{
     } catch (error) {
         res.status(500).json({ message: "Error in update status Orders", error: error.message });
     }
+
+}
+
+module.exports.searchOrder=async()=>{
+    try{
+
+        
+    }
+
+    catch(error){
+        res.status(500).json({ message: "Error in search  Orders", error: error.message });
+    }
+
 
 }

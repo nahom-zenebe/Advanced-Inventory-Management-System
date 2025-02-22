@@ -34,7 +34,7 @@ const hashedpassword=await bcrypt.hash(password,10)
     await logActivity({
       action: "User Signup",
       description: `User "${name}" signed up.`,
-      entity: "User",
+      entity: "user",
       entityId: savedUser._id,
       userId: savedUser._id, 
       ipAddress: ipAddress,
@@ -95,7 +95,7 @@ module.exports.login=async(req,res)=>{
  await logActivity({
       action: "User Login",
       description: `User "${duplicatedUser.name}" logged in.`,
-      entity: "User",
+      entity: "user",
       entityId: duplicatedUser._id,
       userId: duplicatedUser._id, 
       ipAddress: ipAddress,

@@ -23,7 +23,7 @@ module.exports.createCategory = async (req, res) => {
 
           action:"Add Category",
            description:`Category "${name} was added`,
-           entity:"Category",
+           entity:"category",
            entityId:newCategory._id,
            userId:userId,
            ipAddress:ipAddress,
@@ -58,7 +58,7 @@ module.exports.RemoveCategory=async(req,res)=>{
          await logActivity({
           action: "Delete Category",
           description: `Category "${DeletedCategory.name}" was deleted.`,
-          entity: "Category",
+          entity: "category",
           entityId: DeletedCategory._id,
           userId: userId,
           ipAddress: ipAddress,
@@ -126,7 +126,7 @@ module.exports.updateCategory=async(req,res)=>{
                 await logActivity({
                   action: "Update Category",
                   description: `Category "${updatingCategory.name}" was updated.`,
-                  entity: "Category",
+                  entity: "category",
                   entityId: updatingCategory._id,
                   userId: userId,
                   ipAddress: ipAddress,

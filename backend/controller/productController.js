@@ -23,7 +23,7 @@ module.exports.Addproduct=async(req,res)=>{
 
      action:"Add Product",
       description:`Product "${name} was added`,
-      entity:"Product",
+      entity:"product",
       entityId:createdProduct._id,
       userId:userId,
       ipAddress:ipAddress,
@@ -82,7 +82,7 @@ module.exports.Addproduct=async(req,res)=>{
         await logActivity({
           action: "Delete Product",
           description: `Product "${deletedProduct.name}" was deleted.`,
-          entity: "Product",
+          entity: "product",
           entityId: deletedProduct._id,
           userId: userId,
           ipAddress: ipAddress,
@@ -112,7 +112,7 @@ module.exports.Addproduct=async(req,res)=>{
         await logActivity({
           action: "Update Product",
           description: `Product "${updatedproduct.name}" was updated.`,
-          entity: "Product",
+          entity: "product",
           entityId: updatedproduct._id,
           userId: userId,
           ipAddress: ipAddress,
