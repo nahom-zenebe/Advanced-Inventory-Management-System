@@ -136,6 +136,23 @@ module.exports.updatestatusOrder=async(req,res)=>{
 module.exports.searchOrder=async()=>{
     try{
 
+        const {query}=req.query
+        
+        if (!query) {
+            return res.status(400).json({ message: "Query parameter is required" });
+          }
+
+        const searchdata=await Order.find({
+            $or:[
+                { Desciption:{$regex:query, $options: "i"}  },
+                {status:{$regex:query,$option:"i"}},
+                {"user.name":{$regex:query,$option:"i"}}
+            ]
+        })
+        
+
+        res.json(searchdata);
+
         
     }
 

@@ -7,6 +7,7 @@ import {
   Removedorder,
   updatestatusOrder,
   gettingallOrder,
+  SearchOrder
 } from "../features/orderSlice";
 
 function Orderpage() {
@@ -17,6 +18,7 @@ function Orderpage() {
     isorderremove,
     editorder,
     iseditorder,
+    searchdata
   } = useSelector((state) => state.order);
 
   const { getallCategory } = useSelector((state) => state.category);
