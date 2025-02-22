@@ -28,7 +28,8 @@ const OrderSchema= new mongoose.Schema({
     }
    }],
     
-   totalAmount:{type:Number,
+   totalAmount:{
+    type:Number,
     require:true,
    },
    status:{

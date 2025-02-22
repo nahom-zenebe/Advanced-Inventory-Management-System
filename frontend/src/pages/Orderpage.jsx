@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import TopNavbar from "../Components/TopNavbar";
 import { useDispatch, useSelector } from "react-redux";
+import { signup } from "../features/authSlice";
 import {
   createdOrder,
   Removedorder,
@@ -9,6 +10,10 @@ import {
   gettingallOrder,
   SearchOrder
 } from "../features/orderSlice";
+
+import{
+gettingallproducts} from "../features/productSlice";
+import { gettingallCategory } from "../features/categorySlice";
 
 function Orderpage() {
   const {
@@ -20,12 +25,15 @@ function Orderpage() {
     iseditorder,
     searchdata
   } = useSelector((state) => state.order);
-
+  const { getallproduct} = useSelector(
+    (state) => state.order
+  );
   const { getallCategory } = useSelector((state) => state.category);
+  const { Authuser, isUserSignup } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [query, setquery] = useState("");
   const [name, setName] = useState("");
-  const [Category, setCategory] = useState("");
+  const [Product, setProduct] = useState("");
   const [Price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
   const [Description, setDescription] = useState("");
@@ -33,21 +41,30 @@ function Orderpage() {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
 
+  
+
+
   useEffect(() => {
+    dispatch(signup());
     dispatch(gettingallOrder());
+    dispatch(gettingallproducts());
+    dispatch(gettingallCategory());
+  
+
 
   }, [dispatch]);
+
 
 
   
   useEffect(() => {
     if (query.trim() !== "") {
       const repeatTimeout = setTimeout(() => {
-        dispatch(Searchproduct(query));
+        dispatch(  SearchOrder(query));
       }, 500);
       return () => clearTimeout(repeatTimeout);
     } else {
-      dispatch(gettingallproducts()); // Reset to all products if query is empty
+      dispatch(gettingallOrder());
     }
   }, [query, dispatch]);
 
@@ -56,17 +73,17 @@ function Orderpage() {
 
 
   const handleremove = async (productId) => {
-    dispatch(Removeproduct(productId))
+    dispatch( Removedorder(productId))
       .unwrap()
       .then(() => {
-        toast.success("Product removed successfully");
+        toast.success("Order removed successfully");
       })
       .catch((error) => {
-        toast.error(error || "Failed to remove product");
+        toast.error(error || "Failed to remove Order");
       });
   };
 
-  // Handle edit product form submission
+  
   const handleEditSubmit = (event) => {
     event.preventDefault();
 
@@ -80,25 +97,25 @@ function Orderpage() {
       Description,
     };
 
-    dispatch(EditProduct({ id: selectedProduct._id, updatedData }))
+    dispatch(updatestatusOrder({ id: selectedProduct._id, updatedData }))
       .unwrap()
       .then(() => {
-        toast.success("Product updated successfully");
+        toast.success("Order updated successfully");
         setIsFormVisible(false);
         setSelectedProduct(null);
         resetForm();
       })
       .catch(() => {
-        toast.error("Failed to update product");
+        toast.error("Failed to update Order");
       });
   };
 
-  // Handle add product form submission
-  const submitProduct = async (event) => {
+  
+  const selectedOrder= async (event) => {
     event.preventDefault();
-    const productData = { name, Description, Category, Price, quantity };
+    const OrderData = { name, Description, Category, Price, quantity };
 
-    dispatch(Addproduct(productData))
+    dispatch(createdOrder(OrderData ))
       .unwrap()
       .then(() => {
         toast.success("Product added successfully");
@@ -120,13 +137,13 @@ function Orderpage() {
   
 
   // Handle edit button click
-  const handleEditClick = (product) => {
-    setSelectedProduct(product);
-    setName(product.name);
-    setCategory(product.Category?._id || "");
-    setPrice(product.Price);
-    setQuantity(product.quantity);
-    setDescription(product.Description);
+  const handleEditClick = (order) => {
+    setSelectedProduct(order);
+    setName(order.name);
+    setCategory(order.Category?._id || "");
+    setPrice(order.Price);
+    setQuantity(order.quantity);
+    setDescription(order.Description);
     setIsFormVisible(true);
   };
 
@@ -142,25 +159,7 @@ function Orderpage() {
 
 
 
-      <div className="mt-10 flex ">
-      <div className="bg-blue-950 w-56 rounded-xl  ml-10 block h-24">
-          <h1 className="text-white ml-12 block pt-5 font-bold">Total Product</h1>
-          <p className="text-white font-bold  pt-2  ml-24">0</p>
-
-        </div>
-        <div className="bg-blue-950 ml-10 rounded-xl block w-56 h-24">
-        <h1 className="text-white font-bold ml-12 pt-5">Total store value</h1>
-        <p className="text-white font-bold pt-2 ml-20">
-     100
-    </p>
-</div>
-<div className="bg-blue-950 w-56 rounded-xl ml-10 block h-24">
-     <h1 className="text-white font-bold ml-12 pt-5">Total Category</h1>
-     <p className="text-white font-bold   pt-2  ml-20">100</p>
-</div>
-
-
-      </div>
+      
       <div className="mt-12 ml-5">
         <div className="flex items-center space-x-4">
           <input
@@ -168,7 +167,7 @@ function Orderpage() {
             value={query}
             onChange={(e) => setquery(e.target.value)}
             className="w-full md:w-96 h-12 pl-4 pr-12 border-2 border-gray-300 rounded-lg"
-            placeholder="Enter your product"
+            placeholder="Enter your order"
           />
           <button
             onClick={() => {
@@ -177,7 +176,7 @@ function Orderpage() {
             }}
             className="bg-blue-800 text-white w-40 h-12 rounded-lg flex items-center justify-center"
           >
-            <IoMdAdd className="text-xl mr-2" /> Add Product
+            <IoMdAdd className="text-xl mr-2" /> Add Order
           </button>
         </div>
 
@@ -191,15 +190,15 @@ function Orderpage() {
             </div>
 
             <h1 className="text-xl font-semibold mb-4">
-              {selectedProduct ? "Edit Product" : "Add Product"}
+              {selectedOrder ? "Edit Product" : "Add Product"}
             </h1>
 
-            <form onSubmit={selectedProduct ? handleEditSubmit : submitProduct}>
+            <form onSubmit={selectedOrder ? handleEditSubmit : submitProduct}>
               <div className="mb-4">
                 <label>Name</label>
                 <input
                   value={name}
-                  placeholder="Enter product name"
+                  placeholder="Enter order name"
                   onChange={(e) => setName(e.target.value)}
                   type="text"
                   className="w-full h-10 px-2 border-2 rounded-lg mt-2"
@@ -207,16 +206,16 @@ function Orderpage() {
               </div>
 
               <div className="mb-4">
-                <label>Category</label>
+                <label>Product</label>
                 <select
-                  value={Category}
-                  onChange={(e) => setCategory(e.target.value)}
+                  value={Product}
+                  onChange={(e) => setProduct(e.target.value)}
                   className="w-full h-10 px-2 border-2 rounded-lg mt-2"
                 >
-                  <option value="">Select a category</option>
-                  {getallCategory?.map((category) => (
-                    <option key={category._id} value={category._id}>
-                      {category.name}
+                  <option value="">Select a Product</option>
+                  {gettingallproducts?.map((product) => (
+                    <option key={product._id} value={product._id}>
+                      {product.name}
                     </option>
                   ))}
                 </select>
@@ -226,7 +225,7 @@ function Orderpage() {
                 <label>Description</label>
                 <input
                   value={Description}
-                  placeholder="Enter product description"
+                  placeholder="Enter order description"
                   onChange={(e) => setDescription(e.target.value)}
                   type="text"
                   className="w-full h-10 px-2 border-2 rounded-lg mt-2"
@@ -237,7 +236,7 @@ function Orderpage() {
                 <label>Price</label>
                 <input
                   type="number"
-                  placeholder="Enter product price"
+                  placeholder="Enter order price"
                   value={Price}
                   onChange={(e) => setPrice(e.target.value)}
                   className="w-full h-10 px-2 border-2 rounded-lg mt-2"
@@ -248,7 +247,7 @@ function Orderpage() {
                 <label>Quantity</label>
                 <input
                   type="number"
-                  placeholder="Enter product quantity"
+                  placeholder="Enter order quantity"
                   value={quantity}
                   onChange={(e) => setQuantity(e.target.value)}
                   className="w-full h-10 px-2 border-2 rounded-lg mt-2"
@@ -282,26 +281,26 @@ function Orderpage() {
               <tbody>
                 {Array.isArray(displayProducts) &&
                 displayProducts.length > 0 ? (
-                  displayProducts.map((product,index) => (
-                    <tr key={product._id} className="hover:bg-gray-50">
+                  displayProducts.map((order,index) => (
+                    <tr key={order._id} className="hover:bg-gray-50">
                        <td className="px-3 py-2 border">{index+1}</td>
-                      <td className="px-3 py-2 border">{product.name}</td>
+                      <td className="px-3 py-2 border">{order.name}</td>
                       <td className="px-3 py-2 border">
-                        {product.Category?.name || "No Category"}
+                        {order.Category?.name || "No Category"}
                       </td>
                       <td className="px-3 py-2 border">
-                        {product.Description}
+                        {order.Description}
                       </td>
-                      <td className="px-3 py-2 border">${product.Price}</td>
+                      <td className="px-3 py-2 border">${order.Price}</td>
                       <td className="px-4  py-2 border">
                         <button
-                          onClick={() => handleremove(product._id)}
+                          onClick={() => handleremove(order._id)}
                           className="h-10 w-24 bg-red-500 hover:bg-red-700 rounded-md text-white"
                         >
                           Remove
                         </button>
                         <button
-                          onClick={() => handleEditClick(product)}
+                          onClick={() => handleEditClick(order)}
                           className="h-10 w-24 bg-green-500 ml-10 hover:bg-green-700 rounded-md text-white"
                         >
                           Edit
