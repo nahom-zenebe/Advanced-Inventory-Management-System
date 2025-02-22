@@ -31,6 +31,7 @@ function Orderpage() {
   const { getallCategory } = useSelector((state) => state.category);
   const { Authuser, isUserSignup } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const[status,setstatus]=useState(false)
   const [query, setquery] = useState("");
   const [name, setName] = useState("");
   const [Product, setProduct] = useState("");
@@ -111,7 +112,7 @@ function Orderpage() {
   };
 
   
-  const selectedOrder= async (event) => {
+  const submitOrder= async (event) => {
     event.preventDefault();
     const OrderData = { name, Description, Category, Price, quantity };
 
@@ -150,7 +151,7 @@ function Orderpage() {
   
  
 
-  const displayProducts = query.trim() !== "" ? searchdata : getallproduct;
+  const displayProducts = query.trim() !== "" ? searchdata : getorder;
 
   return (
     <div>
@@ -190,20 +191,11 @@ function Orderpage() {
             </div>
 
             <h1 className="text-xl font-semibold mb-4">
-              {selectedOrder ? "Edit Product" : "Add Product"}
+              {selectedOrder ? "Edit Order" : "Add Order"}
             </h1>
 
-            <form onSubmit={selectedOrder ? handleEditSubmit : submitProduct}>
-              <div className="mb-4">
-                <label>Name</label>
-                <input
-                  value={name}
-                  placeholder="Enter order name"
-                  onChange={(e) => setName(e.target.value)}
-                  type="text"
-                  className="w-full h-10 px-2 border-2 rounded-lg mt-2"
-                />
-              </div>
+            <form onSubmit={selectedOrder ? handleEditSubmit : submitOrder}>
+              
 
               <div className="mb-4">
                 <label>Product</label>
@@ -252,6 +244,18 @@ function Orderpage() {
                   onChange={(e) => setQuantity(e.target.value)}
                   className="w-full h-10 px-2 border-2 rounded-lg mt-2"
                 />
+              </div>
+
+              <div className="mb-4">
+              <label>status</label>
+              <select value={status} onChange={(e)=>setstatus(e.target.value)}>
+                <option value={pending}>pending</option>
+                <option value={shipped}>shipped</option>
+                <option value={delivered}>delivered</option>
+        
+              </select>
+
+
               </div>
 
               <button
