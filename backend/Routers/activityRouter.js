@@ -8,7 +8,7 @@ module.exports = (app) => {
 
   if (!io) {
     console.error("Socket.IO is not initialized! Make sure `app.set('io', io)` is called.");
-    return router; // Return an empty router instead of crashing
+    return router;
   }
 
   io.on("connection", (socket) => {
@@ -19,13 +19,13 @@ module.exports = (app) => {
     });
   });
 
-  // Emit new log event
+ 
   const emitNewLog = async (logId) => {
     const log = await ActivityLog.findById(logId).populate("userId").select("-password");
-    io.emit("newActivityLog", log); // Emit to all connected clients
+    io.emit("newActivityLog", log); 
   };
 
-  // Create a new activity log
+  
   router.post('/addLog', async (req, res) => {
     try {
       const newLog = new ActivityLog(req.body);
@@ -47,6 +47,31 @@ module.exports = (app) => {
       res.status(500).json({ message: "Failed to fetch logs", error });
     }
   });
+
+
+
+
+
+  router.delete('/deleteLog', async (req, res) => {
+    try {
+        const { id } = req.body; 
+
+      
+        const deletedLog = await ActivityLog.findByIdAndDelete(id);
+
+        if (!deletedLog) {
+            return res.status(404).json({ message: "Log not found" });
+        }
+
+
+        res.status(200).json({ message: "Log deleted successfully", deletedLog });
+    } catch (error) {
+        res.status(500).json({ message: "Failed to delete log", error: error.message });
+    }
+});
+
+
+
 
   return router;
 };

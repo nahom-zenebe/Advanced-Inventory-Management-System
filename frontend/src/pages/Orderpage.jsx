@@ -2,17 +2,18 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import TopNavbar from "../Components/TopNavbar";
 import { useDispatch, useSelector } from "react-redux";
+import { IoMdAdd } from "react-icons/io";
+import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import { signup } from "../features/authSlice";
 import {
   createdOrder,
   Removedorder,
   updatestatusOrder,
   gettingallOrder,
-  SearchOrder
+  SearchOrder,
 } from "../features/orderSlice";
 
-import{
-gettingallproducts} from "../features/productSlice";
+import { gettingallproducts } from "../features/productSlice";
 import { gettingallCategory } from "../features/categorySlice";
 
 function Orderpage() {
@@ -23,45 +24,32 @@ function Orderpage() {
     isorderremove,
     editorder,
     iseditorder,
-    searchdata
+    searchdata,
   } = useSelector((state) => state.order);
-  const { getallproduct} = useSelector(
-    (state) => state.order
-  );
+  const { getallproduct } = useSelector((state) => state.order);
   const { getallCategory } = useSelector((state) => state.category);
   const { Authuser, isUserSignup } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const[status,setstatus]=useState(false)
+  const [status, setstatus] = useState(false);
   const [query, setquery] = useState("");
-  const [name, setName] = useState("");
   const [Product, setProduct] = useState("");
   const [Price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
   const [Description, setDescription] = useState("");
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-
-
-  
-
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   useEffect(() => {
     dispatch(signup());
     dispatch(gettingallOrder());
     dispatch(gettingallproducts());
     dispatch(gettingallCategory());
-  
-
-
   }, [dispatch]);
 
-
-
-  
   useEffect(() => {
     if (query.trim() !== "") {
       const repeatTimeout = setTimeout(() => {
-        dispatch(  SearchOrder(query));
+        dispatch(SearchOrder(query));
       }, 500);
       return () => clearTimeout(repeatTimeout);
     } else {
@@ -69,12 +57,8 @@ function Orderpage() {
     }
   }, [query, dispatch]);
 
-
- 
-
-
   const handleremove = async (productId) => {
-    dispatch( Removedorder(productId))
+    dispatch(Removedorder(productId))
       .unwrap()
       .then(() => {
         toast.success("Order removed successfully");
@@ -84,26 +68,24 @@ function Orderpage() {
       });
   };
 
-  
   const handleEditSubmit = (event) => {
     event.preventDefault();
 
-    if (!selectedProduct) return;
+    if (!selectedOrder) return;
 
     const updatedData = {
-      name,
-      Category,
+      Product,
       Price,
       quantity,
       Description,
     };
 
-    dispatch(updatestatusOrder({ id: selectedProduct._id, updatedData }))
+    dispatch(updatestatusOrder({ id: selectedOrder._id, updatedData }))
       .unwrap()
       .then(() => {
         toast.success("Order updated successfully");
         setIsFormVisible(false);
-        setSelectedProduct(null);
+        setSelectedOrder(null);
         resetForm();
       })
       .catch(() => {
@@ -111,12 +93,11 @@ function Orderpage() {
       });
   };
 
-  
-  const submitOrder= async (event) => {
+  const submitOrder = async (event) => {
     event.preventDefault();
-    const OrderData = { name, Description, Category, Price, quantity };
+    const OrderData = { Product, Description, Price, quantity, status };
 
-    dispatch(createdOrder(OrderData ))
+    dispatch(createdOrder(OrderData))
       .unwrap()
       .then(() => {
         toast.success("Product added successfully");
@@ -127,40 +108,30 @@ function Orderpage() {
       });
   };
 
-  // Reset form fields
   const resetForm = () => {
-    setName("");
-    setCategory("");
+    setProduct("");
     setPrice("");
     setQuantity("");
     setDescription("");
+    setstatus("");
   };
-  
 
-  // Handle edit button click
   const handleEditClick = (order) => {
-    setSelectedProduct(order);
-    setName(order.name);
-    setCategory(order.Category?._id || "");
+    setSelectedOrder(order);
+    setProduct(order.name);
     setPrice(order.Price);
     setQuantity(order.quantity);
+    setstatus(order.status);
     setDescription(order.Description);
     setIsFormVisible(true);
   };
 
-  
- 
-
-  const displayProducts = query.trim() !== "" ? searchdata : getorder;
+  const displayOrder = query.trim() !== "" ? searchdata : getorder;
 
   return (
     <div>
       <TopNavbar />
 
-
-
-
-      
       <div className="mt-12 ml-5">
         <div className="flex items-center space-x-4">
           <input
@@ -173,7 +144,7 @@ function Orderpage() {
           <button
             onClick={() => {
               setIsFormVisible(true);
-              setSelectedProduct(null);
+              setSelectedOrder(null);
             }}
             className="bg-blue-800 text-white w-40 h-12 rounded-lg flex items-center justify-center"
           >
@@ -195,8 +166,6 @@ function Orderpage() {
             </h1>
 
             <form onSubmit={selectedOrder ? handleEditSubmit : submitOrder}>
-              
-
               <div className="mb-4">
                 <label>Product</label>
                 <select
@@ -247,22 +216,22 @@ function Orderpage() {
               </div>
 
               <div className="mb-4">
-              <label>status</label>
-              <select value={status} onChange={(e)=>setstatus(e.target.value)}>
-                <option value={pending}>pending</option>
-                <option value={shipped}>shipped</option>
-                <option value={delivered}>delivered</option>
-        
-              </select>
-
-
+                <label>status</label>
+                <select
+                  value={status}
+                  onChange={(e) => setstatus(e.target.value)}
+                >
+                  <option value="pending">Pending</option>
+                  <option value="shipped">Shipped</option>
+                  <option value="delivered">Delivered</option>
+                </select>
               </div>
 
               <button
                 type="submit"
                 className="bg-blue-800 text-white w-full h-12 rounded-lg hover:bg-blue-700 mt-4"
               >
-                {selectedProduct ? "Update Product" : "Add Product"}
+                {selectedOrder ? "Update order" : "Add order"}
               </button>
             </form>
           </div>
@@ -274,7 +243,7 @@ function Orderpage() {
             <table className="min-w-full bg-white border mb-24 border-gray-200 rounded-lg shadow-md">
               <thead className="bg-gray-100">
                 <tr>
-                <th className="px-3 py-2 border w-5">#</th>
+                  <th className="px-3 py-2 border w-5">#</th>
                   <th className="px-3 py-2 border">Name</th>
                   <th className="px-3 py-2 border">Category</th>
                   <th className="px-3 py-2 border">Description</th>
@@ -283,18 +252,15 @@ function Orderpage() {
                 </tr>
               </thead>
               <tbody>
-                {Array.isArray(displayProducts) &&
-                displayProducts.length > 0 ? (
-                  displayProducts.map((order,index) => (
+                {Array.isArray(displayOrder) && displayOrder.length > 0 ? (
+                  displayOrder.map((order, index) => (
                     <tr key={order._id} className="hover:bg-gray-50">
-                       <td className="px-3 py-2 border">{index+1}</td>
+                      <td className="px-3 py-2 border">{index + 1}</td>
                       <td className="px-3 py-2 border">{order.name}</td>
                       <td className="px-3 py-2 border">
                         {order.Category?.name || "No Category"}
                       </td>
-                      <td className="px-3 py-2 border">
-                        {order.Description}
-                      </td>
+                      <td className="px-3 py-2 border">{order.Description}</td>
                       <td className="px-3 py-2 border">${order.Price}</td>
                       <td className="px-4  py-2 border">
                         <button
@@ -327,8 +293,5 @@ function Orderpage() {
     </div>
   );
 }
-
-
-
 
 export default Orderpage;

@@ -6,7 +6,7 @@ const Order=require('../models/Ordermodel')
 
 
 
-module.exports.createOrder=async()=>{
+const createOrder=async()=>{
     try {
 
         const { user,Desciption, Product,price, totalAmount, status}=req.body
@@ -51,56 +51,48 @@ module.exports.createOrder=async()=>{
 
 }
 
-
-module.exports.Removeorder=async(req,res)=>{
+const Removeorder = async (req, res) => {
     try {
-        const {OrdertId}=req.params
-        const userId=req.user._id;
-        const ipAddress=req.ip
-        const Deletedorder=await Order.findByIdAndDelete(OrdertId)
-    
-         if(!Deletedorder){
-           return  res.status(404).json({message:"Order is not found!"})
-         }
-    
+        const { OrdertId } = req.params;
+        const userId = req.user._id;
+        const ipAddress = req.ip;
+        const Deletedorder = await Order.findByIdAndDelete(OrdertId);
 
-         await logActivity({
-            action: "Delete order",
-            description: `order  was deleted.`,
-            entity: "order",
-            entityId: deletedProduct._id,
-            userId: userId,
-            ipAddress: ipAddress,
-          });
-
-
-         res.status(200).json({message:"Order delete successfully"})
-    
-            
-        } catch (error) {
-            res.status(500).json({ message: "Error deleting Order", error: error.message });
+        if (!Deletedorder) {
+            return res.status(404).json({ message: "Order is not found!" });
         }
 
+        await logActivity({
+            action: "Delete order",
+            description: `Order was deleted.`,
+            entity: "order",
+            entityId: Deletedorder._id,
+            userId: userId,
+            ipAddress: ipAddress,
+        });
 
-}
+        res.status(200).json({ message: "Order deleted successfully" });
 
-module.exports.getOrder=async(req,res)=>{
-    try {
-      
-     const Orders=await Order.find({})
-     if(!Orders){
-        return res.status(404).json({message:"Orders is not found"})
-     }
-
-     res.status(200).json(Orders)
-
-        
     } catch (error) {
-        res.status(500).json({ message: "Error getting Orders", error: error.message });
+        res.status(500).json({ message: "Error deleting Order", error: error.message });
     }
-}
+};
 
-module.exports.updatestatusOrder=async(req,res)=>{
+
+const getOrder = async (req, res) => {
+    try {
+        const orders = await Order.find({});
+        if (!orders || orders.length === 0) {
+            return res.status(404).json({ message: "No orders found" });
+        }
+
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ message: "Error getting orders", error: error.message });
+    }
+};
+
+const updatestatusOrder=async(req,res)=>{
     try {
         const {OrderId}=req.params
         const {status}=req.body
@@ -132,33 +124,34 @@ module.exports.updatestatusOrder=async(req,res)=>{
     }
 
 }
+const searchOrder = async (req, res) => {
+    try {
+        const { query } = req.query;
 
-module.exports.searchOrder=async()=>{
-    try{
-
-        const {query}=req.query
-        
         if (!query) {
             return res.status(400).json({ message: "Query parameter is required" });
-          }
+        }
 
-        const searchdata=await Order.find({
-            $or:[
-                { Desciption:{$regex:query, $options: "i"}  },
-                {status:{$regex:query,$option:"i"}},
-                {"user.name":{$regex:query,$option:"i"}}
+        const searchdata = await Order.find({
+            $or: [
+                { Desciption: { $regex: query, $options: "i" } },
+                { status: { $regex: query, $options: "i" } },
+                { "user.name": { $regex: query, $options: "i" } }
             ]
-        })
-        
+        });
 
         res.json(searchdata);
 
-        
+    } catch (error) {
+        res.status(500).json({ message: "Error in search Orders", error: error.message });
     }
-
-    catch(error){
-        res.status(500).json({ message: "Error in search  Orders", error: error.message });
-    }
+};
 
 
-}
+module.exports = {
+    createOrder,
+    searchOrder,
+    updatestatusOrder,
+    getOrder,
+    Removeorder
+};
