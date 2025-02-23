@@ -9,12 +9,12 @@ const Order=require('../models/Ordermodel')
 const createOrder=async()=>{
     try {
 
-        const { user,Desciption, Product,price, totalAmount, status}=req.body
+        const { user,Desciption, Product, status}=req.body
         const userId=req.user._id;
         const ipAddress=req.ip
         
 
-         if(!user||!Desciption|| !Product||!price|| !totalAmount||! status){
+         if(!user||!Desciption|| !Product ||! status){
             return res.status(400).json({message:"please provide all neccesary information"})
          }
 
@@ -26,7 +26,7 @@ const createOrder=async()=>{
 
         })
          const newOrder=new Order({
-            user,Desciption, Product,price, totalAmount:totalorderAmount, status,orderDate}
+            user,Desciption, Product, totalAmount:totalorderAmount, status}
          )
 
          await logActivity({

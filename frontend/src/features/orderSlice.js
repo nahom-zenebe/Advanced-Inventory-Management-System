@@ -5,7 +5,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 
 const initialState={
-  getorder:null,
+  getorder:[],
   isgetorder:false,
   isorderadd:true,
   isorderremove:true,
@@ -46,10 +46,10 @@ export const createdOrder=createAsyncThunk('order/createorder',async(order,{reje
 
   
   export const updatestatusOrder = createAsyncThunk(
-    'order/updatestatusOrder/',
-    async ({ id, updatedData }, { rejectWithValue }) => {
+    'order/updatestatusOrder',
+    async ({ OrderId, updatedData }, { rejectWithValue }) => {
       try {
-        const response = await axiosInstance.put(`order/updatestatusOrder/${OrderId}`, { OrderId: id, updatedData }, { withCredentials: true });
+        const response = await axiosInstance.put(`order/updatestatusOrder/${OrderId}`, { OrderId, updatedData }, { withCredentials: true });
         return response.data;
       } catch (error) {
         return rejectWithValue(error.response?.data?.message || "Product edit failed");
@@ -59,14 +59,12 @@ export const createdOrder=createAsyncThunk('order/createorder',async(order,{reje
 
 
 
-  export const SearchOrder=createAsyncThunk('order/Searchdata"',async(query,{rejectWithValue})=>{
+  export const SearchOrder=createAsyncThunk('order/Searchdata',async (query, { rejectWithValue }) => {
     try {
-       const response=await axiosInstance.get(`order/Searchdata"?query=${query}`,query,{ withCredentials: true,})
-       return response.data;
-  
-      
+      const response = await axiosInstance.get(`order/Searchdata?query=${query}`, { withCredentials: true });
+      return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "order getting failed");
+      return rejectWithValue(error.response?.data?.message || "Order getting failed");
     }
   })
 
@@ -74,14 +72,14 @@ export const createdOrder=createAsyncThunk('order/createorder',async(order,{reje
 
 
 
-  export const gettingallOrder=createAsyncThunk('product/getproduct',async(_,{rejectWithValue})=>{
+  export const gettingallOrder=createAsyncThunk('order/getorders',async(_,{rejectWithValue})=>{
     try {
-       const response=await axiosInstance.get("product/getproduct",{ withCredentials: true,})
+       const response=await axiosInstance.get("order/getorders",{ withCredentials: true,})
        return response.data;
   
       
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Product getting failed");
+      return rejectWithValue(error.response?.data?.message || "order getting failed");
     }
   })
 
@@ -112,8 +110,8 @@ extraReducers:(builder)=>{
   
   })
   .addCase(gettingallOrder.fulfilled, (state, action) => {
-    state. isgetorder = false;
-    state.getorder = action.payload.Orders || [];
+    state.isgetorder = false;
+    state.getorder = action.payload; 
     toast.success("Orders fetched successfully");
   })
   

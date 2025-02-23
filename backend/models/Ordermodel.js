@@ -36,10 +36,7 @@ const OrderSchema= new mongoose.Schema({
     type:String,
     enum:["pending","shipped","delivered"]
    },
-   orderDate:{
-    type:Date,
-    default:Date.now
-   },
+   
    invoiceUrl:{
     type:String
 },

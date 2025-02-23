@@ -26,7 +26,7 @@ function Orderpage() {
     iseditorder,
     searchdata,
   } = useSelector((state) => state.order);
-  const { getallproduct } = useSelector((state) => state.order);
+  const { getallproduct } = useSelector((state) => state.product);
   const { getallCategory } = useSelector((state) => state.category);
   const { Authuser, isUserSignup } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -39,12 +39,17 @@ function Orderpage() {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
 
+  
+
   useEffect(() => {
     dispatch(signup());
     dispatch(gettingallOrder());
+    console.log(getorder);
     dispatch(gettingallproducts());
     dispatch(gettingallCategory());
   }, [dispatch]);
+
+
 
   useEffect(() => {
     if (query.trim() !== "") {
