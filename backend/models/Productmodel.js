@@ -12,7 +12,7 @@ const ProductSchema= new mongoose.Schema({
     },
     Desciption:{
         type:String,
-        require:true,
+        required:true,
 
     },
     Category:{
@@ -21,7 +21,7 @@ const ProductSchema= new mongoose.Schema({
     }, 
     Price:{
         type:Number,
-        require:true,
+        required:true,
         
     
     },

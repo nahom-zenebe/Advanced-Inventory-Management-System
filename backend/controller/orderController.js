@@ -81,7 +81,10 @@ const Removeorder = async (req, res) => {
 
 const getOrder = async (req, res) => {
     try {
-        const orders = await Order.find({});
+        const orders = await Order.find({})
+  .populate("Product.product", "name price ") // Populating the product information
+  .populate("user", "name email"); // Populating user details (make sure the user references exist)
+
         if (!orders || orders.length === 0) {
             return res.status(404).json({ message: "No orders found" });
         }
@@ -91,6 +94,8 @@ const getOrder = async (req, res) => {
         res.status(500).json({ message: "Error getting orders", error: error.message });
     }
 };
+
+
 
 const updatestatusOrder=async(req,res)=>{
     try {

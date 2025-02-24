@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { IoMdAdd } from "react-icons/io";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import { signup } from "../features/authSlice";
+import FormattedTime from "../lib/FormattedTime ";
 import {
   createdOrder,
   Removedorder,
@@ -48,6 +49,8 @@ function Orderpage() {
     dispatch(gettingallproducts());
     dispatch(gettingallCategory());
   }, [dispatch]);
+
+  console.log(getorder);
 
 
 
@@ -249,48 +252,59 @@ function Orderpage() {
               <thead className="bg-gray-100">
                 <tr>
                   <th className="px-3 py-2 border w-5">#</th>
-                  <th className="px-3 py-2 border">Name</th>
-                  <th className="px-3 py-2 border">Category</th>
-                  <th className="px-3 py-2 border">Description</th>
+                  <th className="px-3 py-2 border">Desciptiona</th>
+                  <th className="px-3 py-2 border">Product Id</th>
+                  <th className="px-3 py-2 border">qunatity</th>
                   <th className="px-3 py-2 border">Price</th>
-                  <th className="px-3 py-2 w-72 border">Operations</th>
+                  <th className="px-3 py-2  border">totalAmount</th>
+                  <th className="px-3 py-2  border">status</th>
+                  <th className="px-3 py-2 border">time stamp</th>
+                  <th className="px-3 py-2 border">Operations</th>
                 </tr>
               </thead>
               <tbody>
-                {Array.isArray(displayOrder) && displayOrder.length > 0 ? (
-                  displayOrder.map((order, index) => (
-                    <tr key={order._id} className="hover:bg-gray-50">
-                      <td className="px-3 py-2 border">{index + 1}</td>
-                      <td className="px-3 py-2 border">{order.name}</td>
-                      <td className="px-3 py-2 border">
-                        {order.Category?.name || "No Category"}
-                      </td>
-                      <td className="px-3 py-2 border">{order.Description}</td>
-                      <td className="px-3 py-2 border">${order.Price}</td>
-                      <td className="px-4  py-2 border">
-                        <button
-                          onClick={() => handleremove(order._id)}
-                          className="h-10 w-24 bg-red-500 hover:bg-red-700 rounded-md text-white"
-                        >
-                          Remove
-                        </button>
-                        <button
-                          onClick={() => handleEditClick(order)}
-                          className="h-10 w-24 bg-green-500 ml-10 hover:bg-green-700 rounded-md text-white"
-                        >
-                          Edit
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="5" className="text-center py-4">
-                      No Order found.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
+  {Array.isArray(displayOrder) && displayOrder.length > 0 ? (
+    displayOrder.map((order, index) => (
+      // Map over the products in each order
+      order.Product.map((product, productIndex) => (
+        <tr key={product._id} className="hover:bg-gray-50">
+          <td className="px-3 py-2 border">{index + 1}</td>
+          <td className="px-3 py-2 border">{order.Desciption}</td>
+          <td className="px-3 py-2 border">{product.product}</td> {/* Product ID or name */}
+          <td className="px-3 py-2 border">{product.quantity}</td>
+          <td className="px-3 py-2 border">${product.price}</td>
+          <td className="px-3 py-2 border">{order.totalAmount}</td>
+          <td className="px-3 py-2 border">{order.status}</td>
+          <td className="px-3 py-2 border">
+            <FormattedTime timestamp={order.createdAt} />
+          </td>
+
+          <td className="px-4 py-2 border">
+            <button
+              onClick={() => handleremove(order._id)}
+              className="h-10 w-24 bg-red-500 hover:bg-red-700 rounded-md text-white"
+            >
+              Remove
+            </button>
+            <button
+              onClick={() => handleEditClick(order)}
+              className="h-10 w-24 bg-green-500 ml-10 hover:bg-green-700 rounded-md text-white"
+            >
+              Edit
+            </button>
+          </td>
+        </tr>
+      ))
+    ))
+  ) : (
+    <tr>
+      <td colSpan="5" className="text-center py-4">
+        No Order found.
+      </td>
+    </tr>
+  )}
+</tbody>
+
             </table>
           </div>
         </div>
