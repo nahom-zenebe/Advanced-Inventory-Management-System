@@ -1,61 +1,58 @@
+const Order = require('../models/Ordermodel');
+const logActivity = require('../libs/logger');
 
-const Order=require('../models/Ordermodel')
-
-
-
-
-
-
-const createOrder=async()=>{
+const createOrder = async (req, res) => {
     try {
+        const { user, Description, Product, status } = req.body;
+     
+        const userId = req.user._id;
+        const ipAddress = req.ip;
 
-        const { user,Desciption, Product, status}=req.body
-        const userId=req.user._id;
-        const ipAddress=req.ip
-        
+      
+        if (!user || !Description || !Product || !status) {
+            return res.status(400).json({ message: "Please provide all necessary information" });
+        }
 
-         if(!user||!Desciption|| !Product ||! status){
-            return res.status(400).json({message:"please provide all neccesary information"})
-         }
-
-        let totalorderAmount=0
-
-        Product.forEach((item)=>{
-            totalorderAmount+=item.quantity *item.price
-
-
-        })
-         const newOrder=new Order({
-            user,Desciption, Product, totalAmount:totalorderAmount, status}
-         )
-
-         await logActivity({
-
-            action:"Add Order",
-             description:`Order  was created`,
-             entity:"order",
-             entityId:newOrder._id,
-             userId:userId,
-             ipAddress:ipAddress,
        
-               })
-         
-         await newOrder.save()
-         res.status(201).json(newOrder)
-        
+        const totalOrderAmount = Product.quantity * Product.price; 
+
+        // Create a new order
+        const newOrder = new Order({
+            user,
+            Description,
+            Product,
+            totalAmount: totalOrderAmount,
+            status
+        });
+
+        // Log the activity (if necessary)
+        await logActivity({
+            action: "Add Order",
+            description: `Order was created`,
+            entity: "order",
+            entityId: newOrder._id,
+            userId: userId,
+            ipAddress: ipAddress,
+        });
+
+        // Save the order to the database
+        await newOrder.save();
+
+        // Respond with the new order
+        res.status(201).json(newOrder);
+
     } catch (error) {
         res.status(500).json({ message: "Error in creating order", error: error.message });
-
-
     }
+};
 
-}
 
 const Removeorder = async (req, res) => {
     try {
         const { OrdertId } = req.params;
         const userId = req.user._id;
         const ipAddress = req.ip;
+        
         const Deletedorder = await Order.findByIdAndDelete(OrdertId);
 
         if (!Deletedorder) {
@@ -97,38 +94,52 @@ const getOrder = async (req, res) => {
 
 
 
-const updatestatusOrder=async(req,res)=>{
+ 
+const updatestatusOrder = async (req, res) => {
     try {
-        const {OrderId}=req.params
-        const {status}=req.body
-        const userId=req.user._id;
-        const ipAddress=req.ip
-        const updateorder=await Order.findByIdAndUpdate(OrderId,status,{new:true})
-
-            if(!updateorder)
-                {
-                    return  res.status(400).json({message:"order is not found"})
-
-                }
-                
+        const { OrderId } = req.params;
+        const { status, Product } = req.body; 
+        const userId = req.user._id;
+        const ipAddress = req.ip;
 
 
-        await logActivity({
-          action: "Update Order",
-          description: `Order  was updated.`,
-          entity: "order",
-          entityId: updateorder._id,
-          userId: userId,
-          ipAddress: ipAddress,
+        const order = await Order.findById(OrderId);
+
+        if (!order) {
+            return res.status(400).json({ message: "Order not found" });
+        }
+
+      
+        let totalAmount = 0;
+        Product.forEach((item) => {
+            totalAmount += item.quantity * item.price; 
         });
-                res.status(200).json({message:"order successfully updated"})
+
+      
+        order.status = status || order.status; 
+        order.Product = Product || order.Product;
+        order.totalAmount = totalAmount; 
 
 
+        await order.save();
+
+        
+        await logActivity({
+            action: "Update Order",
+            description: `Order was updated with new total amount.`,
+            entity: "order",
+            entityId: order._id,
+            userId: userId,
+            ipAddress: ipAddress,
+        });
+
+        
+        res.status(200).json({ message: "Order successfully updated", order });
     } catch (error) {
-        res.status(500).json({ message: "Error in update status Orders", error: error.message });
+        res.status(500).json({ message: "Error in updating order status", error: error.message });
     }
+};
 
-}
 const searchOrder = async (req, res) => {
     try {
         const { query } = req.query;

@@ -46,41 +46,75 @@ function ProfilePage() {
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900">
       <TopNavbar />
-      <div className="flex flex-col items-center pt-10">
-        <h1 className="text-3xl font-semibold mb-6">Profile Information</h1>
+      <div className="container mx-auto px-6 py-12">
 
-        {/* Profile Image Section */}
-        <div className="relative">
-          <img
-            className="border-4 border-gray-300 h-32 w-32 rounded-full object-cover shadow-lg"
-            src={user.ProfilePic || image}
-            alt="Profile"
-          />
+        <div className="flex mt-8">
+          <div className="bg-white w-72 rounded-xl shadow-lg p-6 text-center">
+            <div className="relative mb-6">
+              <img
+                className="border-4 ml-16 border-blue-500 h-32 w-32 rounded-full object-cover shadow-lg"
+                src={user.ProfilePic || image}
+                alt="Profile"
+              />
+              <input type="file" id="fileInput" className="hidden" accept="image/*" onChange={handleImageChange} />
+              <label htmlFor="fileInput" className="absolute bottom-2 right-12 bg-blue-600 p-2 rounded-full cursor-pointer hover:bg-blue-700 transition">
+                <IoCameraOutline className="text-white text-lg" />
+              </label>
+            </div>
 
-          <input type="file" id="fileInput" className="hidden" accept="image/*" onChange={handleImageChange} />
+            <div className="flex mt-4 ml-12">
+              <label className="flex text-gray-600 text-sm font-semibold">Name:</label>
+              <p className="text-gray-900 text-lg font-medium">{Authuser?.savedUser?.name}</p>
+            </div>
 
-          <label htmlFor="fileInput" className="absolute bottom-2 right-2 bg-gray-600 p-2 rounded-full cursor-pointer hover:bg-gray-700 transition">
-            <IoCameraOutline className="text-white text-lg" />
-          </label>
+            <div className="mt-6 flex ml-12">
+              <label className="flex text-gray-600 text-sm font-semibold">Email:</label>
+              <p className="text-gray-900 text-lg font-medium">{Authuser?.savedUser?.email}</p>
+            </div>
+
+            <div className="mt-6 flex ml-12">
+              <label className="flex text-gray-600 text-sm font-semibold">Role:</label>
+              <p className="text-gray-900 text-lg font-medium capitalize">{Authuser?.savedUser?.role}</p>
+            </div>
+          </div>
+
+          <div className="bg-gray-200 rounded-xl flex justify-around h-96 pt-10 w-5/6 ml-10">
+            <div className="bg-gray-50 w-56 h-40 rounded-lg shadow-md"></div>
+            <div className="bg-gray-50 w-56 h-40 rounded-lg shadow-md"></div>
+            <div className="bg-gray-50 w-56 h-40 rounded-lg shadow-md"></div>
+          </div>
         </div>
 
-        {/* User Information Section */}
-        <div className="bg-white shadow-md rounded-lg p-6 mt-6 w-full max-w-md">
-          <div className="mb-4">
-            <label className="block text-gray-600 text-sm font-semibold">Name</label>
-            <p className="text-gray-900 text-lg font-medium">{user.name}</p>
-          </div>
+        <div className="mt-10 bg-white p-8 rounded-lg shadow-lg text-center">
+          <h2 className="text-xl font-bold text-gray-800 mb-4">Contact Information</h2>
+          <div className="space-y-4">
+            <div>
+              <label className="text-gray-600 text-sm font-semibold">Phone:</label>
+              <p className="text-gray-900 text-lg font-medium">(123) 456-7890</p>
+            </div>
 
-          <div className="mb-4">
-            <label className="block text-gray-600 text-sm font-semibold">Email</label>
-            <p className="text-gray-900 text-lg font-medium">{user.email}</p>
-          </div>
+            <div>
+              <label className="text-gray-600 text-sm font-semibold">Address:</label>
+              <p className="text-gray-900 text-lg font-medium">123 Main Street, City, Country</p>
+            </div>
 
-          <div>
-            <label className="block text-gray-600 text-sm font-semibold">Role</label>
-            <p className="text-gray-900 text-lg font-medium capitalize">{user.role}</p>
+            <div>
+              <label className="text-gray-600 text-sm font-semibold">Social Media:</label>
+              <div className="flex justify-center space-x-4">
+                <a href="#" className="text-blue-600 hover:text-blue-800">
+                  <i className="fab fa-facebook-square text-2xl"></i>
+                </a>
+                <a href="#" className="text-pink-500 hover:text-pink-700">
+                  <i className="fab fa-instagram text-2xl"></i>
+                </a>
+                <a href="#" className="text-blue-400 hover:text-blue-600">
+                  <i className="fab fa-twitter text-2xl"></i>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
   );

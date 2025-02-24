@@ -40,17 +40,11 @@ function Orderpage() {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
 
-  
-
   useEffect(() => {
-    dispatch(signup());
     dispatch(gettingallOrder());
-    console.log(getorder);
     dispatch(gettingallproducts());
     dispatch(gettingallCategory());
   }, [dispatch]);
-
-  console.log(getorder);
 
 
 
@@ -65,27 +59,16 @@ function Orderpage() {
     }
   }, [query, dispatch]);
 
-  const handleremove = async (productId) => {
-    dispatch(Removedorder(productId))
-      .unwrap()
-      .then(() => {
-        toast.success("Order removed successfully");
-      })
-      .catch((error) => {
-        toast.error(error || "Failed to remove Order");
-      });
-  };
-
   const handleEditSubmit = (event) => {
     event.preventDefault();
 
     if (!selectedOrder) return;
 
     const updatedData = {
-      Product,
-      Price,
-      quantity,
+      user: Authuser.savedUser.id || " ",
       Description,
+      status,
+      Product,
     };
 
     dispatch(updatestatusOrder({ id: selectedOrder._id, updatedData }))
@@ -103,7 +86,18 @@ function Orderpage() {
 
   const submitOrder = async (event) => {
     event.preventDefault();
-    const OrderData = { Product, Description, Price, quantity, status };
+
+    const Productvalue = {
+      product: Product,
+      quantity: Number(quantity),
+      price: Number(Price),
+    };
+    const OrderData = {
+      user: Authuser.savedUser.id || " ",
+      Product: Productvalue,
+      Description,
+      status,
+    };
 
     dispatch(createdOrder(OrderData))
       .unwrap()
@@ -132,6 +126,17 @@ function Orderpage() {
     setstatus(order.status);
     setDescription(order.Description);
     setIsFormVisible(true);
+  };
+
+  const handleremove = async (OrderId) => {
+    dispatch( Removedorder(OrderId))
+      .unwrap()
+      .then(() => {
+        toast.success("Order removed successfully");
+      })
+      .catch((error) => {
+        toast.error(error || "Failed to remove Order");
+      });
   };
 
   const displayOrder = query.trim() !== "" ? searchdata : getorder;
@@ -182,7 +187,7 @@ function Orderpage() {
                   className="w-full h-10 px-2 border-2 rounded-lg mt-2"
                 >
                   <option value="">Select a Product</option>
-                  {gettingallproducts?.map((product) => (
+                  {getallproduct?.map((product) => (
                     <option key={product._id} value={product._id}>
                       {product.name}
                     </option>
@@ -224,8 +229,9 @@ function Orderpage() {
               </div>
 
               <div className="mb-4">
-                <label>status</label>
+                <label className="block">status</label>
                 <select
+                  className="mt-3 w-72 h-10 mb-6"
                   value={status}
                   onChange={(e) => setstatus(e.target.value)}
                 >
@@ -263,48 +269,52 @@ function Orderpage() {
                 </tr>
               </thead>
               <tbody>
-  {Array.isArray(displayOrder) && displayOrder.length > 0 ? (
-    displayOrder.map((order, index) => (
-      // Map over the products in each order
-      order.Product.map((product, productIndex) => (
-        <tr key={product._id} className="hover:bg-gray-50">
-          <td className="px-3 py-2 border">{index + 1}</td>
-          <td className="px-3 py-2 border">{order.Desciption}</td>
-          <td className="px-3 py-2 border">{product.product}</td> {/* Product ID or name */}
-          <td className="px-3 py-2 border">{product.quantity}</td>
-          <td className="px-3 py-2 border">${product.price}</td>
-          <td className="px-3 py-2 border">{order.totalAmount}</td>
-          <td className="px-3 py-2 border">{order.status}</td>
-          <td className="px-3 py-2 border">
-            <FormattedTime timestamp={order.createdAt} />
-          </td>
+                {Array.isArray(displayOrder) && displayOrder.length > 0 ? (
+           
+                  displayOrder.map((order, index) => (
+                  
 
-          <td className="px-4 py-2 border">
-            <button
-              onClick={() => handleremove(order._id)}
-              className="h-10 w-24 bg-red-500 hover:bg-red-700 rounded-md text-white"
-            >
-              Remove
-            </button>
-            <button
-              onClick={() => handleEditClick(order)}
-              className="h-10 w-24 bg-green-500 ml-10 hover:bg-green-700 rounded-md text-white"
-            >
-              Edit
-            </button>
-          </td>
-        </tr>
-      ))
-    ))
-  ) : (
-    <tr>
-      <td colSpan="5" className="text-center py-4">
-        No Order found.
-      </td>
-    </tr>
-  )}
-</tbody>
-
+                    <tr key={order._id} className="hover:bg-gray-50">
+                      <td className="px-3 py-2 border">{index + 1}</td>
+                      <td className="px-3 py-2 border">{order.Desciption}</td>
+                      <td className="px-3 py-2 border">book</td>{" "}
+                      {/* Product ID or name */}
+                      <td className="px-3 py-2 border">
+                        {order.Product.quantity}
+                      </td>
+                      <td className="px-3 py-2 border">
+                        ${order.Product.price}
+                      </td>
+                      <td className="px-3 py-2 border">{order.totalAmount}</td>
+                      <td className="px-3 py-2 border">{order.status}</td>
+                      <td className="px-3 py-2 border">
+                        <FormattedTime timestamp={order.createdAt} />
+                      </td>
+                      <td className="px-4 py-2 border">
+                        <button
+                          onClick={() => handleremove(order._id)}
+                          className="h-10 w-24 bg-red-500 hover:bg-red-700 rounded-md text-white"
+                        >
+                          Remove
+                        </button>
+    
+                        <button
+                          onClick={() => handleEditClick(order)}
+                          className="h-10 w-24 bg-green-500 ml-10 hover:bg-green-700 rounded-md text-white"
+                        >
+                          Edit
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="5" className="text-center py-4">
+                      No Order found.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
             </table>
           </div>
         </div>

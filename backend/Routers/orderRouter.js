@@ -14,9 +14,9 @@ const {
 } = require("../middleware/Authmiddleware");
 
 router.post("/createorder", authmiddleware, createOrder);
-router.get("/getorders", getOrder);
+router.get("/getorders", authmiddleware, getOrder);
 router.delete("/removeorder/:OrdertId", authmiddleware, Removeorder);
-router.put("/updatestatusOrder/:OrderId", authmiddleware, updatestatusOrder);
+router.put("/updatestatusOrder/:OrderId", authmiddleware,updatestatusOrder);
 router.get("/Searchdata", authmiddleware, searchOrder);
 
 module.exports = router;

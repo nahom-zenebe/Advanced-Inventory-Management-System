@@ -47,6 +47,7 @@ const hashedpassword=await bcrypt.hash(password,10)
     res.status(201).json({
         message:"Signup successfully",
         savedUser:{
+          id: savedUser._id, 
             name:savedUser.name,
             email:savedUser.email,
             role:savedUser.role,

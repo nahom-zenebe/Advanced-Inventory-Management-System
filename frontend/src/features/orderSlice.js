@@ -33,13 +33,14 @@ export const createdOrder=createAsyncThunk('order/createorder',async(order,{reje
   })
 
 
-  export const Removedorder=createAsyncThunk('order/removeorder',async(OrderId,{rejectWithValue})=>{
+  export const Removedorder=createAsyncThunk('order/removeorder/',async(OrderId,{rejectWithValue})=>{
     try {
        const response=await axiosInstance.delete(`order/removeorder/${OrderId}`,OrderId,{ withCredentials: true,})
        return response.data;
   
       
     } catch (error) {
+      console.log(error)
       return rejectWithValue(error.response?.data?.message || "Order remove failed");
     }
   })
@@ -52,6 +53,7 @@ export const createdOrder=createAsyncThunk('order/createorder',async(order,{reje
         const response = await axiosInstance.put(`order/updatestatusOrder/${OrderId}`, { OrderId, updatedData }, { withCredentials: true });
         return response.data;
       } catch (error) {
+       
         return rejectWithValue(error.response?.data?.message || "Product edit failed");
       }
     }
@@ -131,7 +133,7 @@ extraReducers:(builder)=>{
 
   .addCase(createdOrder.fulfilled, (state, action) => {
     state.isorderadd = false;
-    state.getorder = state.getorder.filter(order => order._id !== action.meta.arg);
+    state.getorder.push(action.payload);
     toast.success("Order removed successfully");
   })
   
@@ -149,11 +151,10 @@ extraReducers:(builder)=>{
     state.isorderremove=true
   
   })
-  .addCase(Removedorder.fulfilled,(state,action)=>{
-   state.isorderremove=false
-
-   toast.success( 'Order remove successfully');
- 
+  .addCase(Removedorder.fulfilled, (state, action) => {
+    state.isorderremove = false;
+    state.getorder = state.getorder.filter(order => order._id !== action.meta.arg);
+    toast.success('Order removed successfully');
   })
   
  
