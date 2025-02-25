@@ -2,11 +2,12 @@ import React from 'react';
 import { FaRegCircleUser } from "react-icons/fa6";
 import { HiDotsVertical } from "react-icons/hi";
 import {  useSelector } from "react-redux";
+import image from "../images/user.png";
 import { Link } from 'react-router-dom';
 function TopNavbar() {
   const { Authuser, isUserSignup } = useSelector((state) => state.auth);
 
-
+console.log(Authuser)
 
 
   return (
@@ -16,10 +17,15 @@ function TopNavbar() {
 
         <div className='flex items-center space-x-4'>
           <div className='flex items-center space-x-4'>
-       <Link to='/ManagerDashboard/Profilepage'>    <FaRegCircleUser  className='text-gray-600 text-3xl' /></Link> 
+       <Link to='/ManagerDashboard/Profilepage'>  
+       <img
+                className="border-4  border-blue-500 h-10 w-10 rounded-full object-cover shadow-lg"
+                src={ Authuser?.ProfilePic || image}
+                alt="Profile"
+              /></Link> 
             <div className='text-left'>
-              <h1 className='text-gray-800 font-medium'>{Authuser?.savedUser?.name ||  "Guest"}</h1>
-              <p className='text-gray-500 text-sm'>{Authuser?.savedUser?.role || "Visitor"}</p>
+              <h1 className='text-gray-800 font-medium'>{Authuser?.name ||  "Guest"}</h1>
+              <p className='text-gray-500 text-sm'>{Authuser?.role || "Visitor"}</p>
             </div>
           </div>
           <HiDotsVertical className='text-gray-600 text-xl cursor-pointer' />

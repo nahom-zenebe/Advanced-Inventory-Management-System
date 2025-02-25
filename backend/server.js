@@ -3,7 +3,7 @@ const { MongoDBconfig } = require('./libs/mongoconfig');
 const { Server } = require("socket.io");
 const http = require("http");
 const cors = require('cors');
-const cookieParser = require('cookie-parser');
+const cookieParser = require("cookie-parser");
 const authrouter = require('./Routers/authRouther');
 const productrouter = require('./Routers/ProductRouter');
 const orderrouter = require('./Routers/orderRouter');
@@ -24,21 +24,20 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST","PUT","DELETE"],
     credentials: true,
   },
 });
 
 app.use(cors({
   origin: 'http://localhost:3000',
-  methods: ['GET', 'POST'],
+  methods: ["GET", "POST","PUT","DELETE"],
   credentials: true,
 }));
 
 app.use(express.json());
 app.set("io", io);
 app.use(cookieParser());
-
 app.use('/api/auth', authrouter);
 app.use('/api/product', productrouter);
 app.use('/api/order', orderrouter);

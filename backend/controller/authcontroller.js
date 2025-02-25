@@ -6,64 +6,67 @@ const logActivity = require('../libs/logger');
 
 
 
-module.exports.signup=async(req,res)=>{
-    try {
-    const{name,email, password,ProfilePic,role}=req.body
+module.exports.signup = async (req, res) => {
+  try {
+    const { name, email, password, ProfilePic, role } = req.body;
 
-const duplicatedUser=await User.findOne({email})
-if(duplicatedUser){
+  
+    const duplicatedUser = await User.findOne({ email });
+    if (duplicatedUser) {
+      return res.status(400).json({ error: "User already exists" });
+    }
 
-   return  res.status(400).json({error:"User already exsits"})
-}
+
+    const hashedpassword = await bcrypt.hash(password, 10);
 
 
-const hashedpassword=await bcrypt.hash(password,10)
+
+
+
+    const newUser = new User({
+      name,
+      email,
+      password: hashedpassword,
+      ProfilePic,
+      role,
+    });
+
+
+    const savedUser = await newUser.save();
+    const token = await generateToken(savedUser, res);
 
    
    
-    const newUser=new User({
-        name,email, password:hashedpassword,ProfilePic
-        ,role,
-    })
-    const ipAddress = req.ip; 
-    const savedUser=await newUser.save();
 
-    const token=await generateToken(savedUser._id,res)
 
+    res.status(201).json({
+      message: "Signup successful",
+      savedUser: {
+        id: savedUser._id,
+        name: savedUser.name,
+        email: savedUser.email,
+        role: savedUser.role,
+        ProfilePic: savedUser.ProfilePic,
+        token,
+       
+      },
+    });
 
     await logActivity({
       action: "User Signup",
       description: `User ${name} signed up.`,
       entity: "user",
       entityId: savedUser._id,
-      userId: savedUser._id, 
-      ipAddress: ipAddress,
+      userId: savedUser._id,
+      ipAddress: req.ip,
     });
 
 
-
-
-
-    res.status(201).json({
-        message:"Signup successfully",
-        savedUser:{
-          id: savedUser._id, 
-            name:savedUser.name,
-            email:savedUser.email,
-            role:savedUser.role,
-            token,
-            ProfilePic:savedUser.ProfilePic
-        }
-    })
-    } 
-    catch (error) {
-     res.status(400).json({
-        error:"Error in Signup to the page "+ error.message
-     }) 
-    }
-}
-
-
+  } catch (error) {
+    console.error("Error during signup:", error.message);
+    res.status(400).json({ error: "Error during signup: " + error.message });
+  }
+};
 
 
 
@@ -87,7 +90,7 @@ module.exports.login=async(req,res)=>{
             return res.status(400).json({message:'Invalid credentials'})
         }
 
-        const token=await generateToken(duplicatedUser._id,res)
+        const token=await generateToken(duplicatedUser,res)
 
 
 
@@ -126,7 +129,7 @@ module.exports.login=async(req,res)=>{
 
 module.exports.logout=async(req,res)=>{
   try {
-     res.cookie("Jobpostingapp",'',{maxAge:0})
+     res.cookie("Inventorymanagmentsystem",'',{maxAge:0})
        res.status(200).json({message:"Logged out successfully"})
 
   } catch (error) {
@@ -167,7 +170,7 @@ module.exports.updateProfile = async (req, res) => {
       await logActivity({
         action: "Update Profile",
         description: `User "${updatedUser.name}" updated their profile.`,
-        entity: "User",
+        entity: "user",
         entityId: updatedUser._id,
         userId: updatedUser._id, 
         ipAddress: ipAddress,

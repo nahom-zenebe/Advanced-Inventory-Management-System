@@ -2,46 +2,64 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import TopNavbar from "../Components/TopNavbar";
 import { IoCameraOutline } from "react-icons/io5";
-import userPlaceholder from "../images/user.png";
+import image from "../images/user.png";
 import { updateProfile } from "../features/authSlice";
 import toast from "react-hot-toast";
 
 function ProfilePage() {
   const dispatch = useDispatch();
-  const { Authuser, updatenewProfile } = useSelector((state) => state.auth);
-  const [image, setImage] = useState(userPlaceholder);
+  const { Authuser,  } = useSelector((state) => state.auth);
+  const [images, setImage] = useState(null);
+
+
 
   useEffect(() => {
-    if (Authuser) {
-      console.log("User authenticated:", Authuser);
+    const userData = JSON.parse(localStorage.getItem('authUser'));
+    if (userData) {
+      dispatch({ type: 'auth/setAuthUser', payload: userData });
     }
-  }, [Authuser]);
+  }, [dispatch]);
 
-  const handleImageChange = async (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-
+  const handleImageUpload = async (e) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+    if (!file) {
+      toast.error('No file selected');
+      return;
+    }
+  
     const reader = new FileReader();
     reader.readAsDataURL(file);
-
-    reader.onloadend = () => {
-      const base64Image = reader.result;
-      setImage(base64Image);
-
-      dispatch(updateProfile(base64Image))
-        .unwrap()
-        .then(() => toast.success("Profile updated successfully!"))
-        .catch(() => toast.error("Failed to update profile image."));
+  
+    reader.onload = async () => {
+      const base64Image = reader.result.split(',')[1]; 
+  
+      try {
+        const response = await dispatch(updateProfile(base64Image)).unwrap(); 
+        toast.success('Profile updated successfully');
+        setImage(response.updatedUser.ProfilePic); 
+      } catch (error) {
+        console.error('Error uploading image:', error);
+        toast.error('Failed to upload image. Please try again.');
+      }
+    };
+  
+    reader.onerror = () => {
+      toast.error('Error reading file');
     };
   };
 
-  // Get user data from state (updated profile or fallback)
-  const user = updatenewProfile?.updatedUser || Authuser || {
-    name: "Guest",
-    email: "guest@gmail.com",
-    role: "Role",
-    ProfilePic: userPlaceholder,
-  };
+
+
+
+
+
+
+
+  
+  
+
+  
 
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900">
@@ -53,10 +71,10 @@ function ProfilePage() {
             <div className="relative mb-6">
               <img
                 className="border-4 ml-16 border-blue-500 h-32 w-32 rounded-full object-cover shadow-lg"
-                src={user.ProfilePic || image}
+                src={Authuser?.ProfilePic||images || image}
                 alt="Profile"
               />
-              <input type="file" id="fileInput" className="hidden" accept="image/*" onChange={handleImageChange} />
+              <input type="file" id="fileInput" className="hidden" accept="image/*" onChange={handleImageUpload} />
               <label htmlFor="fileInput" className="absolute bottom-2 right-12 bg-blue-600 p-2 rounded-full cursor-pointer hover:bg-blue-700 transition">
                 <IoCameraOutline className="text-white text-lg" />
               </label>
@@ -64,17 +82,17 @@ function ProfilePage() {
 
             <div className="flex mt-4 ml-12">
               <label className="flex text-gray-600 text-sm font-semibold">Name:</label>
-              <p className="text-gray-900 text-lg font-medium">{Authuser?.savedUser?.name}</p>
+              <p className="text-gray-900 text-lg font-medium">{Authuser?.name || "Guest"}</p>
             </div>
 
             <div className="mt-6 flex ml-12">
               <label className="flex text-gray-600 text-sm font-semibold">Email:</label>
-              <p className="text-gray-900 text-lg font-medium">{Authuser?.savedUser?.email}</p>
+              <p className="text-gray-900 text-lg font-medium">{Authuser?.email|| "Guest@gmail.com"}</p>
             </div>
 
             <div className="mt-6 flex ml-12">
               <label className="flex text-gray-600 text-sm font-semibold">Role:</label>
-              <p className="text-gray-900 text-lg font-medium capitalize">{Authuser?.savedUser?.role}</p>
+              <p className="text-gray-900 text-lg font-medium capitalize">{Authuser?.role||"staff"}</p>
             </div>
           </div>
 
