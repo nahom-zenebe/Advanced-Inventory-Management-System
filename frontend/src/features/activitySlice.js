@@ -7,6 +7,7 @@ const initialState = {
   activityLogs: [],
   isFetching: false,
   isAdding: false,
+  userdata:[]
  
 };
 
@@ -16,6 +17,24 @@ export const getAllActivityLogs = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get("activitylogs/getAllLogs", {
+        withCredentials: true,
+      });
+      return response.data; 
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || "Failed to fetch activity logs");
+    }
+  }
+);
+
+
+
+
+
+export const getsingleUserActivityLogs = createAsyncThunk(
+  "activitylogs/getAllLogs",
+  async (userid, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get( `activitylogs/getAllLogs/${userid}`, {
         withCredentials: true,
       });
       return response.data; 
@@ -78,6 +97,24 @@ const activitySlice = createSlice({
         toast.error(action.payload || "Error adding activity log");
       })
 
+
+
+
+
+
+      .addCase( getsingleUserActivityLogs.pending, (state) => {
+        
+      })
+      .addCase( getsingleUserActivityLogs.fulfilled, (state, action) => {
+        
+        state.userdata.push(action.payload); 
+        toast.success("Activity log added successfully");
+      })
+      .addCase( getsingleUserActivityLogs.rejected, (state, action) => {
+
+        state.error = action.payload; 
+        toast.error(action.payload || "Error adding activity log");
+      })
    
       
   },

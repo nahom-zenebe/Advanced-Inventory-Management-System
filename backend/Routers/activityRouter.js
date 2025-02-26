@@ -48,6 +48,19 @@ module.exports = (app) => {
     }
   });
 
+  router.get('/getAllLogs/:userid',async(res,res)=>{
+
+    const {userid}=req.body
+    try {
+      const logs=await ActivityLog.find({ userId:userid});
+      res.status(200).json(logs)
+      
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch logs", error });
+      
+    }    
+  })
+
 
 
 

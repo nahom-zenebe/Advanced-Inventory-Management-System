@@ -1,12 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
 import { useEffect, useState } from "react";
-import { getAllActivityLogs } from "../features/activitySlice";
+import { getAllActivityLogs, getsingleUserActivityLogs } from "../features/activitySlice";
 import TopNavbar from "../Components/TopNavbar";
 import FormattedTime from "../lib/FormattedTime ";
 function Activitylogpage() {
   const [logs, setLogs] = useState([]);
-  const { activityLogs, isFetching } = useSelector((state) => state.activity);
+  const { activityLogs, isFetching,userdata } = useSelector((state) => state.activity);
+  const { Authuser,  } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const socket = io("http://localhost:3002", {
@@ -14,8 +15,9 @@ function Activitylogpage() {
   });
   useEffect(() => {
     dispatch(getAllActivityLogs());
+  dispatch( getsingleUserActivityLogs(Authuser._id))
 
-  console.log(activityLogs)
+  console.log(userdata)
     socket.on("newActivityLog", (newLog) => {
       setLogs((prevLogs) => [newLog, ...prevLogs]);
     });

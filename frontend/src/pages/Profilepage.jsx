@@ -10,7 +10,7 @@ function ProfilePage() {
   const dispatch = useDispatch();
   const { Authuser,  } = useSelector((state) => state.auth);
   const [images, setImage] = useState(null);
-
+  const { activityLogs, isFetching } = useSelector((state) => state.activity);
 
 
   useEffect(() => {
