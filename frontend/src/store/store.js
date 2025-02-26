@@ -6,7 +6,7 @@ import categoryReducer from "../features/categorySlice"
 import supplierReducer from "../features/SupplierSlice"
 import  activityReducer from '../features/activitySlice'
 import orderReducer from "../features/orderSlice"
-
+import notificationReducer from  "../features/notificationSlice"
 
 const store=configureStore({
     reducer:{
@@ -15,7 +15,8 @@ const store=configureStore({
         category:categoryReducer,
         supplier:supplierReducer,
         activity:activityReducer,
-        order:orderReducer
+        order:orderReducer,
+        notification:notificationReducer
     }
 })
 export default store;
