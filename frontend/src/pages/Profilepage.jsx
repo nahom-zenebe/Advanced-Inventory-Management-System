@@ -5,13 +5,13 @@ import { IoCameraOutline } from "react-icons/io5";
 import image from "../images/user.png";
 import { updateProfile } from "../features/authSlice";
 import toast from "react-hot-toast";
+import FormattedTime from "../lib/FormattedTime ";
 
 function ProfilePage() {
   const dispatch = useDispatch();
-  const { Authuser,  } = useSelector((state) => state.auth);
+  const { Authuser } = useSelector((state) => state.auth);
   const [images, setImage] = useState(null);
-  const { activityLogs, isFetching } = useSelector((state) => state.activity);
-
+  const { userdata } = useSelector((state) => state.activity);
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem('authUser'));
@@ -49,29 +49,19 @@ function ProfilePage() {
     };
   };
 
-
-
-
-
-
-
-
   
-  
-
-  
+  console.log(userdata);
 
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900">
       <TopNavbar />
       <div className="container mx-auto px-6 py-12">
-
         <div className="flex mt-8">
           <div className="bg-white w-72 rounded-xl shadow-lg p-6 text-center">
             <div className="relative mb-6">
               <img
                 className="border-4 ml-16 border-blue-500 h-32 w-32 rounded-full object-cover shadow-lg"
-                src={Authuser?.ProfilePic||images || image}
+                src={Authuser?.ProfilePic || images || image}
                 alt="Profile"
               />
               <input type="file" id="fileInput" className="hidden" accept="image/*" onChange={handleImageUpload} />
@@ -87,19 +77,34 @@ function ProfilePage() {
 
             <div className="mt-6 flex ml-12">
               <label className="flex text-gray-600 text-sm font-semibold">Email:</label>
-              <p className="text-gray-900 text-lg font-medium">{Authuser?.email|| "Guest@gmail.com"}</p>
+              <p className="text-gray-900 text-lg font-medium">{Authuser?.email || "Guest@gmail.com"}</p>
             </div>
 
             <div className="mt-6 flex ml-12">
               <label className="flex text-gray-600 text-sm font-semibold">Role:</label>
-              <p className="text-gray-900 text-lg font-medium capitalize">{Authuser?.role||"staff"}</p>
+              <p className="text-gray-900 text-lg font-medium capitalize">{Authuser?.role || "staff"}</p>
             </div>
           </div>
 
-          <div className="bg-gray-200 rounded-xl flex justify-around h-96 pt-10 w-5/6 ml-10">
-            <div className="bg-gray-50 w-56 h-40 rounded-lg shadow-md"></div>
-            <div className="bg-gray-50 w-56 h-40 rounded-lg shadow-md"></div>
-            <div className="bg-gray-50 w-56 h-40 rounded-lg shadow-md"></div>
+          <div className="bg-white rounded-xl flex flex-col h-96 pt-10 w-5/6 ml-10 overflow-y-auto shadow-md">
+            <h1 className="text-lg font-semibold mb-4 px-4">Recent Activity</h1>
+            <div className="space-y-4 px-4">
+  {userdata && userdata.length > 0 ? (
+    // Access the first array inside userdata (index 0)
+    userdata[0].map((log, index) => (
+      <div key={index} className="border-b py-4">
+        <h2 className="text-lg font-medium text-gray-900">{log.action}</h2>
+        <p className="text-sm text-gray-600"> {log.description}</p>
+        <p className="text-sm text-gray-500">Affected part: <span className="font-medium">{log.entity}</span></p>
+        <p className="text-sm text-gray-500">IP Address: <span className="font-medium">{log.ipAddress}</span></p>
+        <FormattedTime timestamp={log.createdAt} />
+      </div>
+    ))
+  ) : (
+    <p className="text-center text-gray-500">No activity logs available</p>
+  )}
+</div>
+
           </div>
         </div>
 
@@ -132,7 +137,6 @@ function ProfilePage() {
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );

@@ -9,23 +9,26 @@ function Activitylogpage() {
   const { activityLogs, isFetching,userdata } = useSelector((state) => state.activity);
   const { Authuser,  } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-
+ 
   const socket = io("http://localhost:3002", {
     withCredentials: true, 
   });
   useEffect(() => {
+    if(Authuser?.id){
     dispatch(getAllActivityLogs());
-  dispatch( getsingleUserActivityLogs(Authuser._id))
+  dispatch( getsingleUserActivityLogs(Authuser.id))
+}
 
-  console.log(userdata)
+
     socket.on("newActivityLog", (newLog) => {
       setLogs((prevLogs) => [newLog, ...prevLogs]);
     });
-    console.log(activityLogs)
+ 
     return () => {
       socket.off("newActivityLog"); 
     };
-  }, [dispatch]);
+  }, [dispatch,Authuser.id]);
+
 
   useEffect(() => {
     setLogs(activityLogs); 
@@ -34,7 +37,7 @@ function Activitylogpage() {
 
  
 
-  
+  console.log(userdata)
 
   return (
     <div>

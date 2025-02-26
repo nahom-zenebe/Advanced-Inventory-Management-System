@@ -31,10 +31,10 @@ export const getAllActivityLogs = createAsyncThunk(
 
 
 export const getsingleUserActivityLogs = createAsyncThunk(
-  "activitylogs/getAllLogs",
+  "activitylogs/getLogs",
   async (userid, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.get( `activitylogs/getAllLogs/${userid}`, {
+      const response = await axiosInstance.get( `activitylogs/getLogs/${userid}`, {
         withCredentials: true,
       });
       return response.data; 
