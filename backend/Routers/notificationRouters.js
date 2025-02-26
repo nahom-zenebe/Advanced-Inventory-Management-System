@@ -6,6 +6,6 @@ router.post("/createNotification",createNotification);
 router.get("/allNotification ", getAllNotifications); 
 router.get("/unreadNotification", getUnreadNotifications); 
 router.put("/:id/readNotification", markAsRead); 
-router.delete("/:id/deleteNotification", deleteNotification); 
+router.delete("/deleteNotification/:id/", deleteNotification); 
 
 module.exports = router;

@@ -28,14 +28,14 @@ function Productpage() {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  // Fetch all products and categories on component mount
+  
   useEffect(() => {
     dispatch(gettingallproducts());
     dispatch(gettingallCategory());
   }, [dispatch]);
 
 
-  // Handle search query with debounce
+ 
   useEffect(() => {
     if (query.trim() !== "") {
       const repeatTimeout = setTimeout(() => {
@@ -43,7 +43,7 @@ function Productpage() {
       }, 500);
       return () => clearTimeout(repeatTimeout);
     } else {
-      dispatch(gettingallproducts()); // Reset to all products if query is empty
+      dispatch(gettingallproducts());
     }
   }, [query, dispatch]);
 
@@ -62,7 +62,7 @@ function Productpage() {
       });
   };
 
-  // Handle edit product form submission
+  
   const handleEditSubmit = (event) => {
     event.preventDefault();
 
@@ -89,7 +89,7 @@ function Productpage() {
       });
   };
 
-  // Handle add product form submission
+
   const submitProduct = async (event) => {
     event.preventDefault();
     const productData = { name, Description, Category, Price, quantity };
@@ -105,7 +105,7 @@ function Productpage() {
       });
   };
 
-  // Reset form fields
+
   const resetForm = () => {
     setName("");
     setCategory("");
@@ -115,7 +115,6 @@ function Productpage() {
   };
   
 
-  // Handle edit button click
   const handleEditClick = (product) => {
     setSelectedProduct(product);
     setName(product.name);

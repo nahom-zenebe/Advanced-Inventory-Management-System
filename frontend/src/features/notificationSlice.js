@@ -1,55 +1,63 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../lib/axios";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 
 const initialState = {
-    
- 
+  notifications: [],
+  isLoading: false,
 };
 
-
-export const CreateSupplier = createAsyncThunk(
-  'supplier/createsupplier',
-  async (Supplier, { rejectWithValue }) => {
+export const createNotification = createAsyncThunk(
+  "notification/createNotification",
+  async (Notification, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post("supplier/createsupplier",Supplier, { withCredentials: true });
+      const response = await axiosInstance.post(
+        "notification/createNotification",
+        Notification,
+        { withCredentials: true }
+      );
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "supplier creation failed");
+      return rejectWithValue(
+        error.response?.data?.message || "Notification creation failed"
+      );
     }
   }
 );
 
-export const gettingallSupplier = createAsyncThunk(
-  'supplier/getallsupplier',
+export const getAllNotifications = createAsyncThunk(
+  "notification/getAllNotifications",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.get('supplier/getallsupplier', { withCredentials: true });
-      return response.data;
+      const response = await axiosInstance.get("notification/allNotification", {
+        withCredentials: true,
+      });
+      return response.data.notifications; 
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Supplier retrieval failed");
+      return rejectWithValue(
+        error.response?.data?.message || "Notification retrieval failed"
+      );
     }
   }
 );
 
 
-
-
-
-  
-  export const deleteSupplier = createAsyncThunk(
-    'supplier/',
-    async (supplierId, { rejectWithValue }) => {
-      try {
-        const response = await axiosInstance.delete(`supplier/${supplierId}`,supplierId, { withCredentials: true });
-        return response.data;
-      } catch (error) {
-        return rejectWithValue(error.response?.data?.message || "Supplier remove  failed");
-      }
+export const deleteNotification = createAsyncThunk(
+  "notification/deleteNotification",
+  async (NotificationId, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.delete(
+        `notification/deleteNotification/${NotificationId}`,
+        { withCredentials: true }
+      );
+      return NotificationId; 
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Notification removal failed"
+      );
     }
-  );
-  
-
+  }
+);
 
 
 const notificationSlice = createSlice({
@@ -58,56 +66,39 @@ const notificationSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
- 
-      .addCase(CreateSupplier .pending, (state) => {
-        state.isSupplieradd = true;
+   
+      .addCase(getAllNotifications.pending, (state) => {
+        state.isLoading = true;
       })
-      .addCase(CreateSupplier .fulfilled, (state, action) => {
-        state.isSupplieradd= false;
-        toast.success("Supplier created successfully");
+      .addCase(getAllNotifications.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.notifications = action.payload;
+        toast.success("Notifications fetched successfully");
       })
-      .addCase(CreateSupplier .rejected, (state, action) => {
-        state.isSupplieradd= false;
-        toast.error('Error creating Supplier');
-      })
-      
-  
-      .addCase(gettingallSupplier.pending, (state) => {
-        state.isallSupplier = true;
-      })
-      .addCase(gettingallSupplier.fulfilled, (state, action) => {
-        state.isallSupplier = false;
-        state.getallSupplier = action.payload|| [];
-
-      })
-      
-      
-      .addCase(gettingallSupplier.rejected, (state, action) => {
-        state. isallSupplier = false;
-        toast.error(action.payload || 'Error retrieving Suppliers');
+      .addCase(getAllNotifications.rejected, (state, action) => {
+        state.isLoading = false;
+        toast.error(action.payload || "Error fetching notifications");
       })
 
-
-
-
-      .addCase(deleteSupplier.pending, (state) => {
-        state.isSupplierremove = true;
+    
+      .addCase(createNotification.fulfilled, (state, action) => {
+        toast.success("Notification created successfully");
+        state.notifications.push(action.payload.notification);
       })
-      .addCase(deleteSupplier.fulfilled, (state, action) => {
-        state.isSupplierremove= false;
-        state.getallCategory = action.payload.allCategory || [];
-
-      })
-      
-      
-      .addCase(deleteSupplier.rejected, (state, action) => {
-        state.isSupplierremove = false;
-        toast.error(action.payload || 'Error retrieving   Supplier');
+      .addCase(createNotification.rejected, (state, action) => {
+        toast.error(action.payload || "Error creating notification");
       })
 
-
-
-      
+      // Delete notification
+      .addCase(deleteNotification.fulfilled, (state, action) => {
+        toast.success("Notification deleted successfully");
+        state.notifications = state.notifications.filter(
+          (notification) => notification._id !== action.payload
+        );
+      })
+      .addCase(deleteNotification.rejected, (state, action) => {
+        toast.error(action.payload || "Error deleting notification");
+      });
   },
 });
 

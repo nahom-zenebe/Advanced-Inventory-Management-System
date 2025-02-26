@@ -12,12 +12,8 @@ const NotificationSchema= new mongoose.Schema({
     },
     type:{
         type:String,
-        enum:["low-stock","new-order","general"],
         require:true,
-        read:{
-            type:Boolean,
-            default:false
-        }
+        
     },
     createdAt:{
         type:Date,
