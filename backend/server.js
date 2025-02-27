@@ -53,3 +53,7 @@ server.listen(PORT, () => {
   MongoDBconfig();
   console.log(`The server is running at port ${PORT}`);
 });
+
+
+
+module.exports = { io, server };

@@ -63,7 +63,13 @@ export const deleteNotification = createAsyncThunk(
 const notificationSlice = createSlice({
   name: "notification",
   initialState: initialState,
-  reducers: {},
+  reducers: {
+
+    addNotification: (state, action) => {
+      state.notifications.unshift(action.payload); 
+    },
+
+  },
   extraReducers: (builder) => {
     builder
    
@@ -103,3 +109,4 @@ const notificationSlice = createSlice({
 });
 
 export default notificationSlice.reducer;
+export const { addNotification } = notificationSlice.actions;

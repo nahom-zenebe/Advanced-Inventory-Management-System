@@ -1,5 +1,5 @@
 const Notification = require("../models/Notificationmodel");
-
+const {io}=require("../server")
 
 module.exports.createNotification = async (req, res) => {
   try {
@@ -11,6 +11,9 @@ module.exports.createNotification = async (req, res) => {
 
     const notification = new Notification({ name, type });
     await notification.save();
+
+
+    io.emit("newNotification",notification)
 
     res.status(201).json({ success: true, message: "Notification created successfully.", notification });
   } catch (error) {

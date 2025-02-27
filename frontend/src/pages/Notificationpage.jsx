@@ -4,20 +4,42 @@ import { IoMdAdd } from "react-icons/io";
 import { MdClose } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import image from "../images/user.png";
-import { createNotification, getAllNotifications, deleteNotification } from "../features/notificationSlice";
+import { createNotification, getAllNotifications, deleteNotification, addNotification } from "../features/notificationSlice"; 
 import toast from "react-hot-toast";
+import io from "socket.io-client";
+
+const socket = io("http://localhost:3002");
 
 function NotificationPage() {
   const dispatch = useDispatch();
   const { notifications } = useSelector((state) => state.notification);
 
-  useEffect(() => {
-    dispatch(getAllNotifications());
-  }, [dispatch]);
-
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [isFormVisible, setIsFormVisible] = useState(false);
+
+  // ✅ Fetch Notifications from Backend
+  useEffect(() => {
+    dispatch(getAllNotifications());
+
+    // ✅ Listen for Real-Time Notifications
+    socket.on("newNotification", (newNotification) => {
+      console.log("New notification received:", newNotification);
+
+      // ✅ Update Redux Store in Real-Time
+      dispatch(addNotification(newNotification));
+
+      // ✅ Show Toast Notification
+      toast.success(`📢 New Notification: ${newNotification.name}`, {
+        position: "top-right",
+      });
+    });
+
+    // Cleanup WebSocket listener on unmount
+    return () => {
+      socket.off("newNotification");
+    };
+  }, [dispatch]);
 
   const resetForm = () => {
     setName("");
@@ -27,21 +49,24 @@ function NotificationPage() {
   const submitNotification = async (event) => {
     event.preventDefault();
     const NotificationData = { name, type };
+
     dispatch(createNotification(NotificationData))
       .unwrap()
       .then(() => {
-        toast.success("Notification added successfully");
+        toast.success("✅ Notification added successfully");
         resetForm();
         setIsFormVisible(false);
       })
       .catch(() => {
-        toast.error("Notification add unsuccessful");
+        toast.error("❌ Failed to add notification");
       });
   };
 
   return (
     <div className="">
+
       <TopNavbar />
+
       <div className="max-w-3xl mx-auto mt-10">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold">Notifications</h1>
