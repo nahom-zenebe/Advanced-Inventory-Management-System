@@ -12,7 +12,9 @@ const initialState={
   editorder:null,
   iseditorder:false,
   issearchdata:true,
-  searchdata:null
+  searchdata:null,
+  isshowgraph:false,
+  statusgraph:null
 
 
     
@@ -85,6 +87,20 @@ export const createdOrder=createAsyncThunk('order/createorder',async(order,{reje
     }
   })
 
+
+
+
+
+  export const getstatusgraphOrder=createAsyncThunk('order/graphstatusorder',async(_,{rejectWithValue})=>{
+    try {
+       const response=await axiosInstance.get("order/graphstatusorder",{ withCredentials: true,})
+       return response.data;
+  
+      
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || "order getting graph failed");
+    }
+  })
 
 
   
@@ -200,6 +216,26 @@ extraReducers:(builder)=>{
 .addCase( SearchOrder.rejected,(state,action)=>{
  state.issearchdata=false
 toast.error( 'Error In founding  Order');
+})
+
+
+.addCase( getstatusgraphOrder.pending,(state)=>{
+  state. isshowgraph=true
+
+
+
+})
+.addCase( getstatusgraphOrder.fulfilled,(state,action)=>{
+ state.isshowgraph=false 
+ state. statusgraph=action.payload
+
+
+})
+
+
+.addCase( getstatusgraphOrder.rejected,(state,action)=>{
+ state.isshowgraph=false
+toast.error( 'Error In founding graph  Order');
 })
 
 

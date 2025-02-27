@@ -1,6 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../lib/axios";
+import socket from "../lib/socket"; 
 import toast from "react-hot-toast";
+
+
 
 const initialState = {
   notifications: [],
@@ -16,7 +19,7 @@ export const createNotification = createAsyncThunk(
         Notification,
         { withCredentials: true }
       );
-      return response.data;
+      return response.data.notification; // Ensure only the notification object is returned
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || "Notification creation failed"
@@ -24,6 +27,7 @@ export const createNotification = createAsyncThunk(
     }
   }
 );
+
 
 export const getAllNotifications = createAsyncThunk(
   "notification/allNotification",
@@ -65,9 +69,7 @@ const notificationSlice = createSlice({
   initialState: initialState,
   reducers: {
 
-    addNotification: (state, action) => {
-      state.notifications.unshift(action.payload); 
-    },
+    
 
   },
   extraReducers: (builder) => {
@@ -88,14 +90,15 @@ const notificationSlice = createSlice({
 
     
       .addCase(createNotification.fulfilled, (state, action) => {
+       
         toast.success("Notification created successfully");
-        state.notifications.push(action.payload.notification);
+        state.notifications.unshift(action.payload);
       })
       .addCase(createNotification.rejected, (state, action) => {
         toast.error(action.payload || "Error creating notification");
       })
 
-      // Delete notification
+  
       .addCase(deleteNotification.fulfilled, (state, action) => {
         toast.success("Notification deleted successfully");
         state.notifications = state.notifications.filter(
@@ -110,3 +113,5 @@ const notificationSlice = createSlice({
 
 export default notificationSlice.reducer;
 export const { addNotification } = notificationSlice.actions;
+
+

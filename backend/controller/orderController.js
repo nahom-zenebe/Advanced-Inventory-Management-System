@@ -164,10 +164,34 @@ const searchOrder = async (req, res) => {
 };
 
 
+
+const getOrderStatistics=async(req,res)=>{
+try {
+    const orderStats=await Order.aggregate([
+        {
+            $group:{
+                _id:"$status",
+                count:{$sum:1}
+            }
+        }
+
+    ])
+
+
+    res.status(200).json(orderStats)
+} 
+
+catch (error) {
+    
+}
+}
+
+
 module.exports = {
     createOrder,
     searchOrder,
     updatestatusOrder,
     getOrder,
-    Removeorder
+    Removeorder,
+    getOrderStatistics
 };

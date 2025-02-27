@@ -4,11 +4,11 @@ import { IoMdAdd } from "react-icons/io";
 import { MdClose } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import image from "../images/user.png";
-import { createNotification, getAllNotifications, deleteNotification, addNotification } from "../features/notificationSlice"; 
+import { createNotification, getAllNotifications, deleteNotification } from "../features/notificationSlice"; 
 import toast from "react-hot-toast";
 import io from "socket.io-client";
 
-const socket = io("http://localhost:3002");
+
 
 function NotificationPage() {
   const dispatch = useDispatch();
@@ -17,28 +17,11 @@ function NotificationPage() {
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const { Authuser, isUserSignup } = useSelector((state) => state.auth);
 
-  // ✅ Fetch Notifications from Backend
+
   useEffect(() => {
-    dispatch(getAllNotifications());
-
-    // ✅ Listen for Real-Time Notifications
-    socket.on("newNotification", (newNotification) => {
-      console.log("New notification received:", newNotification);
-
-      // ✅ Update Redux Store in Real-Time
-      dispatch(addNotification(newNotification));
-
-      // ✅ Show Toast Notification
-      toast.success(`📢 New Notification: ${newNotification.name}`, {
-        position: "top-right",
-      });
-    });
-
-    // Cleanup WebSocket listener on unmount
-    return () => {
-      socket.off("newNotification");
-    };
+    dispatch(getAllNotifications())
   }, [dispatch]);
 
   const resetForm = () => {
@@ -51,14 +34,13 @@ function NotificationPage() {
     const NotificationData = { name, type };
 
     dispatch(createNotification(NotificationData))
-      .unwrap()
       .then(() => {
-        toast.success("✅ Notification added successfully");
+        toast.success(" Notification added successfully");
         resetForm();
         setIsFormVisible(false);
       })
       .catch(() => {
-        toast.error("❌ Failed to add notification");
+        toast.error(" Failed to add notification");
       });
   };
 
@@ -120,7 +102,7 @@ function NotificationPage() {
               <div key={notification._id} className="flex items-center bg-white p-4 rounded-lg shadow-md">
                 <img src={image} alt="User" className="w-12 h-12 rounded-full mr-4" />
                 <div className="flex-1">
-                  <h3 className="text-lg font-semibold">{notification.name}</h3>
+                  <h3 className="text-lg font-semibold">{Authuser?.name||notification.name}</h3>
                   <p className="text-gray-600 text-sm">{notification.type}</p>
                 </div>
                 <button
