@@ -1,129 +1,118 @@
 import React, { useEffect, useState } from "react";
 import TopNavbar from "../Components/TopNavbar";
 import { IoMdAdd } from "react-icons/io";
-import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
+import { MdClose } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-
-import { createNotification,getAllNotifications,deleteNotification } from "../features/notificationSlice";
+import image from "../images/user.png";
+import { createNotification, getAllNotifications, deleteNotification } from "../features/notificationSlice";
 import toast from "react-hot-toast";
 
-
-function Notificationpage() {
+function NotificationPage() {
   const dispatch = useDispatch();
-  const {  notifications  } = useSelector(
-    (state) => state.notification
-  );
+  const { notifications } = useSelector((state) => state.notification);
 
-  const[name,setname]=useState("")
-  const[type,settype]=useState("")
+  useEffect(() => {
+    dispatch(getAllNotifications());
+  }, [dispatch]);
+
+  const [name, setName] = useState("");
+  const [type, setType] = useState("");
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-
-
-
 
   const resetForm = () => {
-    setname("");
-    settype("");
-   
+    setName("");
+    setType("");
   };
 
   const submitNotification = async (event) => {
     event.preventDefault();
     const NotificationData = { name, type };
-
-    dispatch(createNotification( NotificationData))
+    dispatch(createNotification(NotificationData))
       .unwrap()
       .then(() => {
         toast.success("Notification added successfully");
         resetForm();
+        setIsFormVisible(false);
       })
       .catch(() => {
         toast.error("Notification add unsuccessful");
       });
   };
 
-
-
   return (
-    <div>
-  <TopNavbar />
-
-
-
-  <div>
-
-
-
-
-  <button   onClick={() => {
-              setIsFormVisible(true);
-          
-            }} className="bg-blue-800 text-white w-40 h-12 rounded-lg flex items-center justify-center">
+    <div className="">
+      <TopNavbar />
+      <div className="max-w-3xl mx-auto mt-10">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold">Notifications</h1>
+          <button
+            onClick={() => setIsFormVisible(true)}
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center hover:bg-blue-700 transition"
+          >
             <IoMdAdd className="text-xl mr-2" /> Add Notification
           </button>
+        </div>
 
+        {isFormVisible && (
+          <div className="bg-white p-6 rounded-lg shadow-md mb-6">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">Add Notification</h2>
+              <MdClose className="text-2xl cursor-pointer" onClick={() => setIsFormVisible(false)} />
+            </div>
+            <form onSubmit={submitNotification}>
+              <div className="mb-4">
+                <label className="block font-medium">Title</label>
+                <input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  type="text"
+                  className="w-full h-10 px-3 border rounded-lg mt-2"
+                  placeholder="Enter title"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block font-medium">Description</label>
+                <textarea
+                  value={type}
+                  onChange={(e) => setType(e.target.value)}
+                  className="w-full h-24 px-3 border rounded-lg mt-2"
+                  placeholder="Enter description"
+                ></textarea>
+              </div>
+              <button
+                type="submit"
+                className="bg-blue-600 text-white w-full h-12 rounded-lg hover:bg-blue-700 transition"
+              >
+                Add Notification
+              </button>
+            </form>
+          </div>
+        )}
 
-
-      
-
-{isFormVisible && (
-  <div className="absolute top-10 bg-gray-100 right-0 h-svh p-6 border-2 border-gray-300 rounded-lg shadow-md transition-transform transform">
-    <div className="text-right">
-      <MdKeyboardDoubleArrowLeft
-        onClick={() => setIsFormVisible(false)}
-        className="cursor-pointer text-2xl"
-      />
+        <div className="space-y-4">
+          {notifications.length > 0 ? (
+            notifications.map((notification) => (
+              <div key={notification._id} className="flex items-center bg-white p-4 rounded-lg shadow-md">
+                <img src={image} alt="User" className="w-12 h-12 rounded-full mr-4" />
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold">{notification.name}</h3>
+                  <p className="text-gray-600 text-sm">{notification.type}</p>
+                </div>
+                <button
+                  onClick={() => dispatch(deleteNotification(notification._id))}
+                  className="text-red-600 hover:text-red-800 transition"
+                >
+                  <MdClose className="text-2xl" />
+                </button>
+              </div>
+            ))
+          ) : (
+            <p className="text-center text-gray-600">No notifications found.</p>
+          )}
+        </div>
+      </div>
     </div>
-
-    <h1 className="text-xl font-semibold mb-4">
-      {selectedProduct ? "Edit Product" : "Add Product"}
-    </h1>
-
-    <form onSubmit={ submitNotification}>
-      <div className="mb-4">
-        <label>Name</label>
-        <input
-          value={name}
-          placeholder="Enter product name"
-          onChange={(e) => setname(e.target.value)}
-          type="text"
-          className="w-full h-10 px-2 border-2 rounded-lg mt-2"
-        />
-      </div>
-
-      
-
-      <div className="mb-4">
-        <label>Type</label>
-        <textarea
-          value={type}
-          placeholder="Enter the type"
-          onChange={(e) => settype(e.target.value)}
-          type="text"
-          className="w-full h-24 px-2 border-2 rounded-lg mt-2"
-        />
-      </div>
-
-      
-
-      <button
-        type="submit"
-        className="bg-blue-800 text-white w-full h-12 rounded-lg hover:bg-blue-700 mt-4"
-      >
-        {selectedProduct ? "Update Product" : "Add Notification"}
-      </button>
-    </form>
-  </div>
-)}
-
-
-
-
-  </div>
-
-      </div>
-  )
+  );
 }
 
-export default Notificationpage
+export default NotificationPage;

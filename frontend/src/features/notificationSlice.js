@@ -26,13 +26,13 @@ export const createNotification = createAsyncThunk(
 );
 
 export const getAllNotifications = createAsyncThunk(
-  "notification/getAllNotifications",
+  "notification/allNotification",
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get("notification/allNotification", {
         withCredentials: true,
       });
-      return response.data.notifications; 
+      return response.data; 
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || "Notification retrieval failed"
@@ -72,7 +72,7 @@ const notificationSlice = createSlice({
       })
       .addCase(getAllNotifications.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.notifications = action.payload;
+        state.notifications = action.payload || [];
         toast.success("Notifications fetched successfully");
       })
       .addCase(getAllNotifications.rejected, (state, action) => {
