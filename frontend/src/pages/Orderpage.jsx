@@ -6,18 +6,21 @@ import { IoMdAdd } from "react-icons/io";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import { signup } from "../features/authSlice";
 import FormattedTime from "../lib/FormattedTime ";
+import OrderStatusChart from "../lib/OrderStatusChart"
 import {
   createdOrder,
   Removedorder,
   updatestatusOrder,
   gettingallOrder,
   SearchOrder,
+ 
 } from "../features/orderSlice";
 
 import { gettingallproducts } from "../features/productSlice";
 import { gettingallCategory } from "../features/categorySlice";
 
 function Orderpage() {
+ 
   const {
     getorder,
     isgetorder,
@@ -26,6 +29,8 @@ function Orderpage() {
     editorder,
     iseditorder,
     searchdata,
+    isshowgraph,
+  statusgraph
   } = useSelector((state) => state.order);
   const { getallproduct } = useSelector((state) => state.product);
   const { getallCategory } = useSelector((state) => state.category);
@@ -44,7 +49,10 @@ function Orderpage() {
     dispatch(gettingallOrder());
     dispatch(gettingallproducts());
     dispatch(gettingallCategory());
+ 
   }, [dispatch]);
+
+
 
 
 
@@ -141,9 +149,17 @@ function Orderpage() {
 
   const displayOrder = query.trim() !== "" ? searchdata : getorder;
 
+
+
+
+  
+
+
   return (
     <div>
       <TopNavbar />
+
+      < OrderStatusChart className="mt-10 mb-10 mx-auto"/>
 
       <div className="mt-12 ml-5">
         <div className="flex items-center space-x-4">
