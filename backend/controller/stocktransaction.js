@@ -27,9 +27,9 @@ module.exports.createStockTransaction = async (req, res) => {
 
 module.exports.getAllStockTransactions = async (req, res) => {
   try {
-    const transactions = await StockTransaction.find().populate('Product Supplier').sort({ transactionDate: -1 });
+    const transactions = await StockTransaction.find().sort({ transactionDate: -1 });
 
-    res.status(200).json({ success: true, transactions });
+    res.status(200).json( transactions );
   } catch (error) {
     res.status(500).json({ success: false, message: "Error fetching stock transactions", error });
   }

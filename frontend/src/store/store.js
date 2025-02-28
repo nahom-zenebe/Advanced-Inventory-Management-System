@@ -7,6 +7,7 @@ import supplierReducer from "../features/SupplierSlice"
 import  activityReducer from '../features/activitySlice'
 import orderReducer from "../features/orderSlice"
 import notificationReducer from  "../features/notificationSlice"
+import stocktransactionReducer from '../features/stocktransactionSlice'
 
 const store=configureStore({
     reducer:{
@@ -16,7 +17,8 @@ const store=configureStore({
         supplier:supplierReducer,
         activity:activityReducer,
         order:orderReducer,
-        notification:notificationReducer
+        notification:notificationReducer,
+        stocktransaction:stocktransactionReducer
     }
 })
 export default store;
