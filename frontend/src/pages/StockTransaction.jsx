@@ -46,7 +46,7 @@ function StockTransaction() {
 
     
   }, [dispatch]);
-console.log(getallStocks)
+
 
   const resetForm = () => {
     setproduct("");
@@ -204,7 +204,7 @@ console.log(getallStocks)
                 </tr>
               </thead>
               <tbody>
-                {Array.isArray( getallStocks) &&
+                {Array.isArray(getallStocks) &&
                getallStocks.length > 0 ? (
                 getallStocks.map((Stocks,index) => (
                     <tr key={Stocks._id} className="hover:bg-gray-50">

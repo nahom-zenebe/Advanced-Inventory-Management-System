@@ -18,7 +18,7 @@ module.exports.createStockTransaction = async (req, res) => {
 
     await newTransaction.save();
 
-    res.status(201).json({ success: true, message: "Stock transaction created successfully" });
+    res.status(201).json( {message: "Stock transaction created successfully"});
   } catch (error) {
     res.status(500).json({ success: false, message: "Error creating stock transaction", error });
   }
@@ -27,9 +27,10 @@ module.exports.createStockTransaction = async (req, res) => {
 
 module.exports.getAllStockTransactions = async (req, res) => {
   try {
-    const transactions = await StockTransaction.find().sort({ transactionDate: -1 });
+    const transactions = await StockTransaction.find()
+    .sort({ transactionDate: -1 });
 
-    res.status(200).json( transactions );
+    res.status(200).json({message: "Stock transaction created successfully",transactions});
   } catch (error) {
     res.status(500).json({ success: false, message: "Error fetching stock transactions", error });
   }

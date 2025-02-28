@@ -54,7 +54,7 @@ const stocktransactionSlice = createSlice({
       })
       .addCase(getAllStockTransactions.fulfilled, (state, action) => {
         state.isgetallStocks = false;
-        state.getallStocks = action.payload;
+        state.getallStocks = action.payload.transactions;
 
       })
       
