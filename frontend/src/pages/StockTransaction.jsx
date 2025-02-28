@@ -217,7 +217,7 @@ console.log(getallStocks)
                       <td className="px-3 py-2 border">
                         {Stocks.type}
                       </td>
-                      <td className="px-3 py-2 border">${Stocks.quantity}</td>
+                      <td className="px-3 py-2 border">{Stocks.quantity}</td>
                       <td  className="px-3 py-2 border">Abebe</td>
                     </tr>
                   ))

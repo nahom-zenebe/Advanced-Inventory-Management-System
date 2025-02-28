@@ -18,7 +18,7 @@ module.exports.createStockTransaction = async (req, res) => {
 
     await newTransaction.save();
 
-    res.status(201).json({ success: true, message: "Stock transaction created successfully", transaction: newTransaction });
+    res.status(201).json({ success: true, message: "Stock transaction created successfully" });
   } catch (error) {
     res.status(500).json({ success: false, message: "Error creating stock transaction", error });
   }
