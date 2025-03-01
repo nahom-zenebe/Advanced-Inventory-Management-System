@@ -22,7 +22,7 @@ module.exports.createSale = async (req, res) => {
       products,
       totalAmount,
       paymentMethod,
-      invoiceUrl,
+    
     });
 
     await newSale.save();
