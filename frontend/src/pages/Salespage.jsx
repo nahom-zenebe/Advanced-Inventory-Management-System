@@ -241,10 +241,10 @@ function Salespage() {
                 <th className="px-3 py-2 border w-5">#</th>
                   <th className="px-3 py-2 border">Name</th>
                   <th className="px-3 py-2 border">Product</th>
-                  <th className="px-3 py-2 border">Qunatity</th>
-                  <th className="px-3 py-2 border">Price</th>
-                  <th className="px-3 py-2 w-72 border">Paymnet</th>
+                  <th className="px-3 py-2 border">Total Amount</th>
+                  <th className="px-3 py-2 border">Status</th>
                   <th className="px-3 py-2 w-72 border">Date</th>
+                  <th className="px-3 py-2 w-72 border">Payment</th>
                   <th className="px-3 py-2 w-72 border">Operation</th>
                 </tr>
               </thead>
