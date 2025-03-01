@@ -14,7 +14,6 @@ const StockTransactionGraph = () => {
         const response = await axiosInstance.get("/stocktransaction/getallStockTransaction");
         const transactions = response.data.transactions;
 
-        // Sort transactions by date
         transactions.sort((a, b) => new Date(a.transactionDate) - new Date(b.transactionDate));
 
         const labels = transactions.map(tx => new Date(tx.transactionDate).toLocaleDateString());
@@ -30,7 +29,6 @@ const StockTransactionGraph = () => {
               borderColor: "#4CAF50",
               backgroundColor: "rgba(76, 175, 80, 0.2)",
               pointBackgroundColor: "#4CAF50",
-              tension: 0.4,
               fill: true,
             },
             {
@@ -39,7 +37,6 @@ const StockTransactionGraph = () => {
               borderColor: "#F44336",
               backgroundColor: "rgba(244, 67, 54, 0.2)",
               pointBackgroundColor: "#F44336",
-              tension: 0.4,
               fill: true,
             },
           ],
@@ -53,27 +50,29 @@ const StockTransactionGraph = () => {
   }, []);
 
   return (
-    <div style={{ width: "80%", margin: "auto", padding: "20px", background: "#fff", borderRadius: "10px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)" }}>
-      <h2 style={{ textAlign: "center", color: "#333" }}>Stock Transactions Overview</h2>
-      {chartData ? <Line data={chartData} options={{
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { position: "top" },
-          tooltip: { enabled: true },
-        },
-        scales: {
-          x: {
-            title: { display: true, text: "Date" },
-            grid: { display: false },
-          },
-          y: {
-            title: { display: true, text: "Quantity" },
-            grid: { color: "rgba(200, 200, 200, 0.3)" },
-            ticks: { beginAtZero: true },
-          },
-        },
-      }} /> : <p style={{ textAlign: "center" }}>Loading...</p>}
+    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "70vh", width: "80vw" }}>
+      <div style={{ width: "90%", maxWidth: "800px", height: "70%", maxHeight: "600px" }}>
+        <h2 style={{ textAlign: "center", color: "#333" }}>Stock Transactions Overview</h2>
+        {chartData ? (
+          <Line
+            data={chartData}
+            options={{
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { position: "top" },
+                tooltip: { enabled: true },
+              },
+              scales: {
+                x: { grid: { display: false } },
+                y: { grid: { color: "rgba(200, 200, 200, 0.3)" }, ticks: { beginAtZero: true } },
+              },
+            }}
+          />
+        ) : (
+          <p style={{ textAlign: "center" }}>Loading...</p>
+        )}
+      </div>
     </div>
   );
 };
