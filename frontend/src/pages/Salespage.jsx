@@ -239,13 +239,13 @@ function Salespage() {
               <thead className="bg-gray-100">
                 <tr>
                 <th className="px-3 py-2 border w-5">#</th>
-                  <th className="px-3 py-2 border">Name</th>
+                  <th className="px-3 py-2 border">Customer Name</th>
                   <th className="px-3 py-2 border">Product</th>
                   <th className="px-3 py-2 border">Total Amount</th>
                   <th className="px-3 py-2 border">Status</th>
-                  <th className="px-3 py-2 w-72 border">Date</th>
-                  <th className="px-3 py-2 w-72 border">Payment</th>
-                  <th className="px-3 py-2 w-72 border">Operation</th>
+                  <th className="px-3 py-2  border">Date</th>
+                  <th className="px-3 py-2 border">Payment</th>
+                  <th className="px-3 py-2  border">Operation</th>
                 </tr>
               </thead>
               <tbody>
@@ -260,14 +260,14 @@ function Salespage() {
                         {sales.products.length|| "No Category"}
                       </td>
                       <td className="px-3 py-2 border">
-                        {sales.totalAmount}
+                       $ {sales.totalAmount}
                       </td>
                      
                       <td className="px-3 py-2 border">
                         {sales.status
                         }
                       </td>
-                      <td>< FormattedTime  timestamp={sales.createdAt}/></td>
+                      <td className="px-3 py-2 border">< FormattedTime  timestamp={sales.createdAt}/></td>
                       <td className="px-3 py-2 border">{sales.paymentMethod}</td>
                       <td className="px-4  py-2 border">
                         <button

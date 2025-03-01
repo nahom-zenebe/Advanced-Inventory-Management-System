@@ -4,6 +4,7 @@ import { IoMdAdd } from "react-icons/io";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import FormattedTime from "../lib/FormattedTime ";
+import Stocktanscationgraph from '../lib/Stocktanscationgraph'
 import {
   createStockTransaction,
   getAllStockTransactions,
@@ -20,6 +21,7 @@ function StockTransaction() {
   const { getallStocks, isgetallStocks, iscreatedStocks } = useSelector(
     (state) => state.stocktransaction
   );
+
   const { getallSupplier } = useSelector(
     (state) => state.supplier
   );
@@ -47,7 +49,7 @@ function StockTransaction() {
     
   }, [dispatch]);
 
-
+console.log(getallStocks)
   const resetForm = () => {
     setproduct("");
     settype("");
@@ -79,6 +81,9 @@ function StockTransaction() {
     <div>
 
 <TopNavbar />
+
+
+<Stocktanscationgraph className="mt-10"/>
 <div className="mt-12 ml-5">
         <div className="flex items-center space-x-4">
           <input
