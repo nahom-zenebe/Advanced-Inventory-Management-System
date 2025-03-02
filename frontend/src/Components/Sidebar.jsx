@@ -83,6 +83,12 @@ function Sidebar() {
             <MdOutlineCategory className="text-xl" />
             <Link to="/ManagerDashboard/category">Category</Link>
           </li>
+          <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+            <MdOutlineCategory className="text-xl" />
+            <Link to="/ManagerDashboard/Userstatus">Users</Link>
+          </li>
+
+        
         </ul>
       </nav>
 

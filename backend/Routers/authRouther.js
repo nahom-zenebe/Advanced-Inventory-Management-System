@@ -1,10 +1,16 @@
 const express=require("express")
 const router=express.Router()
-const {signup,login,updateProfile,logout}=require('../controller/authcontroller')
+const {signup,login,updateProfile,logout,staffuser,manageruser,adminuser}=require('../controller/authcontroller')
 const {authmiddleware,adminmiddleware,managermiddleware}=require('../middleware/Authmiddleware')
+
+
+
 
 router.post("/signup",signup)
 router.post("/login",login)
+router.get("/staffuser",authmiddleware,staffuser)
+router.get("/manageruser",authmiddleware,manageruser)
+router.get("/adminuser",authmiddleware,adminuser)
 router.post("/logout",authmiddleware,logout)
 router.put("/updateProfile",authmiddleware,updateProfile)
 

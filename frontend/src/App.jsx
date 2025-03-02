@@ -18,6 +18,7 @@ import Notificationpage from './pages/Notificationpage';
 import Supplierpage from './pages/Supplierpage';
 import Activitylogpage from './pages/Activitylogpage';
 import Dashboardpage from './pages/Dashboardpage';
+import Userstatus from './pages/Userstatus'
 import toast, { Toaster } from 'react-hot-toast';
 
 function App() {
@@ -45,7 +46,9 @@ function App() {
             <Route path="notifications" element={<Notificationpage />} />
             <Route path="Profilepage" element={<   Profilepage />} />
             <Route path="supplier" element={<Supplierpage />} />
+            <Route path="Userstatus" element={<Userstatus/>}/>
             <Route path="activity-log" element={<Activitylogpage />} />
+ 
           </Route>
 
           <Route path="/AdminDashboard" element={<AdminDashboard />} />

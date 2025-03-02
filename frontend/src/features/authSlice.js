@@ -5,6 +5,9 @@ import toast from 'react-hot-toast';
 const initialState = {
   Authuser: JSON.parse(localStorage.getItem("user")) || null, 
   isUserSignup: false,
+  staffuser:null,
+  manageruser:null,
+  adminuser:null,
   isUserLogin: false,
   token: localStorage.getItem("token") || null,
   isupdateProfile: false,
@@ -86,6 +89,45 @@ export const updateProfile = createAsyncThunk(
 
 
 
+export const staffUser=createAsyncThunk('auth/staffuser',async(_,{rejectWithValue})=>{
+  try {
+
+    const response=await axiosInstance.get('auth/staffuser',_,{ withCredentials: true });
+    return response.data
+    
+  } catch (error) {
+    return rejectWithValue(error.response?.data?.message || 'Failed to get staff user');
+  }
+})
+
+
+
+export const managerUser=createAsyncThunk('auth/manageruser',async(_,{rejectWithValue})=>{
+  try {
+
+    const response=await axiosInstance.get('auth/manageruser',_,{ withCredentials: true });
+    return response.data
+    
+  } catch (error) {
+    return rejectWithValue(error.response?.data?.message || 'Failed to get manager user');
+  }
+})
+
+
+
+export const adminUser=createAsyncThunk('auth/adminuser',async(_,{rejectWithValue})=>{
+  try {
+
+    const response=await axiosInstance.get('auth/adminuser',_,{ withCredentials: true });
+    return response.data
+    
+  } catch (error) {
+    return rejectWithValue(error.response?.data?.message || 'Failed to get admin user user');
+  }
+})
+
+
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -98,8 +140,8 @@ const authSlice = createSlice({
       })
       .addCase(signup.fulfilled, (state, action) => {
         state.isUserSignup = false;
-        state.Authuser = action.payload.savedUser; // Update Authuser state
-        state.token = action.payload.token; // Update token state
+        state.Authuser = action.payload.savedUser; 
+        state.token = action.payload.token; 
         toast.success("Successfully signed up!");
       })
       .addCase(signup.rejected, (state, action) => {
@@ -113,8 +155,8 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.isUserLogin = false;
-        state.Authuser = action.payload.user; // Update Authuser state
-        state.token = action.payload.token; // Update token state
+        state.Authuser = action.payload.user; 
+        state.token = action.payload.token; 
         toast.success("Successfully logged in!");
       })
       .addCase(login.rejected, (state, action) => {
@@ -144,7 +186,58 @@ const authSlice = createSlice({
       .addCase(updateProfile.rejected, (state, action) => {
         state.isupdateProfile = false;
         toast.error(action.payload || "Error during profile update");
-      });
+      })
+
+
+
+
+      .addCase(staffUser.fulfilled, (state, action) => {
+     
+        state. staffuser = action.payload
+        toast.success("getting user successfully");
+      })
+      
+     
+      .addCase(staffUser.rejected,(state,action)=>{
+
+       toast.error( action.payload|| 'Error In user getting');
+      })
+
+      
+
+
+      .addCase(managerUser.fulfilled, (state, action) => {
+    
+        state.manageruser = action.payload
+        toast.success("getting user successfully");
+      })
+      
+     
+      .addCase(managerUser.rejected,(state,action)=>{
+   
+       toast.error( action.payload|| 'Error In getting user');
+      })
+    
+
+
+
+
+      .addCase(adminUser.fulfilled, (state, action) => {
+      
+        state.adminuser = action.payload
+        toast.success("Products fetched successfully");
+      })
+      
+     
+      .addCase(adminUser.rejected,(state,action)=>{
+      
+       toast.error( action.payload|| 'Error In adding product logout');
+      })
+    
+
+    
+
+  
   },
 });
 

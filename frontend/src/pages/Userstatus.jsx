@@ -15,17 +15,21 @@ import toast from "react-hot-toast";
 
 
 
-function Dashboardpage() {
+function Userstatus() {
   const {staffuser,manageruser,adminuser} = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
 
 
   useEffect(() => {
-    dispatch( staffUser());
-    dispatch( managerUser());
-        dispatch(  adminUser());
+    dispatch(staffUser());
+    dispatch(managerUser());
+    dispatch(adminUser());
   }, [dispatch]);
+
+  console.log(staffuser)
+  console.log(adminuser)
+  console.log(manageruser)
 
 
   return (
@@ -38,4 +42,4 @@ function Dashboardpage() {
   );
 }
 
-export default Dashboardpage;
+export default Userstatus;
