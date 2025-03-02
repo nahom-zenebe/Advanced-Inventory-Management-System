@@ -33,7 +33,7 @@ function Userstatus() {
     return (
       <div className="min-h-screen bg-gray-100">
         <TopNavbar />
-        <div className="bg-white w-72 h-96 rounded-lg">
+        <div className="bg-white mt-10 ml-10 w-72 overflow-auto h-96 rounded-lg">
           <div className="bg-white p-4 rounded-lg shadow-md mb-4">
             <h2 className="text-lg font-semibold mb-2">Manager</h2>
             {manageruser?.length > 0 ? (

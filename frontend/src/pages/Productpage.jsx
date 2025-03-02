@@ -140,18 +140,23 @@ function Productpage() {
       <div className="mt-10 flex ">
       <div className="bg-blue-950 w-56 rounded-xl  ml-10 block h-24">
           <h1 className="text-white ml-12 block pt-5 font-bold">Total Product</h1>
-          <p className="text-white font-bold  pt-2  ml-24">0</p>
+          <p className="text-white font-bold  pt-2  ml-24">{getallproduct?.length ||"0"}</p>
 
         </div>
         <div className="bg-blue-950 ml-10 rounded-xl block w-56 h-24">
         <h1 className="text-white font-bold ml-12 pt-5">Total store value</h1>
-        <p className="text-white font-bold pt-2 ml-20">
-     100
-    </p>
+        <p className="text-white font-bold pt-2 ml-24">$
+  {
+    getallproduct?.reduce((totalAmount, product) => {
+      return totalAmount + product.Price;
+    }, 0) || "0"
+  }
+</p>
+
 </div>
 <div className="bg-blue-950 w-56 rounded-xl ml-10 block h-24">
      <h1 className="text-white font-bold ml-12 pt-5">Total Category</h1>
-     <p className="text-white font-bold   pt-2  ml-20">100</p>
+     <p className="text-white font-bold   pt-2  ml-24"> {getallCategory?.length ||"0"}</p>
 </div>
 
 
