@@ -152,5 +152,24 @@ module.exports.SearchProduct = async (req, res) => {
     }
   };
   
+
+
+
+  module.exports.getTopProductsByQuantity = async (req, res) => {
+  try {
+    const topProducts = await Product.find({})
+      .sort({ quantity: -1 }) 
+      .limit(10); 
+
+    if (!topProducts || topProducts.length === 0) {
+      return res.status(404).json({ message: "No products found" });
+    }
+
+    res.status(200).json({ success: true, topProducts });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching products for chart", error: error.message });
+  }
+};
+
   
 

@@ -12,7 +12,8 @@ const initialState={
     searchdata:null,
     issearchdata:false,
     editedProduct:null,
-    iseditedProduct:false
+    iseditedProduct:false,
+    gettopproduct:null
   
 }
 
@@ -82,7 +83,16 @@ export const Addproduct=createAsyncThunk('product/addproduct',async(product,{rej
     }
   })
 
-
+  export const getTopProductsByQuantity=createAsyncThunk('product/getTopProductsByQuantity',async(_,{rejectWithValue})=>{
+    try {
+       const response=await axiosInstance.get(`product/getTopProductsByQuantity`,_,{ withCredentials: true,})
+       return response.data;
+  
+      
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || "Product getting failed");
+    }
+  })
 
 
 
@@ -199,6 +209,22 @@ extraReducers:(builder)=>{
    state.iseditedProduct=false
   toast.error( 'Error In founding  product');
  })
+
+
+
+
+ .addCase( getTopProductsByQuantity.fulfilled,(state,action)=>{
+
+  state.gettopproduct=action.payload
+
+
+})
+
+
+.addCase(  getTopProductsByQuantity.rejected,(state,action)=>{
+
+ toast.error( 'Error In founding  product');
+})
 
 
 

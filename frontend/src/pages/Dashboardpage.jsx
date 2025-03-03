@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+import Gettopproduct from "../lib/Gettopproduct";
+
 import { LuUsers } from "react-icons/lu";
 
 function Dashboardpage() {
   const { staffuser, manageruser, adminuser } = useSelector((state) => state.auth);
 
+
+
+
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center p-10">
-      <h1 className="text-3xl font-semibold text-gray-800 mb-6">Dashboard</h1>
+      <h1 className="text-3xl font-semibold  mb-6">Dashboard</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       
@@ -30,6 +35,7 @@ function Dashboardpage() {
           <p className="text-gray-500">Admins</p>
         </div>
       </div>
+      <Gettopproduct className="mt-10"/>
     </div>
   );
 }
