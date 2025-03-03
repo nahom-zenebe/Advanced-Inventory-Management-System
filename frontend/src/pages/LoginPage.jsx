@@ -28,8 +28,8 @@ const navigator=useNavigate()
     console.log("Form Submitted:", data);
     dispatch(login(data))
     .then(()=>{
-      navigator('/')
-
+    
+      navigator('/ManagerDashboard')
       if(Authuser.user.role==="staff"){
         navigator('/StaffDashboard')
       } 

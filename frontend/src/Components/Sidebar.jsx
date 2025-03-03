@@ -11,6 +11,7 @@ import { useNavigate} from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import {logout  } from "../features/authSlice";
 import toast from 'react-hot-toast';
+import { LuUsers } from "react-icons/lu";
 
 
 function Sidebar() {
@@ -84,7 +85,7 @@ function Sidebar() {
             <Link to="/ManagerDashboard/category">Category</Link>
           </li>
           <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
-            <MdOutlineCategory className="text-xl" />
+          <LuUsers  className="text-xl"/>
             <Link to="/ManagerDashboard/Userstatus">Users</Link>
           </li>
 
