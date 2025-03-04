@@ -3,13 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { getTopProductsByQuantity } from "../features/productSlice";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
-
+import {gettingallproducts} from '../features/productSlice'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 function Gettopproduct() {
   const dispatch = useDispatch();
   const { gettopproduct } = useSelector((state) => state.product);
+
+    
+  useEffect(() => {
+    dispatch(gettingallproducts());
+  
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(getTopProductsByQuantity());

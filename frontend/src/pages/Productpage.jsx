@@ -14,7 +14,7 @@ import { gettingallCategory } from "../features/categorySlice";
 import toast from "react-hot-toast";
 
 function Productpage() {
-  const { getallproduct, isproductadd, searchdata } = useSelector(
+  const { getallproduct,editedProduct, isproductadd, searchdata } = useSelector(
     (state) => state.product
   );
   const { getallCategory } = useSelector((state) => state.category);
@@ -32,7 +32,7 @@ function Productpage() {
   useEffect(() => {
     dispatch(gettingallproducts());
     dispatch(gettingallCategory());
-  }, [dispatch]);
+  }, [dispatch,editedProduct]);
 
 
  

@@ -15,7 +15,7 @@ module.exports.createActivityLog = async (req, res) => {
       userId,
       entity,
       entityId,
-      ipAddress: req.ip, // Capture IP address
+      ipAddress: req.ip, 
     });
 
     await newActivity.save();

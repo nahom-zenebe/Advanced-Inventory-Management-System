@@ -15,6 +15,7 @@ const salesrouter = require('./Routers/salesRouter');
 const supplierrouter = require('./Routers/supplierrouter');
 const stocktransactionrouter = require('./Routers/stocktransactionrouter');
 
+
 require("dotenv").config();
 const PORT = process.env.PORT || 3003;
 

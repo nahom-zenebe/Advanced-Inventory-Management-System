@@ -47,14 +47,19 @@ export const Addproduct=createAsyncThunk('product/addproduct',async(product,{rej
     'product/editproduct',
     async ({ id, updatedData }, { rejectWithValue }) => {
       try {
-        const response = await axiosInstance.put(`product/editproduct/${id}`, { productId: id, updatedData }, { withCredentials: true });
+        const response = await axiosInstance.put(
+          `product/editproduct/${id}`,
+          { productId: id, updatedData },
+          { withCredentials: true }
+        );
         return response.data;
       } catch (error) {
-        return rejectWithValue(error.response?.data?.message || "Product edit failed");
+        const errorMessage = error.response?.data?.message || "Failed to update product. Please try again.";
+        toast.error(errorMessage); 
+        return rejectWithValue(errorMessage);
       }
     }
   );
-
 
 
 
@@ -215,7 +220,7 @@ extraReducers:(builder)=>{
 
  .addCase( getTopProductsByQuantity.fulfilled,(state,action)=>{
 
-  state.gettopproduct=action.payload
+  state.gettopproduct=action.payload.topProducts || []
 
 
 })

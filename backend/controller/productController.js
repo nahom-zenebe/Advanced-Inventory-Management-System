@@ -5,7 +5,7 @@ const logActivity=require('../libs/logger')
 module.exports.Addproduct=async(req,res)=>{
 
     try {
-      //supllier 
+
         const { name, Description,Category, Price, quantity } = req.body;
         const userId=req.user._id;
         const ipAddress=req.ip
@@ -100,28 +100,40 @@ module.exports.Addproduct=async(req,res)=>{
 
     module.exports.EditProduct = async (req, res) => {
       try {
-        const { productId } = req.params;
-        const { updatedata } = req.body;
-        const userId=req.user._id;
-        const ipAddress=req.ip
+        const { productId, updatedData } = req.body; // Extract from body instead of params
+        const userId = req.user._id;
+        const ipAddress = req.ip;
     
-        const updatedproduct = await Product.findByIdAndUpdate(productId, { ...updatedata }, { new: true });
+        // Validate updatedData
+        if (!updatedData || typeof updatedData !== 'object') {
+          return res.status(400).json({ message: "Invalid update data provided." });
+        }
     
 
+        const updatedProduct = await Product.findByIdAndUpdate(
+          productId,
+          { ...updatedData },
+          { new: true } 
+        );
+    
+        if (!updatedProduct) {
+          return res.status(404).json({ message: "Product not found." });
+        }
+    
 
         await logActivity({
           action: "Update Product",
-          description: `Product ${updatedproduct.name}" was updated.`,
+          description: `Product "${updatedProduct.name}" was updated.`,
           entity: "product",
-          entityId: updatedproduct._id,
+          entityId: updatedProduct._id,
           userId: userId,
           ipAddress: ipAddress,
         });
-
-        
-        
-        res.json(updatedproduct);
+    
+       
+        res.status(200).json(updatedProduct);
       } catch (error) {
+        console.error("Error updating product:", error);
         res.status(500).json({ message: "Error updating product", error: error.message });
       }
     };
