@@ -6,20 +6,22 @@ module.exports.Addproduct=async(req,res)=>{
 
     try {
 
-        const { name, Description,Category, Price, quantity } = req.body;
-        const userId=req.user._id;
-        const ipAddress=req.ip
+        const { name,   Desciption,Category, Price, quantity } = req.body;
+        
+   
      
-        if (!name|| !Category || !Description|| !Price || !quantity) {
+        if (!name|| !Category || !  Desciption|| !Price || !quantity) {
            return res.status(400).json({ error: "Please provide all product details." });
         }
 
      
         const createdProduct = new Product({
-           name, Description, Category, Price, quantity,
+           name,Desciption, Category, Price, quantity,
         });
 
-        await logActivity({
+        await createdProduct.save();
+
+       /* await logActivity({
 
      action:"Add Product",
       description:`Product ${name} was added`,
@@ -28,9 +30,8 @@ module.exports.Addproduct=async(req,res)=>{
       userId:userId,
       ipAddress:ipAddress,
 
-        })
+        })*/
      
-        await createdProduct.save();
      
         res.status(201).json({ message: "Product created successfully" });
      

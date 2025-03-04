@@ -31,6 +31,8 @@ function Categorypage() {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
+  console.log(getallCategory)
+
 
 
 

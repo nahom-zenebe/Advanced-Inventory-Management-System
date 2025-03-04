@@ -24,7 +24,7 @@ function Productpage() {
   const [Category, setCategory] = useState("");
   const [Price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [Description, setDescription] = useState("");
+  const [Desciption, setDesciption] = useState("");
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
@@ -73,7 +73,7 @@ function Productpage() {
       Category,
       Price,
       quantity,
-      Description,
+      Desciption,
     };
 
     dispatch(EditProduct({ id: selectedProduct._id, updatedData }))
@@ -92,7 +92,7 @@ function Productpage() {
 
   const submitProduct = async (event) => {
     event.preventDefault();
-    const productData = { name, Description, Category, Price, quantity };
+    const productData = { name, Desciption, Category, Price, quantity };
 
     dispatch(Addproduct(productData))
       .unwrap()
@@ -111,7 +111,7 @@ function Productpage() {
     setCategory("");
     setPrice("");
     setQuantity("");
-    setDescription("");
+    setDesciption("");
   };
   
 
@@ -121,7 +121,7 @@ function Productpage() {
     setCategory(product.Category?._id || "");
     setPrice(product.Price);
     setQuantity(product.quantity);
-    setDescription(product.Description);
+    setDesciption(product.Desciption);
     setIsFormVisible(true);
   };
 
@@ -223,11 +223,11 @@ function Productpage() {
               </div>
 
               <div className="mb-4">
-                <label>Description</label>
+                <label>Desciption</label>
                 <input
-                  value={Description}
+                  value={Desciption}
                   placeholder="Enter product description"
-                  onChange={(e) => setDescription(e.target.value)}
+                  onChange={(e) => setDesciption(e.target.value)}
                   type="text"
                   className="w-full h-10 px-2 border-2 rounded-lg mt-2"
                 />
@@ -290,7 +290,7 @@ function Productpage() {
                         {product.Category?.name || "No Category"}
                       </td>
                       <td className="px-3 py-2 border">
-                        {product.Description}
+                        {product.Desciption}
                       </td>
                       <td className="px-3 py-2 border">${product.Price}</td>
                       <td className="px-4  py-2 border">
