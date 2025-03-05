@@ -15,11 +15,11 @@ const SupplierSchema= new mongoose.Schema({
         email:{type:String},
         address:{type:String}
     },
-    productsSupplied:[{
+    productsSupplied:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Product"
 
-    }],
+    },
     createdAt:{
         type:Date,
         default:Date.now

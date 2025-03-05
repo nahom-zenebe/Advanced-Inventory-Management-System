@@ -8,10 +8,7 @@ module.exports.createSupplier = async (req, res) => {
     if (!name || !contactInfo || !productsSupplied) {
       return res.status(400).json({ success: false, message: "All fields are required." });
 
-      
-    if (!Array.isArray(contactInfo)) {
-      return res.status(400).json({ success: false, message: "Contact info should be an array" });
-    }
+  
 
     }
 

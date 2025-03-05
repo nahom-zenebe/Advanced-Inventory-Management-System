@@ -33,7 +33,7 @@ function Productpage() {
     dispatch(gettingallproducts());
     dispatch(gettingallCategory());
   }, [dispatch,editedProduct]);
-
+ console.log(gettingallproducts)
 
  
   useEffect(() => {

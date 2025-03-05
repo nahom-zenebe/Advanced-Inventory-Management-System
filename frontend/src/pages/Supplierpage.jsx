@@ -27,7 +27,7 @@ function Supplierpage() {
 
   useEffect(() => {
     dispatch(gettingallSupplier());
-  }, [dispatch]);
+  }, [dispatch, deleteSupplier]);
 
   console.log(getallSupplier);
 
@@ -58,24 +58,35 @@ function Supplierpage() {
       });
   };
 
+  
   const submitSupplier = async (event) => {
     event.preventDefault();
-    const contactInfo = [
-      { type: "Phone", value: Phone },
-      { type: "Email", value: Email },
-      { type: "Address", value: Address },
-    ];
-
-    dispatch(CreateSupplier({ name, contactInfo, Product }))
+    
+    const supplierInfo = { 
+      name,
+      contactInfo: {
+        phone: Phone,
+        email: Email,
+        address: Address
+      },
+      productsSupplied: [Product] 
+    };
+  
+    dispatch(CreateSupplier(supplierInfo))
       .unwrap()
       .then(() => {
         toast.success("Supplier added successfully");
         resetForm();
+        dispatch(gettingallSupplier());
       })
       .catch(() => {
         toast.error("Supplier add unsuccessful");
       });
+  
+    console.log(supplierInfo);
   };
+  
+
 
   const displaySuppliers = false ? searchdata : getallSupplier;
 
