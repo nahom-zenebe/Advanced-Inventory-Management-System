@@ -55,27 +55,39 @@ module.exports.getSupplierById = async (req, res) => {
 };
 
 
-module.exports.updateSupplier = async (req, res) => {
+
+
+
+module.exports.editSupplier = async (req, res) => {
+  const { supplierId } = req.params;
+  const { name, contactInfo, productsSupplied } = req.body; 
+
   try {
-    const { supplierId } = req.params;
-    const { name, contactInfo, productsSupplied } = req.body;
-
+    
     const supplier = await Supplier.findById(supplierId);
-
     if (!supplier) {
-      return res.status(404).json({ success: false, message: "Supplier not found" });
+      return res.status(404).json({ message: "Supplier not found" });
     }
 
+ 
+    supplier.name = name || supplier.name;
+    supplier.contactInfo = {
+      phone: contactInfo?.phone || supplier.contactInfo.phone,
+      email: contactInfo?.email || supplier.contactInfo.email,
+      address: contactInfo?.address || supplier.contactInfo.address,
+    };
+    supplier.productsSupplied = productsSupplied || supplier.productsSupplied;
 
-    if (name) supplier.name = name;
-    if (contactInfo) supplier.contactInfo = contactInfo;
-    if (productsSupplied) supplier.productsSupplied = productsSupplied;
+  
+    const updatedSupplier = await supplier.save();
 
-    await supplier.save();
-
-    res.status(200).json({ success: true, message: "Supplier updated successfully", supplier });
+    
+    res.status(200).json({
+      message: "Supplier updated successfully",
+      supplier: updatedSupplier,
+    });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Error updating supplier", error });
+    res.status(500).json({ message: "Error updating supplier", error });
   }
 };
 
@@ -95,3 +107,27 @@ module.exports.deleteSupplier = async (req, res) => {
     res.status(500).json({ success: false, message: "Error deleting supplier", error });
   }
 };
+
+
+module.exports.searchSupplier = async (req, res) => {
+  try {
+    const { query } = req.query;
+    console.log("Received query:", query); 
+
+    if (!query || query.trim() === "") {
+      return res.status(400).json({ success: false, message: "Query parameter is required" });
+    }
+
+  
+    const suppliers = await Supplier.find({
+      name: { $regex: new RegExp(query, "i") }, 
+    });
+
+    return res.json({ success: true, suppliers });
+  } catch (error) {
+    console.error("Search Error:", error);
+    return res.status(500).json({ success: false, message: "Error fetching supplier", error: error.message });
+  }
+};
+
+

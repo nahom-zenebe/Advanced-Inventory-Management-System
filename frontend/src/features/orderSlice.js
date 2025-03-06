@@ -103,6 +103,25 @@ export const createdOrder=createAsyncThunk('order/createorder',async(order,{reje
   })
 
 
+
+  export const EditOrder = createAsyncThunk(
+    'supplier/updatesupplier',
+    async ({ OrderId, updatedData }, { rejectWithValue }) => {
+      try {
+        const response = await axiosInstance.put(
+          `updatesupplier/${ OrderId}`,
+          { OrderId, updatedData },
+          { withCredentials: true }
+        );
+        return response.data;
+      } catch (error) {
+        const errorMessage = error.response?.data?.message || "Failed to update supplier. Please try again.";
+        toast.error(errorMessage); 
+        return rejectWithValue(errorMessage);
+      }
+    }
+  );
+
   
 
 

@@ -13,7 +13,7 @@ console.log(Authuser)
   return (
     <div>
       <nav className='bg-white shadow-md w-full h-16 flex items-center justify-between px-6'>
-        <h1 className='text-xl font-semibold text-gray-800'>Welcome</h1>
+        <h1 className='text-xl font-semibold text-gray-800'>Welcome, {Authuser?.name ||  "Guest"}</h1>
 
         <div className='flex items-center space-x-4'>
           <div className='flex items-center space-x-4'>

@@ -10,7 +10,8 @@ const initialState = {
     searchdata:null,
     issearchdata:false,
     editedSupplier:null,
-    iseditedSupplier:false
+    iseditedSupplier:false,
+    editedsupplier:null
  
 };
 
@@ -57,6 +58,42 @@ export const gettingallSupplier = createAsyncThunk(
   );
   
 
+
+
+  export const SearchSupplier = createAsyncThunk(
+    "supplier/searchSupplier",
+    async (query, { rejectWithValue }) => {
+      try {
+        const response = await axiosInstance.get(`supplier/searchSupplier?query=${query}`, { withCredentials: true });
+        return response.data;
+      } catch (error) {
+        return rejectWithValue(error.response?.data?.message || "Supplier search failed");
+      }
+    }
+  );
+  
+
+  
+  
+  export const EditSupplier = createAsyncThunk(
+    "supplier/updatesupplier",
+    async ({ supplierId, updatedData }, { rejectWithValue }) => {
+      try {
+        const response = await axiosInstance.put(
+          `supplier/updatesupplier/${supplierId}`, 
+          updatedData, 
+          { withCredentials: true }
+        );
+        toast.success("Supplier updated successfully"); 
+        return response.data; 
+      } catch (error) {
+        const errorMessage =
+          error.response?.data?.message || "Failed to update supplier. Please try again.";
+        toast.error(errorMessage);
+        return rejectWithValue(errorMessage);
+      }
+    }
+  );
 
 
 const supplierSlice = createSlice({
@@ -111,6 +148,37 @@ const supplierSlice = createSlice({
         state.isSupplierremove = false;
         toast.error(action.payload || 'Error retrieving   Supplier');
       })
+
+ .addCase(SearchSupplier.fulfilled,(state,action)=>{
+
+   state.searchdata=action.payload
+
+
+ })
+ 
+
+ .addCase(  SearchSupplier.rejected,(state,action)=>{
+ 
+  toast.error( 'Error In founding  Supplier');
+ })
+
+
+
+
+
+.addCase(EditSupplier.fulfilled,(state,action)=>{
+
+ state.editedsupplier=action.payload
+
+
+})
+
+
+.addCase(EditSupplier.rejected,(state,action)=>{
+
+toast.error( 'Error In founding  Supplier');
+})
+
 
 
 
