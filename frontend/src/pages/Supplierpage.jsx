@@ -216,7 +216,7 @@ function Supplierpage() {
           <h2 className="text-xl font-semibold mb-4">Supplier List</h2>
           <div className="overflow-x-auto">
             <table className="min-w-full bg-base-100 border border-gray-200 rounded-lg shadow-md">
-              <thead className="bg-gray-100">
+              <thead className=" bg-base-100">
                 <tr>
                   <th className="px-3 py-2 border">#</th>
                   <th className="px-3 py-2 border">Name</th>
@@ -231,7 +231,7 @@ function Supplierpage() {
                 {Array.isArray(displaySuppliers) &&
                 displaySuppliers.length > 0 ? (
                   displaySuppliers.map((supplier, index) => (
-                    <tr key={supplier._id} className="hover:bg-gray-50">
+                    <tr key={supplier._id} className="">
                       <td className="px-3 py-2 border">{index + 1}</td>
                       <td className="px-3 py-2 border">{supplier.name}</td>
                       <td className="px-3 py-2 border">

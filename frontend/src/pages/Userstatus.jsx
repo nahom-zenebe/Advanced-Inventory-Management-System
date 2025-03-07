@@ -28,8 +28,8 @@ function Userstatus() {
   return (
     <div className="min-h-screen bg-base-100">
       <TopNavbar />
-      <div className="bg-white bg-base-100 mt-10 ml-10 w-72 overflow-auto rounded-lg">
-        <div className="bg-white bg-base-100 p-4 rounded-lg shadow-md mb-4">
+      <div className=" bg-base-100 mt-10 ml-10 w-72 overflow-auto rounded-lg">
+        <div className=" bg-base-100 p-4 rounded-lg shadow-md mb-4">
           <h2 className="text-lg bg-base-100 font-semibold mb-2">Manager</h2>
           {manageruser?.length > 0 ? (
             manageruser.map((user, index) => (
@@ -46,7 +46,7 @@ function Userstatus() {
           )}
         </div>
 
-        <div className="bg-white bg-base-100 p-4 rounded-lg shadow-md mb-4">
+        <div className="bg-base-100 p-4 rounded-lg shadow-md mb-4">
           <h2 className="text-lg bg-base-100 font-semibold mb-2">Admin User</h2>
           {adminuser?.length > 0 ? (
             adminuser.map((user, index) => (
@@ -63,15 +63,15 @@ function Userstatus() {
           )}
         </div>
 
-        <div className="bg-white bg-base-100 p-4 rounded-lg shadow-md mb-4">
+        <div className=" bg-base-100 p-4 rounded-lg shadow-md mb-4">
           <h2 className="text-lg bg-base-100 font-semibold mb-2">Staff User</h2>
           {staffuser?.length > 0 ? (
             staffuser.map((user, index) => (
               <div key={index} className="flex bg-base-100 items-center space-x-4 p-2 border-b">
-                <img src={image} alt="User" className="w-10 h-10 rounded-full" />
+                <img src={image} alt="User" className="w-10 h-10  bg-base-100 rounded-full" />
                 <div className="bg-base-100">
-                  <p className="font-medium">{user.name}</p>
-                  <p className="text-gray-600 text-sm">{user.email}</p>
+                  <p className="font-medium  bg-base-100">{user.name}</p>
+                  <p className=" bg-base-100 text-sm">{user.email}</p>
                 </div>
               </div>
             ))

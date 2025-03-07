@@ -45,8 +45,8 @@ function Activitylogpage() {
       <div className="mt-10 ml-5">
       <h1 className="text-xl font-semibold mb-4">Activity Logs</h1>
         <div className="overflow-x-auto">
-            <table className="min-w-full bg-base-100 bg-white border mb-24 border-gray-200 rounded-lg shadow-md">
-              <thead className="bg-gray-100">
+            <table className="min-w-full bg-base-100  mb-24 border-gray-200 rounded-lg shadow-md">
+              <thead className="bg-base-100 ">
                 <tr>
                 <th className="px-3 py-2 border w-5">#</th>
                 <th className="px-3 py-2 border">Name</th>
@@ -60,11 +60,11 @@ function Activitylogpage() {
              
                 </tr>
               </thead>
-              <tbody>
+              <tbody >
                 {Array.isArray(logs) &&
                 logs.length > 0 ? (
                   logs.map((log,index) => (
-                    <tr key={log._id} className="hover:bg-gray-50">
+                    <tr key={log._id} className="">
                        <td className="px-3 py-2 border">{index+1}</td>
                        <td className="px-3 py-2 border">{log.userId.name}</td>
                        <td className="px-3 py-2 border">{log.userId.email}</td>
