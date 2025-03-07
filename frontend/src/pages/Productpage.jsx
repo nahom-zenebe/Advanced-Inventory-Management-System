@@ -269,8 +269,8 @@ function Productpage() {
         <div className="mt-10">
           <h2 className="text-xl font-semibold mb-4">Product List</h2>
           <div className="overflow-x-auto">
-            <table className="min-w-full bg-base-100 bg-white border mb-24 border-gray-200 rounded-lg shadow-md">
-              <thead className="bg-gray-100">
+            <table className="min-w-full bg-base-100 border mb-24 border-gray-200 rounded-lg shadow-md">
+              <thead className="">
                 <tr>
                 <th className="px-3 py-2 border w-5">#</th>
                   <th className="px-3 py-2 border">Name</th>
@@ -284,7 +284,7 @@ function Productpage() {
                 {Array.isArray(displayProducts) &&
                 displayProducts.length > 0 ? (
                   displayProducts.map((product,index) => (
-                    <tr key={product._id} className="hover:bg-gray-50">
+                    <tr key={product._id} >
                        <td className="px-3 py-2 border">{index+1}</td>
                       <td className="px-3 py-2 border">{product.name}</td>
                       <td className="px-3 py-2 border">

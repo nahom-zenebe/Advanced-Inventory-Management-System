@@ -38,31 +38,31 @@ function Sidebar() {
 
 
   return (
-    <div className="flex flex-col bg-base-100 w-64 bg-gray-100 text-black min-h-screen p-6 shadow-lg ">
-      <h1 className="text-2xl font-bold text-center text-gray-700 mb-10">Company Logo</h1>
+    <div className="flex flex-col   bg-base-300 w-64 text-black min-h-screen p-6 shadow-lg ">
+      <h1 className="text-2xl bg-base-300  font-bold text-center text-gray-700 mb-10">Company Logo</h1>
       
-      <nav className="space-y-4">
-        <div className="text-lg mt-10 flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
-          <RxDashboard className="text-xl" />
+      <nav className="space-y-4 bg-base-300">
+        <div className="text-lg mt-10 flex items-center bg-base-300 space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+          <RxDashboard className="text-xl " />
           <Link to="/ManagerDashboard">Dashboard</Link>
         </div>
 
-        <ul className="space-y-2">
-          <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+        <ul className="space-y-2 bg-base-300 ">
+          <li className="flex  items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
             <AiOutlineProduct className="text-xl" />
-            <Link to="/ManagerDashboard/product">Product</Link>
+            <Link to="/ManagerDashboard/product ">Product</Link>
           </li>
           <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
             <RxActivityLog className="text-xl" />
-            <Link to="/ManagerDashboard/activity-log">Activity Log</Link>
+            <Link to="/ManagerDashboard/activity-log ">Activity Log</Link>
           </li>
           <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
             <TfiSupport className="text-xl" />
-            <Link to="/ManagerDashboard/supplier">Supplier</Link>
+            <Link to="/ManagerDashboard/supplier ">Supplier</Link>
           </li>
           <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
             <MdPointOfSale className="text-xl" />
-            <Link to="/ManagerDashboard/sales">Sales</Link>
+            <Link to="/ManagerDashboard/sales ">Sales</Link>
           </li>
           <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
             <FiShoppingCart className="text-xl" />
@@ -74,28 +74,28 @@ function Sidebar() {
           </li>
           <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
             <IoNotificationsOutline className="text-xl" />
-            <Link to="/ManagerDashboard/notifications">Notifications</Link>
+            <Link to="/ManagerDashboard/notifications ">Notifications</Link>
           </li>
           <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
             <MdOutlineInventory2 className="text-xl" />
-            <Link to="/ManagerDashboard/inventory">Inventory</Link>
+            <Link to="/ManagerDashboard/inventory ">Inventory</Link>
           </li>
           <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
             <MdOutlineCategory className="text-xl" />
-            <Link to="/ManagerDashboard/category">Category</Link>
+            <Link to="/ManagerDashboard/category ">Category</Link>
           </li>
           <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
           <LuUsers  className="text-xl"/>
-            <Link to="/ManagerDashboard/Userstatus">Users</Link>
+            <Link to="/ManagerDashboard/Userstatus ">Users</Link>
           </li>
 
         
         </ul>
       </nav>
 
-      <div className="mt-auto border-t pt-4">
-        <div className="flex items-center space-x-3 text-lg text-gray-700 hover:text-red-600 cursor-pointer p-2 rounded-md transition">
-          <FiLogOut className="text-xl" />
+      <div className="mt-auto border-t bg-base-300 pt-4">
+        <div className="flex items-center bg-base-300 space-x-3 text-lg text-gray-700 hover:text-red-600 cursor-pointer p-2 rounded-md transition">
+          <FiLogOut className="text-xl bg-base-300" />
           <span onClick={handleLogout}>Logout</span>
         </div>
       </div>
