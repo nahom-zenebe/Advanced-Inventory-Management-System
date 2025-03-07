@@ -53,7 +53,7 @@ function ProfilePage() {
   console.log(userdata);
 
   return (
-    <div className="min-h-screen bg-gray-100 text-gray-900">
+    <div className="min-h-screen bg-base-100 bg-gray-100 text-gray-900">
       <TopNavbar />
       <div className="container mx-auto px-6 py-12">
         <div className="flex mt-8">
@@ -108,7 +108,7 @@ function ProfilePage() {
           </div>
         </div>
 
-        <div className="mt-10 bg-white p-8 rounded-lg shadow-lg text-center">
+        <div className="mt-10 bg-base-100 bg-white p-8 rounded-lg shadow-lg text-center">
           <h2 className="text-xl font-bold text-gray-800 mb-4">Contact Information</h2>
           <div className="space-y-4">
             <div>

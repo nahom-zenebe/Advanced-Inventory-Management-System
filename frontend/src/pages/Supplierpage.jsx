@@ -8,7 +8,7 @@ import {
   gettingallSupplier,
   deleteSupplier,
   SearchSupplier,
-  EditSupplier
+  EditSupplier,
 } from "../features/SupplierSlice";
 import toast from "react-hot-toast";
 import FormattedTime from "../lib/FormattedTime ";
@@ -28,12 +28,9 @@ function Supplierpage() {
   const [selectedSupplier, setSelectedSupplier] = useState(null);
   const [Product, setProduct] = useState("");
 
-
-
   useEffect(() => {
     dispatch(gettingallSupplier());
   }, [dispatch, deleteSupplier]);
-  console.log(getallSupplier)
 
   useEffect(() => {
     if (query.trim() !== "") {
@@ -65,7 +62,6 @@ function Supplierpage() {
         toast.error(error || "Failed to remove Supplier");
       });
   };
-  console.log(getallproduct._id  )
 
   const submitSupplier = async (event) => {
     event.preventDefault();
@@ -75,13 +71,12 @@ function Supplierpage() {
       contactInfo: {
         phone: Phone,
         email: Email,
-        address: Address
+        address: Address,
       },
-      productsSupplied: [Product]
+      productsSupplied: [Product],
     };
 
     if (selectedSupplier) {
-    console.log(supplierInfo)
       dispatch(EditSupplier({ id: selectedSupplier._id, updatedData: supplierInfo }))
         .unwrap()
         .then(() => {
@@ -94,7 +89,6 @@ function Supplierpage() {
           toast.error("Failed to update Supplier");
         });
     } else {
-  
       dispatch(CreateSupplier(supplierInfo))
         .unwrap()
         .then(() => {
@@ -111,7 +105,7 @@ function Supplierpage() {
   const displaySuppliers = query.trim() !== "" ? searchdata : getallSupplier;
 
   return (
-    <div>
+    <div className="bg-base-100 min-h-screen"> 
       <TopNavbar />
       <div className="mt-10 ml-5">
         <div className="flex items-center space-x-4">
@@ -119,7 +113,7 @@ function Supplierpage() {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full md:w-96 h-12 pl-4 pr-12 border-2 border-gray-300 rounded-lg"
+            className="w-full md:w-96 h-12 pl-4 pr-12 border-2 border-gray-300 rounded-lg bg-base-100" // Added bg-base-100 here
             placeholder="Search for supplier"
           />
           <button
@@ -135,7 +129,7 @@ function Supplierpage() {
         </div>
 
         {isFormVisible && (
-          <div className="absolute top-10 bg-gray-100 right-0 h-svh p-6 border-2 border-gray-300 rounded-lg shadow-md transition-transform transform">
+          <div className="absolute top-10 bg-base-100 right-0 h-svh p-6 border-2 border-gray-300 rounded-lg shadow-md transition-transform transform">
             <div className="text-right">
               <MdKeyboardDoubleArrowLeft
                 onClick={() => setIsFormVisible(false)}
@@ -155,7 +149,7 @@ function Supplierpage() {
                   placeholder="Enter Supplier name"
                   onChange={(e) => setName(e.target.value)}
                   type="text"
-                  className="w-full h-10 px-2 border-2 rounded-lg mt-2"
+                  className="w-full h-10 px-2 border-2 rounded-lg mt-2 bg-base-100" // Added bg-base-100 here
                 />
               </div>
 
@@ -166,7 +160,7 @@ function Supplierpage() {
                   placeholder="Enter Supplier Phone"
                   onChange={(e) => setPhone(e.target.value)}
                   type="text"
-                  className="w-full h-10 px-2 border-2 rounded-lg mt-2"
+                  className="w-full h-10 px-2 border-2 rounded-lg mt-2 bg-base-100" // Added bg-base-100 here
                 />
               </div>
 
@@ -177,7 +171,7 @@ function Supplierpage() {
                   placeholder="example@email.com"
                   onChange={(e) => setEmail(e.target.value)}
                   type="email"
-                  className="w-full h-10 px-2 border-2 rounded-lg mt-2"
+                  className="w-full h-10 px-2 border-2 rounded-lg mt-2 bg-base-100" // Added bg-base-100 here
                 />
               </div>
 
@@ -188,7 +182,7 @@ function Supplierpage() {
                   placeholder="Enter Supplier Address"
                   value={Address}
                   onChange={(e) => setAddress(e.target.value)}
-                  className="w-full h-10 px-2 border-2 rounded-lg mt-2"
+                  className="w-full h-10 px-2 border-2 rounded-lg mt-2 bg-base-100" // Added bg-base-100 here
                 />
               </div>
 
@@ -197,7 +191,7 @@ function Supplierpage() {
                 <select
                   value={Product}
                   onChange={(e) => setProduct(e.target.value)}
-                  className="w-full h-10 px-2 border-2 rounded-lg mt-2"
+                  className="w-full h-10 px-2 border-2 rounded-lg mt-2 bg-base-100" // Added bg-base-100 here
                 >
                   <option value="">Select a product</option>
                   {getallproduct?.map((product) => (
@@ -221,7 +215,7 @@ function Supplierpage() {
         <div className="mt-10">
           <h2 className="text-xl font-semibold mb-4">Supplier List</h2>
           <div className="overflow-x-auto">
-            <table className="min-w-full bg-white border mb-24 border-gray-200 rounded-lg shadow-md">
+            <table className="min-w-full bg-base-100 border border-gray-200 rounded-lg shadow-md">
               <thead className="bg-gray-100">
                 <tr>
                   <th className="px-3 py-2 border">#</th>

@@ -45,11 +45,11 @@ function NotificationPage() {
   };
 
   return (
-    <div className="">
+    <div className="bg-base-100 min-h-screen">
 
       <TopNavbar />
 
-      <div className="max-w-3xl mx-auto mt-10">
+      <div className="max-w-3xl bg-base-100 mx-auto mt-10">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold">Notifications</h1>
           <button

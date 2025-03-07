@@ -3,16 +3,18 @@ import { FaRegCircleUser } from "react-icons/fa6";
 import { HiDotsVertical } from "react-icons/hi";
 import {  useSelector } from "react-redux";
 import image from "../images/user.png";
+import ThemeToggle from "../lib/ThemeToggle";
 import { Link } from 'react-router-dom';
 function TopNavbar() {
   const { Authuser, isUserSignup } = useSelector((state) => state.auth);
 
-console.log(Authuser)
+
 
 
   return (
-    <div>
-      <nav className='bg-white shadow-md w-full h-16 flex items-center justify-between px-6'>
+   
+    <div className=' bg-base-100 '>
+      <nav className='bg-gray-100 shadow-md w-full h-16 flex items-center justify-between px-6'>
         <h1 className='text-xl font-semibold text-gray-800'>Welcome, {Authuser?.name ||  "Guest"}</h1>
 
         <div className='flex items-center space-x-4'>
@@ -28,11 +30,13 @@ console.log(Authuser)
               <p className='text-gray-500 text-sm'>{Authuser?.role || "Visitor"}</p>
             </div>
           </div>
-          <HiDotsVertical className='text-gray-600 text-xl cursor-pointer' />
+          <ThemeToggle className='text-gray-600 text-xl cursor-pointer' />
+         
         </div>
       </nav>
       <hr className='border-gray-200' />
     </div>
+
   );
 }
 

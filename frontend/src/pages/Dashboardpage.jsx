@@ -11,9 +11,9 @@ function Dashboardpage() {
 
 
   return (
-    <>
+    <div className="bg-base-100">
           <TopNavbar/>
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center p-10">
+    <div className="min-h-screen bg-base-100 bg-gray-100 flex flex-col items-center p-10">
 
       <h1 className="text-3xl font-semibold  mb-6">Dashboard</h1>
 
@@ -40,7 +40,7 @@ function Dashboardpage() {
       </div>
       <Gettopproduct className="mt-20"/>
     </div>
-    </>
+    </div>
   );
 }
 

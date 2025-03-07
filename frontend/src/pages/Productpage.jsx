@@ -132,7 +132,7 @@ function Productpage() {
   const displayProducts = query.trim() !== "" ? searchdata : getallproduct;
 
   return (
-    <div>
+    <div className="bg-base-100 min-h-screen">
       <TopNavbar />
 
 
@@ -155,7 +155,7 @@ function Productpage() {
 </p>
 
 </div>
-<div className="bg-blue-950 w-56 rounded-xl ml-10 block h-24">
+<div className="bg-blue-950 bg-base-100 w-56 rounded-xl ml-10 block h-24">
      <h1 className="text-white font-bold ml-12 pt-5">Total Category</h1>
      <p className="text-white font-bold   pt-2  ml-24"> {getallCategory?.length ||"0"}</p>
 </div>
@@ -269,7 +269,7 @@ function Productpage() {
         <div className="mt-10">
           <h2 className="text-xl font-semibold mb-4">Product List</h2>
           <div className="overflow-x-auto">
-            <table className="min-w-full bg-white border mb-24 border-gray-200 rounded-lg shadow-md">
+            <table className="min-w-full bg-base-100 bg-white border mb-24 border-gray-200 rounded-lg shadow-md">
               <thead className="bg-gray-100">
                 <tr>
                 <th className="px-3 py-2 border w-5">#</th>

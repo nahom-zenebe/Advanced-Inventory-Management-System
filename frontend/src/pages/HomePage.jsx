@@ -14,11 +14,11 @@ function HomePage() {
   };
 
   return (
-    <>
+    <div className='bg-base-100 min-h-screen'>
     
     <Navbar/>
   
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-6 relative overflow-hidden">
+    <div className="min-h-screen bg-base-100 bg-gray-100 flex flex-col items-center justify-center p-6 relative overflow-hidden">
 
       <div className="absolute inset-0 bg-white opacity-20" style={{
         backgroundImage: "linear-gradient(45deg, rgba(0,0,0,0.1) 80%, transparent 25%, transparent 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1) 75%, transparent 75%, transparent)",
@@ -90,7 +90,7 @@ function HomePage() {
         </div>
       </div>
     </div>
-    </>
+    </div>
   );
 }
 

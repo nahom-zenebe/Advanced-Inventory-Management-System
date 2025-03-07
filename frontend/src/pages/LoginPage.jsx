@@ -55,7 +55,7 @@ const navigator=useNavigate()
   }, [Authuser]);
 
   return (
-    <div className="min-h-screen flex bg-gray-50">
+    <div className="min-h-screen bg-base-100 flex bg-gray-50 min-h-screen">
       <div className="w-full sm:w-1/2 p-6 flex items-center justify-center bg-white shadow-lg rounded-xl">
         <div className="max-w-md w-full">
           <div className="text-center mb-8">

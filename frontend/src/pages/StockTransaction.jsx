@@ -78,7 +78,7 @@ console.log(getallStocks)
 
 
   return (
-    <div>
+    <div className="bg-base-100 min-h-screen">
 
 <TopNavbar />
 
@@ -107,7 +107,7 @@ console.log(getallStocks)
 
 
         {isFormVisible && (
-          <div className="absolute top-10 bg-gray-100 right-0 h-svh p-6 border-2 border-gray-300 rounded-lg shadow-md transition-transform transform">
+          <div className="absolute top-10 bg-base-100 bg-gray-100 right-0 h-svh p-6 border-2 border-gray-300 rounded-lg shadow-md transition-transform transform">
             <div className="text-right">
               <MdKeyboardDoubleArrowLeft
                 onClick={() => setIsFormVisible(false)}
@@ -195,7 +195,7 @@ console.log(getallStocks)
 <div className="mt-10">
           <h2 className="text-xl font-semibold mb-4">Product List</h2>
           <div className="overflow-x-auto">
-            <table className="min-w-full bg-white border mb-24 border-gray-200 rounded-lg shadow-md">
+            <table className="min-w-full bg-base-100 bg-white border mb-24 border-gray-200 rounded-lg shadow-md">
               <thead className="bg-gray-100">
                 <tr>
                 <th className="px-3 py-2 border w-5">#</th>

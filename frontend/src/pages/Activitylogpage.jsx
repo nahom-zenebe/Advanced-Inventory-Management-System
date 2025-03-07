@@ -40,12 +40,12 @@ function Activitylogpage() {
   console.log(userdata)
 
   return (
-    <div>
+    <div className="bg-base-100 min-h-screen">
       <TopNavbar />
       <div className="mt-10 ml-5">
       <h1 className="text-xl font-semibold mb-4">Activity Logs</h1>
         <div className="overflow-x-auto">
-            <table className="min-w-full bg-white border mb-24 border-gray-200 rounded-lg shadow-md">
+            <table className="min-w-full bg-base-100 bg-white border mb-24 border-gray-200 rounded-lg shadow-md">
               <thead className="bg-gray-100">
                 <tr>
                 <th className="px-3 py-2 border w-5">#</th>

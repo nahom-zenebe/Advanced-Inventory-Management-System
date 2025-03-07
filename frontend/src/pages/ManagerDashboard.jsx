@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom';
 
 function ManagerDashboard() {
   return (
-    <div className="flex bg-gray-200 min-h-screen">
+    <div className="flex bg-base-100 bg-gray-200 min-h-screen">
     
       <Sidebar />
 

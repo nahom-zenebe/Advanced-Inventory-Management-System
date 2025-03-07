@@ -2,7 +2,7 @@ import React from 'react'
 import Sidebar from '../Components/Sidebar'
 function AdminDashboard() {
   return (
-    <div>
+    <div className='bg-base-100'>
         <Sidebar/>
     </div>
   )
