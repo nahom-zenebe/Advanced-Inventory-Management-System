@@ -272,25 +272,25 @@ function Orderpage() {
           <div className="overflow-x-auto">
             <table className=" bg-base-100 min-w-full bg-white border mb-24 border-gray-200 rounded-lg shadow-md">
               <thead className="bg-gray-100">
-                <tr>
-                  <th className="px-3 py-2 border w-5">#</th>
-                  <th className="px-3 py-2 border">Desciptiona</th>
-                  <th className="px-3 py-2 border">Product Id</th>
-                  <th className="px-3 py-2 border">qunatity</th>
-                  <th className="px-3 py-2 border">Price</th>
-                  <th className="px-3 py-2  border">totalAmount</th>
-                  <th className="px-3 py-2  border">status</th>
-                  <th className="px-3 py-2 border">time stamp</th>
-                  <th className="px-3 py-2 border">Operations</th>
+                <tr className="bg-base-100">
+                  <th className="px-3 py-2 bg-base-100 border w-5">#</th>
+                  <th className="px-3 py-2 bg-base-100 border">Desciptiona</th>
+                  <th className="px-3 py-2 bg-base-100 border">Product Id</th>
+                  <th className="px-3 py-2 bg-base-100 border">qunatity</th>
+                  <th className="px-3 py-2 bg-base-100 border">Price</th>
+                  <th className="px-3 py-2  bg-base-100  border">totalAmount</th>
+                  <th className="px-3 py-2 bg-base-100  border">status</th>
+                  <th className="px-3 py-2 bg-base-100 border">time stamp</th>
+                  <th className="px-3 py-2 bg-base-100 border">Operations</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="bg-base-100">
                 {Array.isArray(displayOrder) && displayOrder.length > 0 ? (
            
                   displayOrder.map((order, index) => (
                   
 
-                    <tr key={order._id} className="hover:bg-gray-50">
+                    <tr key={order._id} className="bg-base-100">
                       <td className="px-3 py-2 border">{index + 1}</td>
                       <td className="px-3 py-2 border">{order.Desciption}</td>
                       <td className="px-3 py-2 border">book</td>{" "}
@@ -325,7 +325,7 @@ function Orderpage() {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="5" className="text-center py-4">
+                    <td colSpan="5" className="bg-base-100 text-center py-4">
                       No Order found.
                     </td>
                   </tr>

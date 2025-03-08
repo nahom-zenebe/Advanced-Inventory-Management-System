@@ -5,8 +5,8 @@ import { MdClose } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import image from "../images/user.png";
 import { createNotification, getAllNotifications, deleteNotification } from "../features/notificationSlice"; 
-import toast from "react-hot-toast";
 import io from "socket.io-client";
+import toast from 'react-hot-toast';
 
 
 
@@ -18,6 +18,24 @@ function NotificationPage() {
   const [type, setType] = useState("");
   const [isFormVisible, setIsFormVisible] = useState(false);
   const { Authuser, isUserSignup } = useSelector((state) => state.auth);
+
+
+  const socket = io("http://localhost:3002", {
+    withCredentials: true, 
+  });
+
+  useEffect(() => {
+    socket.on("newNotification", (notification) => {
+      toast.success(`newNotification: ${notification.name}`);
+      dispatch(getAllNotifications()); 
+    });
+
+   
+    return () => {
+      socket.off("newNotification");
+    };
+  }, [dispatch]);
+
 
 
   useEffect(() => {
@@ -61,7 +79,7 @@ function NotificationPage() {
         </div>
 
         {isFormVisible && (
-          <div className="bg-white p-6 rounded-lg shadow-md mb-6">
+          <div className=" p-6 rounded-lg  bg-base-100 shadow-md mb-6">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold">Add Notification</h2>
               <MdClose className="text-2xl cursor-pointer" onClick={() => setIsFormVisible(false)} />
@@ -77,7 +95,7 @@ function NotificationPage() {
                   placeholder="Enter title"
                 />
               </div>
-              <div className="mb-4">
+              <div className="mb-4 ">
                 <label className="block font-medium">Description</label>
                 <textarea
                   value={type}
@@ -96,11 +114,11 @@ function NotificationPage() {
           </div>
         )}
 
-        <div className="space-y-4">
+        <div className="space-y-4 bg-base-100">
           {notifications.length > 0 ? (
             notifications.map((notification) => (
-              <div key={notification._id} className="flex items-center bg-white p-4 rounded-lg shadow-md">
-                <img src={image} alt="User" className="w-12 h-12 rounded-full mr-4" />
+              <div key={notification._id} className="flex items-center bg-base-300  p-4 rounded-lg shadow-md">
+                <img src={image} alt="User" className="w-12 h-12 bg-base-300 rounded-full mr-4" />
                 <div className="flex-1">
                   <h3 className="text-lg font-semibold">{Authuser?.name||notification.name}</h3>
                   <p className="text-gray-600 text-sm">{notification.type}</p>
@@ -114,7 +132,7 @@ function NotificationPage() {
               </div>
             ))
           ) : (
-            <p className="text-center text-gray-600">No notifications found.</p>
+            <p className="text-center bg-base-100  text-gray-600">No notifications found.</p>
           )}
         </div>
       </div>

@@ -36,6 +36,17 @@ app.use(cors({
   credentials: true,
 }));
 
+
+io.on("connection", (socket) => {
+  console.log("A user connected");
+
+ 
+  socket.on("disconnect", () => {
+    console.log("A user disconnected");
+  });
+})
+
+
 app.use(express.json());
 app.set("io", io);
 app.use(cookieParser());
@@ -44,11 +55,14 @@ app.use('/api/product', productrouter);
 app.use('/api/order', orderrouter);
 app.use('/api/category', categoryrouter);
 app.use('/api/notification', notificationrouter);
-app.use('/api/activitylogs', activityrouter(app)); // Pass `app` to the activityrouter
+app.use('/api/activitylogs', activityrouter(app)); 
 app.use('/api/inventory', inventoryrouter);
 app.use('/api/sales', salesrouter);
 app.use('/api/supplier', supplierrouter);
 app.use("/api/stocktransaction", stocktransactionrouter);
+
+
+
 
 server.listen(PORT, () => {
   MongoDBconfig();

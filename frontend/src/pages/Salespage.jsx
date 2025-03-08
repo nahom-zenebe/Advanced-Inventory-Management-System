@@ -172,7 +172,7 @@ function Salespage() {
                 />
               </div>
 
-              <div className="mb-4">
+              <div className="mb-4 ">
                 <label>Product</label>
                 <select
                   value={Product}
@@ -238,21 +238,21 @@ function Salespage() {
             <table className="bg-base-100 min-w-full bg-white border mb-24 border-gray-200 rounded-lg shadow-md">
               <thead className="bg-gray-100">
                 <tr>
-                <th className="px-3 py-2 border w-5">#</th>
-                  <th className="px-3 py-2 border">Customer Name</th>
-                  <th className="px-3 py-2 border">Product</th>
-                  <th className="px-3 py-2 border">Total Amount</th>
-                  <th className="px-3 py-2 border">Status</th>
-                  <th className="px-3 py-2  border">Date</th>
-                  <th className="px-3 py-2 border">Payment</th>
-                  <th className="px-3 py-2  border">Operation</th>
+                <th className="px-3 py-2 border w-5 bg-base-100">#</th>
+                  <th className="px-3 py-2 border bg-base-100">Customer Name</th>
+                  <th className="px-3 py-2 border bg-base-100">Product</th>
+                  <th className="px-3 py-2 border bg-base-100">Total Amount</th>
+                  <th className="px-3 py-2 border bg-base-100">Status</th>
+                  <th className="px-3 py-2  border bg-base-100">Date</th>
+                  <th className="px-3 py-2 border bg-base-100">Payment</th>
+                  <th className="px-3 py-2  border bg-base-100">Operation</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="bg-base-100">
                 {Array.isArray(getallsales) &&
                 getallsales.length > 0 ? (
                   getallsales.map((sales,index) => (
-                    <tr key={sales._id} className="hover:bg-gray-50">
+                    <tr key={sales._id} className="">
                        <td className="px-3 py-2 border">{index+1}</td>
                       <td className="px-3 py-2 border">{sales.customerName
                       }</td>
@@ -281,7 +281,7 @@ function Salespage() {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="5" className="text-center py-4">
+                    <td colSpan="5" className=" bg-base-100 text-center py-4">
                       No sales found.
                     </td>
                   </tr>

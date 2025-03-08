@@ -183,19 +183,19 @@ function Categorypage() {
             <table className="min-w-full ml-10 bg-base-100 bg-white border mb-24 border-gray-200 rounded-lg shadow-md">
               <thead className="bg-gray-100">
                 <tr>
-                <th className="px-3 py-2 border w-5">#</th>
-                  <th className="px-3 py-2 border">Name</th>
-                  <th className="px-3 py-2 border">Total Product</th>
-                  <th className="px-3 py-2 border">Description</th>
-                  <th className="px-3 py-2 border">Stock Quantity</th>
-                  <th className="px-3 py-2 w-72 border">Operations</th>
+                <th className="px-3 py-2 bg-base-100 border w-5">#</th>
+                  <th className="px-3 py-2 bg-base-100 border">Name</th>
+                  <th className="px-3 py-2 bg-base-100 border">Total Product</th>
+                  <th className="px-3 py-2 bg-base-100 border">Description</th>
+                  <th className="px-3 py-2 bg-base-100 border">Stock Quantity</th>
+                  <th className="px-3 py-2 bg-base-100 w-72 border">Operations</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className='bg-base-100'>
                 {Array.isArray(displayCategory) &&
                 displayCategory.length > 0 ? (
                   displayCategory.map((Category,index) => (
-                    <tr key={Category._id} className="hover:bg-gray-50">
+                    <tr key={Category._id} className="">
                        <td className="px-3 py-2 border">{index+1}</td>
                       <td className="px-3 py-2 border">{Category.name}</td>
                       <td className="px-3 py-2 border">
@@ -227,7 +227,7 @@ function Categorypage() {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="5" className="text-center py-4">
+                    <td colSpan="5" className="text-center bg-base-100 py-4">
                       No Category found.
                     </td>
                   </tr>

@@ -12,8 +12,14 @@ module.exports.createNotification = async (req, res) => {
     const notification = new Notification({ name, type });
     await notification.save();
 
+    const allNotifications = await Notification.find().sort({ createdAt: -1 });
 
-    io.emit("newNotification",notification)
+  
+    io.emit("newNotificationList", allNotifications);
+
+    console.log(notification);
+
+
 
     res.status(201).json({ success: true, message: "Notification created successfully.", notification });
   } catch (error) {
