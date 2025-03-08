@@ -56,36 +56,47 @@ export const logout = createAsyncThunk(
     }
   }
 );
-
 export const updateProfile = createAsyncThunk(
   'auth/updateProfile',
-  async (base64Image, { getState, rejectWithValue }) => {
+  async (base64Image, { rejectWithValue }) => {
     try {
-      const storedUser = JSON.parse(localStorage.getItem('authUser'));
+  
+      const storedUser = JSON.parse(localStorage.getItem('user')); 
+      
+      if (!storedUser || !storedUser.token) {
+        return rejectWithValue('User not authenticated');
+      }
 
-      const updatedUser = {
-        ...storedUser,
-        user: {
-          ...storedUser.user,
-          ProfilePic: base64Image, 
-        },
-      };
-
-      const response = await axiosInstance.put('auth/updateProfile', 
+      
+      const response = await axiosInstance.put(
+        'auth/updateProfile',
         { ProfilePic: base64Image }, 
-        { headers: { 'Content-Type': 'application/json' } }
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${storedUser.token}`, 
+          },
+        }
       );
 
-    
       const updatedData = response.data;
-      localStorage.setItem('authUser', JSON.stringify(updatedData));
 
-      return updatedData; 
+      
+      if (updatedData && updatedData.updatedUser) {
+        localStorage.setItem('user', JSON.stringify(updatedData.updatedUser)); 
+        return updatedData.updatedUser; 
+      } else {
+        throw new Error('Unexpected response structure');
+      }
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to update profile');
+      console.error('Update profile error:', error);
+      return rejectWithValue(
+        error.response?.data?.message || 'Failed to update profile'
+      );
     }
   }
 );
+
 
 
 
@@ -149,7 +160,7 @@ const authSlice = createSlice({
         toast.error(action.payload || "Error during signup");
       })
 
-      // Login
+      
       .addCase(login.pending, (state) => {
         state.isUserLogin = true;
       })
@@ -164,7 +175,7 @@ const authSlice = createSlice({
         toast.error(action.payload || "Error during login");
       })
 
-      // Logout
+    
       .addCase(logout.fulfilled, (state) => {
         state.Authuser = null;
         state.token = null;
@@ -177,16 +188,15 @@ const authSlice = createSlice({
       .addCase(updateProfile.pending, (state) => {
         state.isupdateProfile = true;
       })
-      .addCase(updateProfile.fulfilled, (state, action) => {
+      
+
+      builder.addCase(updateProfile.fulfilled, (state, action) => {
         state.isupdateProfile = false;
-        state.Authuser = { ...state.Authuser, ProfilePic: action.payload.updatedUser.ProfilePic }; 
-        localStorage.setItem("user", JSON.stringify(state.Authuser)); 
-        toast.success("Profile updated successfully!");
+        state.Authuser = { ...state.Authuser, user: action.payload }; 
+        localStorage.setItem("authUser", JSON.stringify(state.Authuser));
       })
-      .addCase(updateProfile.rejected, (state, action) => {
-        state.isupdateProfile = false;
-        toast.error(action.payload || "Error during profile update");
-      })
+      
+      
 
 
 

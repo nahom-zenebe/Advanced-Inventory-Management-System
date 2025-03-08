@@ -140,6 +140,8 @@ module.exports.logout=async(req,res)=>{
     
   }
 }
+
+
 module.exports.updateProfile = async (req, res) => {
   try {
     const { ProfilePic } = req.body;
@@ -151,41 +153,38 @@ module.exports.updateProfile = async (req, res) => {
     }
 
     if (ProfilePic) {
-      const uploadResponse = await Cloundinary.uploader.upload(ProfilePic, {
-        folder: "profile_inventory_system", 
-        upload_preset: "upload", 
-      });
+      try {
+       
+        const uploadResponse = await cloudinary.uploader.upload(ProfilePic, {
+          folder: "profile_inventory_system", 
+          upload_preset: "upload", 
+        });
 
-      const updatedUser = await User.findOneAndUpdate(
-        { _id: userId },
-        { ProfilePic: uploadResponse.secure_url },
-        { new: true }
-      );
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: userId },
+          { ProfilePic: uploadResponse.secure_url },
+          { new: true }
+        );
 
-      if (!updatedUser) {
-        return res.status(404).json({ message: "User not found" });
+        if (!updatedUser) {
+          return res.status(404).json({ message: "User not found" });
+        }
+
+        return res.status(200).json({
+          message: "Profile updated successfully",
+          updatedUser
+        });
+        
+
+      } catch (cloudinaryError) {
+        console.error("Cloudinary upload failed:", cloudinaryError);
+        return res.status(500).json({ message: "Image upload failed", error: cloudinaryError.message });
       }
-
-
-      await logActivity({
-        action: "Update Profile",
-        description: `User "${updatedUser.name}" updated their profile.`,
-        entity: "user",
-        entityId: updatedUser._id,
-        userId: updatedUser._id, 
-        ipAddress: ipAddress,
-      });
-
-
-      return res.status(200).json({
-        message: "Profile updated successfully",
-        updatedUser,
-      });
     } else {
       return res.status(400).json({ message: "No profile picture provided" });
     }
   } catch (error) {
-    console.log("Error in update profile Controller", error.message);
+    console.error("Error in update profile Controller", error.message);
     res.status(500).json({ message: "Internal Server Error", error });
   }
 };
@@ -234,4 +233,4 @@ module.exports.adminuser = async (req, res) => {
     console.log("Error in get admin Controller:", error.message);
     res.status(500).json({ message: "Internal Server Error", error });
   }
-};
+}

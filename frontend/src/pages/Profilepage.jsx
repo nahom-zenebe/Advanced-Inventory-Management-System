@@ -28,19 +28,25 @@ function ProfilePage() {
       return;
     }
   
+    const storedUser = JSON.parse(localStorage.getItem('authUser'));
+    if (!storedUser || !storedUser.token) {
+      toast.error('User not authenticated. Please log in again.');
+      return;
+    }
+  
     const reader = new FileReader();
     reader.readAsDataURL(file);
   
     reader.onload = async () => {
-      const base64Image = reader.result.split(',')[1]; 
+      const base64Image = reader.result; 
   
       try {
-        const response = await dispatch(updateProfile(base64Image)).unwrap(); 
+        const response = await dispatch(updateProfile(base64Image)).unwrap();
         toast.success('Profile updated successfully');
-        setImage(response.updatedUser.ProfilePic); 
+        setImage(response?.updatedUser?.ProfilePic);
       } catch (error) {
         console.error('Error uploading image:', error);
-        toast.error('Failed to upload image. Please try again.');
+        toast.error(error || 'Failed to upload image. Please try again.');
       }
     };
   
@@ -48,6 +54,7 @@ function ProfilePage() {
       toast.error('Error reading file');
     };
   };
+  
 
   
   console.log(userdata);
@@ -55,7 +62,7 @@ function ProfilePage() {
   return (
     <div className="min-h-screen bg-base-100 bg-gray-100 text-gray-900">
       <TopNavbar />
-      <div className="container mx-auto px-6 py-12">
+      <div className="container bg-base-100 mx-auto px-6 py-12">
         <div className="flex mt-8">
           <div className="bg-white w-72 rounded-xl shadow-lg p-6 text-center">
             <div className="relative mb-6">
@@ -70,38 +77,38 @@ function ProfilePage() {
               </label>
             </div>
 
-            <div className="flex mt-4 ml-12">
+            <div className="flex mt-4 ml-12 bg-base-100">
               <label className="flex text-gray-600 text-sm font-semibold">Name:</label>
               <p className="text-gray-900 text-lg font-medium">{Authuser?.name || "Guest"}</p>
             </div>
 
-            <div className="mt-6 flex ml-12">
+            <div className="mt-6 flex ml-12 bg-base-100">
               <label className="flex text-gray-600 text-sm font-semibold">Email:</label>
               <p className="text-gray-900 text-lg font-medium">{Authuser?.email || "Guest@gmail.com"}</p>
             </div>
 
-            <div className="mt-6 flex ml-12">
+            <div className="mt-6 flex ml-12 bg-base-100">
               <label className="flex text-gray-600 text-sm font-semibold">Role:</label>
               <p className="text-gray-900 text-lg font-medium capitalize">{Authuser?.role || "staff"}</p>
             </div>
           </div>
 
-          <div className="bg-white rounded-xl flex flex-col h-96 pt-10 w-5/6 ml-10 overflow-y-auto shadow-md">
+          <div className="bg-white rounded-xl bg-base-100 flex flex-col h-96 pt-10 w-5/6 ml-10 overflow-y-auto shadow-md">
             <h1 className="text-lg font-semibold mb-4 px-4">Recent Activity</h1>
             <div className="space-y-4 px-4">
   {userdata && userdata.length > 0 ? (
-    // Access the first array inside userdata (index 0)
+    
     userdata[0].map((log, index) => (
-      <div key={index} className="border-b py-4">
-        <h2 className="text-lg font-medium text-gray-900">{log.action}</h2>
-        <p className="text-sm text-gray-600"> {log.description}</p>
-        <p className="text-sm text-gray-500">Affected part: <span className="font-medium">{log.entity}</span></p>
-        <p className="text-sm text-gray-500">IP Address: <span className="font-medium">{log.ipAddress}</span></p>
+      <div key={index} className="border-b bg-base-100 py-4">
+        <h2 className="text-lg bg-base-100 font-medium text-gray-900">{log.action}</h2>
+        <p className="text-sm bg-base-100 text-gray-600"> {log.description}</p>
+        <p className="text-sm bg-base-100 text-gray-500">Affected part: <span className="font-medium">{log.entity}</span></p>
+        <p className="text-sm bg-base-100 text-gray-500">IP Address: <span className="font-medium">{log.ipAddress}</span></p>
         <FormattedTime timestamp={log.createdAt} />
       </div>
     ))
   ) : (
-    <p className="text-center text-gray-500">No activity logs available</p>
+    <p className="text-center bg-base-100 text-gray-500">No activity logs available</p>
   )}
 </div>
 

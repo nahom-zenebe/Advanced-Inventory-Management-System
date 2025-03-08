@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
+import { LuMoon } from "react-icons/lu";
+import { IoIosSunny } from "react-icons/io";
+
+
 
 const ThemeToggle = () => {
-  // Check localStorage for saved theme or default to 'light'
+  
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
   useEffect(() => {
-    // Set the theme on the HTML tag
+    
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
   }, [theme]);
@@ -15,8 +19,8 @@ const ThemeToggle = () => {
   };
 
   return (
-    <button onClick={toggleTheme} className="btn btn-primary">
-      {theme === "light" ? "🌙 Dark Mode" : "☀️ Light Mode"}
+    <button onClick={toggleTheme} >
+      {theme === "light" ? <LuMoon className="text-3xl" /> :<IoIosSunny  className="text-3xl text-orange-500"/>}
     </button>
   );
 };
