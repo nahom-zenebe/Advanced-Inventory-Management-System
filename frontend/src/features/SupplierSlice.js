@@ -87,6 +87,7 @@ export const gettingallSupplier = createAsyncThunk(
         toast.success("Supplier updated successfully"); 
         return response.data; 
       } catch (error) {
+        console.log(error)
         const errorMessage =
           error.response?.data?.message || "Failed to update supplier. Please try again.";
         toast.error(errorMessage);
@@ -167,7 +168,6 @@ const supplierSlice = createSlice({
 
 
 .addCase(EditSupplier.fulfilled,(state,action)=>{
-
  state.editedsupplier=action.payload
 
 

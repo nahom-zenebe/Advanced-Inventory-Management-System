@@ -60,28 +60,29 @@ module.exports.getSupplierById = async (req, res) => {
 
 module.exports.editSupplier = async (req, res) => {
   const { supplierId } = req.params;
-  const { name, contactInfo, productsSupplied } = req.body; 
+  const { name, contactInfo, productsSupplied } = req.body;
 
   try {
-    
     const supplier = await Supplier.findById(supplierId);
     if (!supplier) {
       return res.status(404).json({ message: "Supplier not found" });
     }
 
- 
+   
     supplier.name = name || supplier.name;
     supplier.contactInfo = {
       phone: contactInfo?.phone || supplier.contactInfo.phone,
       email: contactInfo?.email || supplier.contactInfo.email,
       address: contactInfo?.address || supplier.contactInfo.address,
     };
-    supplier.productsSupplied = productsSupplied || supplier.productsSupplied;
-
-  
-    const updatedSupplier = await supplier.save();
 
     
+    supplier.productsSupplied = Array.isArray(productsSupplied)
+      ? productsSupplied
+      : supplier.productsSupplied;
+
+    const updatedSupplier = await supplier.save();
+
     res.status(200).json({
       message: "Supplier updated successfully",
       supplier: updatedSupplier,
@@ -90,6 +91,7 @@ module.exports.editSupplier = async (req, res) => {
     res.status(500).json({ message: "Error updating supplier", error });
   }
 };
+
 
 
 module.exports.deleteSupplier = async (req, res) => {

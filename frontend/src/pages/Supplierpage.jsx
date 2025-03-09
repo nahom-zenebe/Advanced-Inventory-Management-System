@@ -30,7 +30,14 @@ function Supplierpage() {
 
   useEffect(() => {
     dispatch(gettingallSupplier());
-  }, [dispatch, deleteSupplier]);
+
+  }, [dispatch, deleteSupplier,editedsupplier]);
+
+
+  
+  console.log(getallSupplier._id)
+
+
 
   useEffect(() => {
     if (query.trim() !== "") {
@@ -51,6 +58,53 @@ function Supplierpage() {
     setProduct("");
     setSelectedSupplier(null);
   };
+
+
+  const handleEditSubmit = (event) => {
+    event.preventDefault();
+
+    if (!selectedSupplier) return;
+
+    const updatedData = {
+       name,
+      contactInfo: {
+        phone: Phone,
+        email: Email,
+        address: Address,
+      },
+      productsSupplied: [Product],
+      
+    };
+
+    dispatch( EditSupplier({ id: selectedSupplier._id, updatedData }))
+      .unwrap()
+      .then(() => {
+        toast.success("supplier updated successfully");
+        setIsFormVisible(false);
+        setSelectedSupplier(null);
+        resetForm();
+      })
+      .catch(() => {
+        toast.error("Failed to update supplier");
+      });
+  };
+
+
+
+  const handleEditClick = (supplier) => {
+    setSelectedSupplier(supplier);
+    setName(supplier.name);
+    setPhone(supplier.contactInfo?.phone);
+    setEmail(supplier.contactInfo?.email);
+    setAddress(supplier.contactInfo?.address);
+    setProduct(supplier?.productsSupplied?._id);
+    setIsFormVisible(true);
+   
+    
+  
+  }
+  
+
 
   const handleRemove = async (SupplierId) => {
     dispatch(deleteSupplier(SupplierId))
@@ -73,22 +127,8 @@ function Supplierpage() {
         email: Email,
         address: Address,
       },
-      productsSupplied: [Product],
+      productsSupplied: Product,
     };
-
-    if (selectedSupplier) {
-      dispatch(EditSupplier({ id: selectedSupplier._id, updatedData: supplierInfo }))
-        .unwrap()
-        .then(() => {
-          toast.success("Supplier updated successfully");
-          resetForm();
-          dispatch(gettingallSupplier());
-          setIsFormVisible(false);
-        })
-        .catch(() => {
-          toast.error("Failed to update Supplier");
-        });
-    } else {
       dispatch(CreateSupplier(supplierInfo))
         .unwrap()
         .then(() => {
@@ -99,8 +139,10 @@ function Supplierpage() {
         .catch(() => {
           toast.error("Supplier add unsuccessful");
         });
-    }
+    
   };
+
+
 
   const displaySuppliers = query.trim() !== "" ? searchdata : getallSupplier;
 
@@ -141,7 +183,7 @@ function Supplierpage() {
               {selectedSupplier ? "Edit Supplier" : "Add Supplier"}
             </h1>
 
-            <form onSubmit={submitSupplier}>
+            <form onSubmit={selectedSupplier ? handleEditSubmit : submitSupplier}>
               <div className="mb-4">
                 <label>Name</label>
                 <input
@@ -149,7 +191,7 @@ function Supplierpage() {
                   placeholder="Enter Supplier name"
                   onChange={(e) => setName(e.target.value)}
                   type="text"
-                  className="w-full h-10 px-2 border-2 rounded-lg mt-2 bg-base-100" // Added bg-base-100 here
+                  className="w-full h-10 px-2 border-2 rounded-lg mt-2 bg-base-100" 
                 />
               </div>
 
@@ -160,7 +202,7 @@ function Supplierpage() {
                   placeholder="Enter Supplier Phone"
                   onChange={(e) => setPhone(e.target.value)}
                   type="text"
-                  className="w-full h-10 px-2 border-2 rounded-lg mt-2 bg-base-100" // Added bg-base-100 here
+                  className="w-full h-10 px-2 border-2 rounded-lg mt-2 bg-base-100" 
                 />
               </div>
 
@@ -171,7 +213,7 @@ function Supplierpage() {
                   placeholder="example@email.com"
                   onChange={(e) => setEmail(e.target.value)}
                   type="email"
-                  className="w-full h-10 px-2 border-2 rounded-lg mt-2 bg-base-100" // Added bg-base-100 here
+                  className="w-full h-10 px-2 border-2 rounded-lg mt-2 bg-base-100" 
                 />
               </div>
 
@@ -182,7 +224,7 @@ function Supplierpage() {
                   placeholder="Enter Supplier Address"
                   value={Address}
                   onChange={(e) => setAddress(e.target.value)}
-                  className="w-full h-10 px-2 border-2 rounded-lg mt-2 bg-base-100" // Added bg-base-100 here
+                  className="w-full h-10 px-2 border-2 rounded-lg mt-2 bg-base-100" 
                 />
               </div>
 
@@ -191,7 +233,7 @@ function Supplierpage() {
                 <select
                   value={Product}
                   onChange={(e) => setProduct(e.target.value)}
-                  className="w-full h-10 px-2 border-2 rounded-lg mt-2 bg-base-100" // Added bg-base-100 here
+                  className="w-full h-10 px-2 border-2 rounded-lg mt-2 bg-base-100" 
                 >
                   <option value="">Select a product</option>
                   {getallproduct?.map((product) => (
@@ -254,15 +296,7 @@ function Supplierpage() {
                           Remove
                         </button>
                         <button
-                          onClick={() => {
-                            setSelectedSupplier(supplier);
-                            setName(supplier.name);
-                            setPhone(supplier.contactInfo?.phone);
-                            setEmail(supplier.contactInfo?.email);
-                            setAddress(supplier.contactInfo?.address);
-                            setProduct(supplier.productsSupplied[0]);
-                            setIsFormVisible(true);
-                          }}
+                          onClick={()=>handleEditClick(supplier)}
                           className="h-10 w-24 bg-green-500 hover:bg-green-700 rounded-md text-white ml-2"
                         >
                           Edit
