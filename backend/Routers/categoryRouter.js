@@ -1,6 +1,6 @@
 const express=require("express")
 const router=express.Router()
-const {createCategory,RemoveCategory,getCategory,updateCategory}=require('../controller/categorycontroller')
+const {createCategory,RemoveCategory,getCategory,updateCategory,Searchcategory}=require('../controller/categorycontroller')
 const {authmiddleware,adminmiddleware,managermiddleware}=require('../middleware/Authmiddleware')
 
 

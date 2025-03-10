@@ -98,9 +98,9 @@ function Categorypage() {
   
 
 
-  const displayCategory = getallCategory;
+  const displayCategory =query.trim() !== "" ? searchdata : getallCategory;
 
-
+  
 
 
 
@@ -112,7 +112,11 @@ function Categorypage() {
          <TopNavbar />
       <div className='flex'>
 
-      <input type='text' placeholder='Search the category' className="w-full ml-10 mt-20 md:w-96 h-12 pl-4 pr-12 border-2 border-gray-300 rounded-lg"/>
+      <input type='text' 
+       value={query}
+       onChange={(e) => setquery(e.target.value)}
+      placeholder='Search the category' 
+      className="w-full ml-10 mt-20 md:w-96 h-12 pl-4 pr-12 border-2 border-gray-300 rounded-lg"/>
       <div className='flex mt-20'>
       <button onClick={()=>{
            setIsFormVisible(true);
