@@ -62,49 +62,40 @@ module.exports.getSaleById = async (req, res) => {
 };
 
 
-module.exports.updateSaleStatus = async (req, res) => {
+module.exports.updateSale = async (req, res) => {
   try {
     const { saleId } = req.params;
-    const { status } = req.body;
+    const { customerName, products, paymentMethod } = req.body;
 
-    if (!status || !["pending", "completed", "cancelled"].includes(status)) {
-      return res.status(400).json({ success: false, message: "Invalid status." });
+
+    if (!customerName || !products || !paymentMethod) {
+      return res.status(400).json({ success: false, message: "Customer name, products, and payment method are required." });
     }
 
+    
     const sale = await Sale.findById(saleId);
     if (!sale) {
       return res.status(404).json({ success: false, message: "Sale not found." });
     }
 
-    sale.status = status;
-    await sale.save();
-
-    res.status(200).json({ success: true, message: `Sale status updated to ${status}.`, sale });
-  } catch (error) {
-    res.status(500).json({ success: false, message: "Error updating sale status.", error });
-  }
-};
-
-
-module.exports.updatePaymentStatus = async (req, res) => {
-  try {
-    const { saleId } = req.params;
-    const { paymentStatus } = req.body;
-
-    if (!paymentStatus || !["pending", "paid"].includes(paymentStatus)) {
-      return res.status(400).json({ success: false, message: "Invalid payment status." });
+    
+    let totalAmount = 0;
+    for (const product of products) {
+      const { product: productId, quantity, price } = product;
+      totalAmount += quantity * price;
     }
 
-    const sale = await Sale.findById(saleId);
-    if (!sale) {
-      return res.status(404).json({ success: false, message: "Sale not found." });
-    }
+   
+    sale.customerName = customerName;
+    sale.products = products;
+    sale.totalAmount = totalAmount;
+    sale.paymentMethod = paymentMethod;
 
-    sale.paymentStatus = paymentStatus;
-    await sale.save();
+    // Save the updated sale
+    const updatedSale = await sale.save();
 
-    res.status(200).json({ success: true, message: `Payment status updated to ${paymentStatus}.`, sale });
+    res.status(200).json({ success: true, message: "Sale updated successfully", sale: updatedSale });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Error updating payment status.", error });
+    res.status(500).json({ success: false, message: "Error updating sale", error });
   }
 };

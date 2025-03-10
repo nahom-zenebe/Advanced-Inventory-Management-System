@@ -6,6 +6,7 @@ const initialState = {
   getallsales: null,
   isgetallsales: false,
   iscreatedsales: false,
+  editedsales:null
   
 };
 
@@ -33,6 +34,30 @@ export const gettingallSales = createAsyncThunk(
     }
   }
 );
+
+
+ 
+export const EditSales = createAsyncThunk(
+  "sales/sales",
+  async ({ salesId, updatedData }, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.put(
+        `sales/sales/${salesId}`, 
+        updatedData, 
+        { withCredentials: true }
+      );
+      toast.success("Supplier updated successfully"); 
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      const errorMessage =
+        error.response?.data?.message || "Failed to update supplier. Please try again.";
+      toast.error(errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  }
+);
+
 
 
 
@@ -80,7 +105,18 @@ const salesSlice = createSlice({
       })
 
 
-
+      .addCase(EditSales.fulfilled,(state,action)=>{
+        state.editedsales=action.payload
+       
+       
+       })
+       
+       
+       .addCase(EditSales.rejected,(state,action)=>{
+       
+       toast.error( 'Error In founding sales');
+       })
+       
 
 
     

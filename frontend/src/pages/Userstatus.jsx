@@ -10,6 +10,7 @@ import {
   adminUser
 } from "../features/authSlice";
 import toast from "react-hot-toast";
+import  UserRoleChart from '../lib/Usersgraph'
 
 function Userstatus() {
   const { staffuser, manageruser, adminuser } = useSelector((state) => state.auth);
@@ -28,6 +29,7 @@ function Userstatus() {
   return (
     <div className="min-h-screen bg-base-100">
       <TopNavbar />
+      <div className="flex">
       <div className=" bg-base-100 mt-10 ml-10 w-72 overflow-auto rounded-lg">
         <div className=" bg-base-100 p-4 rounded-lg shadow-md mb-4">
           <h2 className="text-lg bg-base-100 font-semibold mb-2">Manager</h2>
@@ -80,7 +82,10 @@ function Userstatus() {
           )}
         </div>
       </div>
+<UserRoleChart className="ml-10 "/>
+      </div>
     </div>
+  
   );
 }
 

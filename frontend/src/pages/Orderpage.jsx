@@ -52,6 +52,8 @@ function Orderpage() {
  
   }, [dispatch]);
 
+  console.log(Authuser)
+
 
 
 
@@ -101,12 +103,12 @@ function Orderpage() {
       price: Number(Price),
     };
     const OrderData = {
-      user: Authuser.savedUser.id || " ",
+      user: Authuser?.id || " ",
       Product: Productvalue,
       Description,
       status,
     };
-
+console.log(OrderData)
     dispatch(createdOrder(OrderData))
       .unwrap()
       .then(() => {
@@ -274,8 +276,8 @@ function Orderpage() {
               <thead className="bg-gray-100">
                 <tr className="bg-base-100">
                   <th className="px-3 py-2 bg-base-100 border w-5">#</th>
-                  <th className="px-3 py-2 bg-base-100 border">Desciptiona</th>
-                  <th className="px-3 py-2 bg-base-100 border">Product Id</th>
+                  <th className="px-3 py-2 bg-base-100 border">Desciption</th>
+                  <th className="px-3 py-2 bg-base-100 border">Product </th>
                   <th className="px-3 py-2 bg-base-100 border">qunatity</th>
                   <th className="px-3 py-2 bg-base-100 border">Price</th>
                   <th className="px-3 py-2  bg-base-100  border">totalAmount</th>
@@ -292,7 +294,7 @@ function Orderpage() {
 
                     <tr key={order._id} className="bg-base-100">
                       <td className="px-3 py-2 border">{index + 1}</td>
-                      <td className="px-3 py-2 border">{order.Desciption}</td>
+                      <td className="px-3 py-2 border">{order.Description}</td>
                       <td className="px-3 py-2 border">book</td>{" "}
                       {/* Product ID or name */}
                       <td className="px-3 py-2 border">

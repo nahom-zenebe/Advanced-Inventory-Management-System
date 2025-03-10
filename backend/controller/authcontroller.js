@@ -107,6 +107,7 @@ module.exports.login=async(req,res)=>{
    return res.status(201).json({
     message:"login successfully",
     user:{
+        id:duplicatedUser.id,
         name:duplicatedUser.name,
         email:duplicatedUser.email,
         role:duplicatedUser.role,
@@ -192,7 +193,7 @@ module.exports.updateProfile = async (req, res) => {
 
 module.exports.staffuser = async (req, res) => {
   try {
-    const staffuser = await User.find({ role: "staff" });
+    const staffuser = await User.find({ role: "staff" }).select("- password");
 
     if (staffuser.length === 0) {
       return res.status(200).json({ message: "There are no staff users available." });
@@ -207,7 +208,7 @@ module.exports.staffuser = async (req, res) => {
 
 module.exports.manageruser = async (req, res) => {
   try {
-    const manageruser = await User.find({ role: "manager" });
+    const manageruser = await User.find({ role: "manager" }).select("- password");
 
     if (manageruser.length === 0) {
       return res.status(200).json({ message: "There are no manager users available." });
@@ -222,7 +223,7 @@ module.exports.manageruser = async (req, res) => {
 
 module.exports.adminuser = async (req, res) => {
   try {
-    const adminuser = await User.find({ role: "admin" });
+    const adminuser = await User.find({ role: "admin" }).select("- password");
 
     if (adminuser.length === 0) {
       return res.status(200).json({ message: "There are no admin users available." });

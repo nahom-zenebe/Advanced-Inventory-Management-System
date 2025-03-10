@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {gettingallproducts} from '../features/productSlice'
 import FormattedTime from "../lib/FormattedTime ";
 import {
-  CreateSales,gettingallSales
+  CreateSales,gettingallSales,EditSales
 } from "../features/salesSlice";
 
 import toast from "react-hot-toast";
@@ -15,12 +15,12 @@ import toast from "react-hot-toast";
 
 function Salespage() {
   const {   getallsales,
-    isgetallsales, iscreatedsales
+    isgetallsales,  editedsales, iscreatedsales
      } = useSelector(
     (state) => state.sales
   );
   const dispatch = useDispatch();
-
+  const [query, setquery] = useState("");
 
   const [name, setName] = useState("");
   const [Category, setCategory] = useState("");
@@ -32,7 +32,7 @@ function Salespage() {
 
 
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedSales, setselectedSales] = useState(null);
 
 
 
@@ -51,33 +51,29 @@ function Salespage() {
   
 
   
- /* const handleEditSubmit = (event) => {
+  const handleEditSubmit = (event) => {
     event.preventDefault();
-
-    if (!selectedProduct) return;
-
+    if (!selectedSales) return;
+  
     const updatedData = {
-      name,
-      Product,
-       Payment,
-       Price,
-       quantity,
-
+      customerName: name,
+      products: [{ product: Product, quantity, price: Price }],
+      paymentMethod: Payment,
     };
-
-    dispatch(EditProduct({ id: selectedProduct._id, updatedData }))
+  
+    dispatch(EditSales({ id: selectedSales._id, updatedData }))
       .unwrap()
       .then(() => {
-        toast.success("Product updated successfully");
+        toast.success("Sale updated successfully");
         setIsFormVisible(false);
-        setSelectedProduct(null);
+        selectedSales(null);
         resetForm();
       })
       .catch(() => {
-        toast.error("Failed to update product");
+        toast.error("Failed to update sale");
       });
   };
-  */
+  
 
 
   const submitsales = async (event) => {
@@ -105,21 +101,19 @@ function Salespage() {
 
   };
   
-/*
-  const handleEditClick = (product) => {
-    setSelectedProduct(product);
-    setName(product.name);
-    setProduct(product.Category?._id || "");
-    setPayment(product.Price);
-    setPrice(product.Price);
-    setQuantity(product.quantity);
-   
-  };
 
-  */
+  const handleEditClick = (sales) => {
+    setselectedSales(sales);
+    setName(sales.customerName);
+    setProduct(sales.products[0]?.product || "");
+    setPayment(sales.paymentMethod);
+    setPrice(sales.products[0]?.price || "");
+    setQuantity(sales.products[0]?.quantity || "");
+  };
+  
  
 
-/* const displayProducts = query.trim() !== "" ? searchdata : getallproduct;*/
+ const displayProducts =    getallsales;
 
   return (
     <div className="bg-base-100 min-h-screen">
@@ -139,7 +133,7 @@ function Salespage() {
           <button
             onClick={() => {
               setIsFormVisible(true);
-              setSelectedProduct(null);
+              setselectedSales(null);
             }}
             className="bg-blue-800 text-white w-40 h-12 rounded-lg flex items-center justify-center"
           >
@@ -157,10 +151,10 @@ function Salespage() {
             </div>
 
             <h1 className="text-xl font-semibold mb-4">
-              {selectedProduct ? "Edit Product" : "Add Product"}
+              {selectedSales ? "Edit Product" : "Add Product"}
             </h1>
 
-            <form onSubmit={submitsales}>
+            <form onSubmit={selectedSales ? handleEditSubmit : submitsales}>
               <div className="mb-4">
                 <label>Name</label>
                 <input
@@ -249,8 +243,8 @@ function Salespage() {
                 </tr>
               </thead>
               <tbody className="bg-base-100">
-                {Array.isArray(getallsales) &&
-                getallsales.length > 0 ? (
+                {Array.isArray( displayProducts) &&
+                displayProducts.length > 0 ? (
                   getallsales.map((sales,index) => (
                     <tr key={sales._id} className="">
                        <td className="px-3 py-2 border">{index+1}</td>
@@ -271,7 +265,7 @@ function Salespage() {
                       <td className="px-3 py-2 border">{sales.paymentMethod}</td>
                       <td className="px-4  py-2 border">
                         <button
-                        
+                         onClick={()=>handleEditClick(sales)}
                           className="h-10 w-24 bg-green-500 ml-10 hover:bg-green-700 rounded-md text-white"
                         >
                           Edit
