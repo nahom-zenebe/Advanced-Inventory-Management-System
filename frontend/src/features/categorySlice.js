@@ -6,7 +6,8 @@ const initialState = {
   getallCategory: null,
   isgetallCategory: false,
   iscreatedCategory: false,
-  iscategoryremove:false
+  iscategoryremove:false,
+  searchdata:null
 };
 
 
@@ -48,6 +49,19 @@ export const RemoveCategory = createAsyncThunk(
     }
   }
 );
+
+
+
+export const SearchCategory=createAsyncThunk('category/searchcategory',async(query,{rejectWithValue})=>{
+  try {
+     const response=await axiosInstance.get(`category/searchcategory?query=${query}`,query,{ withCredentials: true,})
+     return response.data;
+
+    
+  } catch (error) {
+    return rejectWithValue(error.response?.data?.message || "category adding failed");
+  }
+})
 
 
 
@@ -115,7 +129,20 @@ const categorySlice = createSlice({
       })
     
       
-
+      .addCase(SearchCategory.fulfilled,(state,action)=>{
+       
+        state.searchdata=action.payload
+     
+     
+      })
+      
+     
+      .addCase(SearchCategory.rejected,(state,action)=>{
+      
+       toast.error( 'Error In founding  product');
+      })
+    
+    
 
 
   },

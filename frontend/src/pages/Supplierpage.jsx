@@ -30,14 +30,7 @@ function Supplierpage() {
 
   useEffect(() => {
     dispatch(gettingallSupplier());
-
-  }, [dispatch, deleteSupplier,editedsupplier]);
-
-
-  
-  console.log(getallSupplier._id)
-
-
+  }, [dispatch, deleteSupplier, editedsupplier]);
 
   useEffect(() => {
     if (query.trim() !== "") {
@@ -59,27 +52,25 @@ function Supplierpage() {
     setSelectedSupplier(null);
   };
 
-
   const handleEditSubmit = (event) => {
     event.preventDefault();
 
     if (!selectedSupplier) return;
 
     const updatedData = {
-       name,
+      name,
       contactInfo: {
         phone: Phone,
         email: Email,
         address: Address,
       },
       productsSupplied: [Product],
-      
     };
 
-    dispatch( EditSupplier({ id: selectedSupplier._id, updatedData }))
+    dispatch(EditSupplier({ id: selectedSupplier._id, updatedData }))
       .unwrap()
       .then(() => {
-        toast.success("supplier updated successfully");
+        toast.success("Supplier updated successfully");
         setIsFormVisible(false);
         setSelectedSupplier(null);
         resetForm();
@@ -89,22 +80,15 @@ function Supplierpage() {
       });
   };
 
-
-
   const handleEditClick = (supplier) => {
     setSelectedSupplier(supplier);
     setName(supplier.name);
     setPhone(supplier.contactInfo?.phone);
     setEmail(supplier.contactInfo?.email);
     setAddress(supplier.contactInfo?.address);
-    setProduct(supplier?.productsSupplied?._id);
+    setProduct(supplier?.productsSupplied);
     setIsFormVisible(true);
-   
-    
-  
-  }
-  
-
+  };
 
   const handleRemove = async (SupplierId) => {
     dispatch(deleteSupplier(SupplierId))
@@ -129,25 +113,26 @@ function Supplierpage() {
       },
       productsSupplied: Product,
     };
-      dispatch(CreateSupplier(supplierInfo))
-        .unwrap()
-        .then(() => {
-          toast.success("Supplier added successfully");
-          resetForm();
-          dispatch(gettingallSupplier());
-        })
-        .catch(() => {
-          toast.error("Supplier add unsuccessful");
-        });
-    
+    dispatch(CreateSupplier(supplierInfo))
+      .unwrap()
+      .then(() => {
+        toast.success("Supplier added successfully");
+        resetForm();
+        dispatch(gettingallSupplier());
+      })
+      .catch(() => {
+        toast.error("Supplier add unsuccessful");
+      });
   };
-
-
 
   const displaySuppliers = query.trim() !== "" ? searchdata : getallSupplier;
 
+  if (!getallSupplier) {
+    return <div>Loading suppliers...</div>;
+  }
+
   return (
-    <div className="bg-base-100 min-h-screen"> 
+    <div className="bg-base-100 min-h-screen">
       <TopNavbar />
       <div className="mt-10 ml-5">
         <div className="flex items-center space-x-4">
@@ -155,7 +140,7 @@ function Supplierpage() {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full md:w-96 h-12 pl-4 pr-12 border-2 border-gray-300 rounded-lg bg-base-100" // Added bg-base-100 here
+            className="w-full md:w-96 h-12 pl-4 pr-12 border-2 border-gray-300 rounded-lg bg-base-100"
             placeholder="Search for supplier"
           />
           <button
@@ -191,7 +176,7 @@ function Supplierpage() {
                   placeholder="Enter Supplier name"
                   onChange={(e) => setName(e.target.value)}
                   type="text"
-                  className="w-full h-10 px-2 border-2 rounded-lg mt-2 bg-base-100" 
+                  className="w-full h-10 px-2 border-2 rounded-lg mt-2 bg-base-100"
                 />
               </div>
 
@@ -202,7 +187,7 @@ function Supplierpage() {
                   placeholder="Enter Supplier Phone"
                   onChange={(e) => setPhone(e.target.value)}
                   type="text"
-                  className="w-full h-10 px-2 border-2 rounded-lg mt-2 bg-base-100" 
+                  className="w-full h-10 px-2 border-2 rounded-lg mt-2 bg-base-100"
                 />
               </div>
 
@@ -213,7 +198,7 @@ function Supplierpage() {
                   placeholder="example@email.com"
                   onChange={(e) => setEmail(e.target.value)}
                   type="email"
-                  className="w-full h-10 px-2 border-2 rounded-lg mt-2 bg-base-100" 
+                  className="w-full h-10 px-2 border-2 rounded-lg mt-2 bg-base-100"
                 />
               </div>
 
@@ -224,7 +209,7 @@ function Supplierpage() {
                   placeholder="Enter Supplier Address"
                   value={Address}
                   onChange={(e) => setAddress(e.target.value)}
-                  className="w-full h-10 px-2 border-2 rounded-lg mt-2 bg-base-100" 
+                  className="w-full h-10 px-2 border-2 rounded-lg mt-2 bg-base-100"
                 />
               </div>
 
@@ -233,7 +218,7 @@ function Supplierpage() {
                 <select
                   value={Product}
                   onChange={(e) => setProduct(e.target.value)}
-                  className="w-full h-10 px-2 border-2 rounded-lg mt-2 bg-base-100" 
+                  className="w-full h-10 px-2 border-2 rounded-lg mt-2 bg-base-100"
                 >
                   <option value="">Select a product</option>
                   {getallproduct?.map((product) => (
@@ -258,7 +243,7 @@ function Supplierpage() {
           <h2 className="text-xl font-semibold mb-4">Supplier List</h2>
           <div className="overflow-x-auto">
             <table className="min-w-full bg-base-100 border border-gray-200 rounded-lg shadow-md">
-              <thead className=" bg-base-100">
+              <thead className="bg-base-100">
                 <tr>
                   <th className="px-3 py-2 border">#</th>
                   <th className="px-3 py-2 border">Name</th>
@@ -272,7 +257,7 @@ function Supplierpage() {
               <tbody>
                 {Array.isArray(displaySuppliers) &&
                 displaySuppliers.length > 0 ? (
-                  displaySuppliers.map((supplier, index) => (
+                  displaySuppliers?.map((supplier, index) => (
                     <tr key={supplier._id} className="">
                       <td className="px-3 py-2 border">{index + 1}</td>
                       <td className="px-3 py-2 border">{supplier.name}</td>
@@ -290,13 +275,13 @@ function Supplierpage() {
                       </td>
                       <td className="px-4 py-2 border">
                         <button
-                          onClick={() => handleRemove(supplier._id)}
+                          onClick={() => handleRemove(supplier?._id)}
                           className="h-10 w-24 bg-red-500 hover:bg-red-700 rounded-md text-white"
                         >
                           Remove
                         </button>
                         <button
-                          onClick={()=>handleEditClick(supplier)}
+                          onClick={() => handleEditClick(supplier)}
                           className="h-10 w-24 bg-green-500 hover:bg-green-700 rounded-md text-white ml-2"
                         >
                           Edit

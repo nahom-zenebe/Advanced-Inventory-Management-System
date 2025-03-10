@@ -6,6 +6,7 @@ const logActivity = require('../libs/logger');
 module.exports.createCategory = async (req, res) => {
     try {
         const { name, description } = req.body;
+        
         const userId=req.user._id;
         const ipAddress=req.ip
 
@@ -15,7 +16,7 @@ module.exports.createCategory = async (req, res) => {
 
         const newCategory = new Category({
             name, 
-            description
+            description,
         });
 
 
@@ -141,3 +142,28 @@ module.exports.updateCategory=async(req,res)=>{
     }
 
 }
+
+
+module.exports.Searchcategory = async (req, res) => {
+  try {
+    const { query } = req.query;
+    if (!query) {
+      return res.status(400).json({ message: "Query parameter is required" });
+    }
+
+    
+    const category = await Category.find({
+      $or: [
+        { name: { $regex: query, $options: "i" } },
+        { description : { $regex: query, $options: "i" } },
+     
+      
+      ],
+    });
+
+    res.json(category);
+  } catch (error) {
+    res.status(500).json({ message: "Error finding category", error: error.message });
+  }
+};
+

@@ -11,7 +11,7 @@ import TopNavbar from "../Components/TopNavbar";
 
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { gettingallCategory,CreateCategory , RemoveCategory } from "../features/categorySlice";
+import { gettingallCategory,CreateCategory , RemoveCategory,SearchCategory } from "../features/categorySlice";
 import toast from "react-hot-toast";
 
 
@@ -22,7 +22,7 @@ function Categorypage() {
 
 
   
-  const { getallCategory, iscreatedCategory } = useSelector((state) => state.category);
+  const { getallCategory, iscreatedCategory,  searchdata } = useSelector((state) => state.category);
   const dispatch = useDispatch();
   const [query, setquery] = useState("");
 
@@ -39,7 +39,7 @@ function Categorypage() {
 
 
 
-  // Fetch all products and categories on component mount
+  
   useEffect(() => {
 
     dispatch(gettingallCategory());
@@ -47,17 +47,17 @@ function Categorypage() {
 
   
 
-  /*
+
   useEffect(() => {
     if (query.trim() !== "") {
       const repeatTimeout = setTimeout(() => {
-        dispatch(Searchproduct(query));
+        dispatch(SearchCategory(query));
       }, 500);
       return () => clearTimeout(repeatTimeout);
     } else {
-      dispatch(gettingallproducts()); // Reset to all products if query is empty
+      dispatch(gettingallCategory()); 
     }
-  }, [query, dispatch]); */
+  }, [query, dispatch]); 
 
 
   const handleremove = async (categoryId) => {
