@@ -8,6 +8,7 @@ import Stocktanscationgraph from '../lib/Stocktanscationgraph'
 import {
   createStockTransaction,
   getAllStockTransactions,
+  searchstockdata
 } from "../features/stocktransactionSlice";
 import {
   gettingallSupplier
@@ -18,7 +19,7 @@ import {
 import toast from "react-hot-toast";
 
 function StockTransaction() {
-  const { getallStocks, isgetallStocks, iscreatedStocks } = useSelector(
+  const { getallStocks, isgetallStocks, iscreatedStocks,searchdata } = useSelector(
     (state) => state.stocktransaction
   );
 
@@ -30,13 +31,26 @@ function StockTransaction() {
   );
 
   const dispatch = useDispatch();
-
+const[query,setquery]=useState();
   const [product, setproduct] = useState("");
   const [type, settype] = useState("");
   const [quantity, setquantity] = useState("");
   const [supplier, setsupplier] = useState("");
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+
+
+  useEffect(() => {
+    if (query?.trim() !== "") {
+      const repeatTimeout = setTimeout(() => {
+        dispatch(searchstockdata(query));
+      }, 500);
+      return () => clearTimeout(repeatTimeout);
+    } else {
+      dispatch(getAllStockTransactions());
+    }
+  }, [query, dispatch]);
+
 
 
 
@@ -74,8 +88,8 @@ console.log(getallStocks)
   };
 
 
-  
 
+  const displaystock = query?.trim() !== "" ?   searchdata : getallStocks;
 
   return (
     <div className="bg-base-100 min-h-screen">
@@ -88,7 +102,8 @@ console.log(getallStocks)
         <div className="flex items-center space-x-4">
           <input
             type="text"
-          
+            value={query}
+            onChange={(e)=>setquery(e.target.value)}
             className="w-full md:w-96 h-12 pl-4 pr-12 border-2 border-gray-300 rounded-lg"
             placeholder="Enter your Stock"
           />
@@ -209,9 +224,9 @@ console.log(getallStocks)
                 </tr>
               </thead>
               <tbody>
-                {Array.isArray(getallStocks) &&
-               getallStocks.length > 0 ? (
-                getallStocks.map((Stocks,index) => (
+                {Array.isArray( displaystock) &&
+              displaystock.length > 0 ? (
+                displaystock.map((Stocks,index) => (
                     <tr key={Stocks._id} >
                        <td className="px-3 py-2 border">{index+1}</td>
                        <td className="px-3 py-2 border">

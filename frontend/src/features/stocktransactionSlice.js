@@ -6,6 +6,7 @@ const initialState = {
   getallStocks: [],
   isgetallStocks: false,
   iscreatedStocks: false,
+  searchdata:null
 
 };
 
@@ -33,6 +34,19 @@ export const getAllStockTransactions = createAsyncThunk(
     }
   }
 );
+
+export const searchstockdata=createAsyncThunk(
+  'stocktransaction/searchstocks',async (query, { rejectWithValue }) => {
+    try {
+      const response=await axiosInstance.get(`stocktransaction/searchstocks?query=${query}`,query,{ withCredentials: true,})
+      return response.data;
+ 
+     
+   } catch (error) {
+     return rejectWithValue(error.response?.data?.message || "Stock adding failed");
+   }
+ })
+
 
 
 
@@ -78,6 +92,19 @@ const stocktransactionSlice = createSlice({
         state.iscreatedStocks = false;
         toast.error('Error creating Stock');
       })
+
+     .addCase( searchstockdata.fulfilled,(state,action)=>{
+      
+       state.searchdata=action.payload
+    
+    
+     })
+     
+     .addCase(searchstockdata.rejected,(state,action)=>{
+
+      toast.error( 'Error In founding  stocks');
+     })
+   
 
 
 
