@@ -12,7 +12,7 @@ const SaleSchema = new mongoose.Schema(
     ],
     totalAmount: { type: Number, required: true },
     paymentStatus: { type: String, enum: ["pending", "paid"], default: "pending" },
-    paymentMethod: { type: String, enum: ["cash", "credit card", "bank transfer"], required: true },
+    paymentMethod: { type: String, enum: ["cash", "creditcard", "banktransfer"], required: true },
     invoiceUrl: { type: String }, 
     status: { type: String, enum: ["pending", "completed", "cancelled"], default: "pending" },
   },

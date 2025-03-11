@@ -4,9 +4,9 @@ const Product = require("../models/Productmodel");
 
 module.exports.createSale = async (req, res) => {
   try {
-    const { customerName, products, paymentMethod} = req.body;
+    const { customerName, products, paymentMethod,paymentStatus,status} = req.body;
 
-    if (!customerName || !products || !paymentMethod) {
+    if (!customerName || !products || !paymentMethod || !paymentStatus || !status) {
       return res.status(400).json({ success: false, message: "Customer name, products, and payment method are required." });
     }
 
@@ -22,6 +22,8 @@ module.exports.createSale = async (req, res) => {
       products,
       totalAmount,
       paymentMethod,
+      paymentStatus,
+      status
     
     });
 

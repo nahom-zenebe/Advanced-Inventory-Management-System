@@ -19,6 +19,10 @@ function Salespage() {
      } = useSelector(
     (state) => state.sales
   );
+
+  const { getallproduct } = useSelector(
+    (state) => state.product
+  );
   const dispatch = useDispatch();
   const [query, setquery] = useState("");
 
@@ -28,6 +32,8 @@ function Salespage() {
   const [Payment, setPayment] = useState("");
   const [Price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
+  const [paymentStatus , setpaymentStatus]=useState("");
+  const[Status,setStatus]=useState("")
   
 
 
@@ -38,10 +44,10 @@ function Salespage() {
 
   useEffect(() => {
    dispatch(gettingallSales())
+  
   }, [dispatch]);
 
-  console.log(   getallsales)
-
+ 
 
  
   
@@ -59,6 +65,8 @@ function Salespage() {
       customerName: name,
       products: [{ product: Product, quantity, price: Price }],
       paymentMethod: Payment,
+      paymentStatus:paymentStatus,
+      status:Status
     };
   
     dispatch(EditSales({ id: selectedSales._id, updatedData }))
@@ -78,7 +86,7 @@ function Salespage() {
 
   const submitsales = async (event) => {
     event.preventDefault();
-    const salesData = { name, Product,Payment };
+    const salesData = { name, Product,Payment,paymentStatus,Status };
 
     dispatch(CreateSales(salesData))
       .unwrap()
@@ -98,6 +106,8 @@ function Salespage() {
     setPayment("");
     setPrice("");
     setQuantity("");
+    setpaymentStatus("");
+    setStatus("");
 
   };
   
@@ -109,6 +119,8 @@ function Salespage() {
     setPayment(sales.paymentMethod);
     setPrice(sales.products[0]?.price || "");
     setQuantity(sales.products[0]?.quantity || "");
+    setpaymentStatus(sales. paymentStatus)
+    setStatus(sales.status)
   };
   
  
@@ -174,7 +186,7 @@ function Salespage() {
                   className="w-full h-10 px-2 border-2 rounded-lg mt-2"
                 >
                   <option value="">Select a Product</option>
-                  {gettingallproducts?.map((product) => (
+                  {getallproduct .map((product) => (
                     <option key={product._id} value={product._id}>
                       {product.name}
                     </option>
@@ -216,6 +228,30 @@ function Salespage() {
                 />
               </div>
 
+
+              <div className="mb-4">
+                <label>payment Status</label>
+                <select value={paymentStatus} onChange={(e)=>setpaymentStatus(e.target.value)}>
+                  <option value="">Select Payment Status</option>
+                  <option value={"pending"}>pending</option>
+                  <option value={"paid"}>paid</option>
+                
+                </select>
+              </div>
+
+
+              <div className="mb-4">
+                <label>Status</label>
+                <select value={Status} onChange={(e)=>setStatus(e.target.value)}>
+                  <option value="">Select Status</option>
+                  <option value={"pending"}>pending</option>
+                  <option value={"completed"}>completed</option>
+                  <option value={"cancelled"}>cancelled</option>
+                
+                </select>
+              </div>
+
+
               <button
                 type="submit"
                 className="bg-blue-800 text-white w-full h-12 rounded-lg hover:bg-blue-700 mt-4"
@@ -238,7 +274,8 @@ function Salespage() {
                   <th className="px-3 py-2 border bg-base-100">Total Amount</th>
                   <th className="px-3 py-2 border bg-base-100">Status</th>
                   <th className="px-3 py-2  border bg-base-100">Date</th>
-                  <th className="px-3 py-2 border bg-base-100">Payment</th>
+                  <th className="px-3 py-2 border bg-base-100">Payment Method</th>
+                  <th className="px-3 py-2 border bg-base-100">Payment Status</th>
                   <th className="px-3 py-2  border bg-base-100">Operation</th>
                 </tr>
               </thead>
@@ -263,9 +300,15 @@ function Salespage() {
                       </td>
                       <td className="px-3 py-2 border">< FormattedTime  timestamp={sales.createdAt}/></td>
                       <td className="px-3 py-2 border">{sales.paymentMethod}</td>
+
+                      <td className="px-3 py-2 border">
+                        {sales.paymentStatus
+                        || "hwllomd"}
+                      </td>
+
                       <td className="px-4  py-2 border">
                         <button
-                         onClick={()=>handleEditClick(sales)}
+                         onClick={()=> handleEditClick(sales)}
                           className="h-10 w-24 bg-green-500 ml-10 hover:bg-green-700 rounded-md text-white"
                         >
                           Edit
