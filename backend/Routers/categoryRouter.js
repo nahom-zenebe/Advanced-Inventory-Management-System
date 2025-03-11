@@ -6,7 +6,7 @@ const {authmiddleware,adminmiddleware,managermiddleware}=require('../middleware/
 
 
 router.post("/createcategory",authmiddleware,createCategory)
-router.get("/getcategory",authmiddleware,getCategory)
+router.get("/getcategory",getCategory)
 router.get("/searchcategory",authmiddleware,Searchcategory)
 
 

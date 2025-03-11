@@ -79,7 +79,7 @@ const categorySlice = createSlice({
       })
       .addCase(gettingallCategory.fulfilled, (state, action) => {
         state.isgetallCategory = false;
-        state.getallCategory = action.payload.categorieswithProductCount || [];
+        state.getallCategory = action.payload.categorieswithProductCount ;
 
       })
       

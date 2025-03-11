@@ -1,7 +1,7 @@
 const Product=require('../models/Productmodel')
 const Category=require('../models/ Categorymodel')
 const logActivity = require('../libs/logger');
-
+const StockTransaction = require('../models/StockTranscationmodel');
 
 module.exports.createCategory = async (req, res) => {
     try {

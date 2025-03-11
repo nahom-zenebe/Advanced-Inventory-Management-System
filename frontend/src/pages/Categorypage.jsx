@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import { IoMdAdd } from "react-icons/io";
 import { FaFileExport } from "react-icons/fa6";
-
+import FormattedTime from "../lib/FormattedTime ";
 
 
 
@@ -43,9 +43,10 @@ function Categorypage() {
   useEffect(() => {
 
     dispatch(gettingallCategory());
-  }, [dispatch,RemoveCategory ]);
+  }, [dispatch]);
 
   
+  console.log(getallCategory);
 
 
   useEffect(() => {
@@ -192,6 +193,7 @@ function Categorypage() {
                   <th className="px-3 py-2 bg-base-100 border">Total Product</th>
                   <th className="px-3 py-2 bg-base-100 border">Description</th>
                   <th className="px-3 py-2 bg-base-100 border">Stock Quantity</th>
+                  <th className="px-3 py-2 bg-base-100 border">Created At</th>
                   <th className="px-3 py-2 bg-base-100 w-72 border">Operations</th>
                 </tr>
               </thead>
@@ -210,6 +212,9 @@ function Categorypage() {
                       </td>
                       <td className="px-3 py-2 border">
                         10
+                      </td>
+                      <td className="px-3 py-2 border">
+                        <FormattedTime timestamp={Category.createdAt}/>
                       </td>
 
                       <td className="px-4  py-2 border">
