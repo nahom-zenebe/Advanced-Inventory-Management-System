@@ -125,7 +125,7 @@ function Salespage() {
   
  
 
- const displayProducts =    getallsales;
+ const displayProducts = getallsales;
 
   return (
     <div className="bg-base-100 min-h-screen">
@@ -138,6 +138,7 @@ function Salespage() {
       <div className="mt-12 ml-5">
         <div className="flex items-center space-x-4">
           <input
+          
             type="text"
             className="w-full md:w-96 h-12 pl-4 pr-12 border-2 border-gray-300 rounded-lg"
             placeholder="Enter your product"

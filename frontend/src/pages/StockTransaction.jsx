@@ -31,7 +31,7 @@ function StockTransaction() {
   );
 
   const dispatch = useDispatch();
-const[query,setquery]=useState();
+const[query,setquery]=useState("");
   const [product, setproduct] = useState("");
   const [type, settype] = useState("");
   const [quantity, setquantity] = useState("");
@@ -41,7 +41,7 @@ const[query,setquery]=useState();
 
 
   useEffect(() => {
-    if (query?.trim() !== "") {
+    if ( query.trim() !== "") {
       const repeatTimeout = setTimeout(() => {
         dispatch(searchstockdata(query));
       }, 500);
@@ -63,7 +63,7 @@ const[query,setquery]=useState();
     
   }, [dispatch]);
 
-console.log(getallStocks)
+
   const resetForm = () => {
     setproduct("");
     settype("");
@@ -74,9 +74,9 @@ console.log(getallStocks)
 
   const submitstocktranscation = async (event) => {
     event.preventDefault();
-    const StocksData = {product, type,quantity , supplier, };
+    const StocksData = {product, type,quantity , supplier };
 
-    dispatch( createStockTransaction(StocksData))
+    dispatch(createStockTransaction(StocksData))
       .unwrap()
       .then(() => {
         toast.success("Stock added successfully");
@@ -89,8 +89,8 @@ console.log(getallStocks)
 
 
 
-  const displaystock = query?.trim() !== "" ?   searchdata : getallStocks;
-
+  
+  const displaystock = query.trim() !== "" ?  searchdata : getallStocks;
   return (
     <div className="bg-base-100 min-h-screen">
 
@@ -225,8 +225,8 @@ console.log(getallStocks)
               </thead>
               <tbody>
                 {Array.isArray( displaystock) &&
-              displaystock.length > 0 ? (
-                displaystock.map((Stocks,index) => (
+             displaystock.length > 0 ? (
+              displaystock.map((Stocks,index) => (
                     <tr key={Stocks._id} >
                        <td className="px-3 py-2 border">{index+1}</td>
                        <td className="px-3 py-2 border">
