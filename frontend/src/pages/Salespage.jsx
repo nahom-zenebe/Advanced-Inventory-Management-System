@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {gettingallproducts} from '../features/productSlice'
 import FormattedTime from "../lib/FormattedTime ";
 import {
-  CreateSales,gettingallSales,EditSales
+  CreateSales,gettingallSales,EditSales, searchsalesdata
 } from "../features/salesSlice";
 
 import toast from "react-hot-toast";
@@ -14,7 +14,7 @@ import toast from "react-hot-toast";
 
 
 function Salespage() {
-  const {   getallsales,
+  const {   getallsales, searchdata,
     isgetallsales,  editedsales, iscreatedsales
      } = useSelector(
     (state) => state.sales
@@ -48,6 +48,17 @@ function Salespage() {
   }, [dispatch]);
 
  
+  useEffect(() => {
+    if (query.trim() !== "") {
+      const repeatTimeout = setTimeout(() => {
+        dispatch( searchsalesdata(query));
+      }, 500);
+      return () => clearTimeout(repeatTimeout);
+    } else {
+      dispatch(gettingallSales());
+    }
+  }, [query, dispatch]);
+
 
  
   
@@ -125,7 +136,15 @@ function Salespage() {
   
  
 
- const displayProducts = getallsales;
+
+
+
+
+
+
+ const displaySales = query.trim() !== "" ? searchdata :getallsales;
+
+
 
   return (
     <div className="bg-base-100 min-h-screen">
@@ -138,7 +157,8 @@ function Salespage() {
       <div className="mt-12 ml-5">
         <div className="flex items-center space-x-4">
           <input
-          
+           value={query}
+           onChange={(e)=>setquery(e.target.value)}
             type="text"
             className="w-full md:w-96 h-12 pl-4 pr-12 border-2 border-gray-300 rounded-lg"
             placeholder="Enter your product"
@@ -281,9 +301,9 @@ function Salespage() {
                 </tr>
               </thead>
               <tbody className="bg-base-100">
-                {Array.isArray( displayProducts) &&
-                displayProducts.length > 0 ? (
-                  getallsales.map((sales,index) => (
+                {Array.isArray(displaySales) &&
+               displaySales.length > 0 ? (
+                displaySales.map((sales,index) => (
                     <tr key={sales._id} className="">
                        <td className="px-3 py-2 border">{index+1}</td>
                       <td className="px-3 py-2 border">{sales.customerName

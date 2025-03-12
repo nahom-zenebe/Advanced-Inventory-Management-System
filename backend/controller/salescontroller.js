@@ -101,3 +101,29 @@ module.exports.updateSale = async (req, res) => {
     res.status(500).json({ success: false, message: "Error updating sale", error });
   }
 };
+
+
+
+module.exports.SearchSales = async (req, res) => {
+  try {
+    const { query } = req.query;
+
+    if (!query || query.trim() === "") {
+     
+      const allSales = await Sale.find().populate("products.product");
+      return res.status(200).json({ success: true, sales: allSales });
+    }
+
+    const searchdata = await Sale.find({
+      $or: [
+        { customerName: { $regex: query, $options: "i" } },
+        { paymentMethod: { $regex: query, $options: "i" } }
+      ]
+    }).populate("products.product"); // Ensure product details are included
+
+    res.status(200).json({ sales: searchdata });
+
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error in searching sales", error: error.message });
+  }
+};

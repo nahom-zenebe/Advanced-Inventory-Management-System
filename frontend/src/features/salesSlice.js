@@ -6,7 +6,8 @@ const initialState = {
   getallsales: null,
   isgetallsales: false,
   iscreatedsales: false,
-  editedsales:null
+  editedsales:null,
+  searchdata:null
   
 };
 
@@ -57,6 +58,21 @@ export const EditSales = createAsyncThunk(
     }
   }
 );
+
+export const searchsalesdata=createAsyncThunk(
+  'sales/searchdata',async (query, { rejectWithValue }) => {
+    try {
+      const response=await axiosInstance.get(`sales/searchdata?query=${query}`,query,{ withCredentials: true,})
+      return response.data;
+ 
+     
+   } catch (error) {
+     return rejectWithValue(error.response?.data?.message || "sales adding failed");
+   }
+ })
+
+
+
 
 
 
@@ -118,7 +134,19 @@ const salesSlice = createSlice({
        })
        
 
-
+       .addCase(searchsalesdata.fulfilled,(state,action)=>{
+       
+        state.searchdata=action.payload.sales
+     
+     
+      })
+      
+     
+      .addCase(searchsalesdata.rejected,(state,action)=>{
+     
+       toast.error( 'Error In founding  sales');
+      })
+    
     
       
 
