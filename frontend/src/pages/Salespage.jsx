@@ -62,7 +62,7 @@ function Salespage() {
 
  
   
- 
+ console.log( getallsales)
 
 
   

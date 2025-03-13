@@ -56,7 +56,7 @@ export const createdOrder=createAsyncThunk('order/createorder',async(order,{reje
         return response.data;
       } catch (error) {
        
-        return rejectWithValue(error.response?.data?.message || "Product edit failed");
+        return rejectWithValue(error.response?.data?.message || "Order edit failed");
       }
     }
   );

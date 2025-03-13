@@ -14,9 +14,8 @@ const createOrder = async (req, res) => {
         }
 
        
-        const totalOrderAmount = Product.quantity * Product.price; 
-
-        // Create a new order
+        const totalOrderAmount = Product.quantity * Product.price;
+      
         const newOrder = new Order({
             user,
             Description,
@@ -25,7 +24,7 @@ const createOrder = async (req, res) => {
             status
         });
 
-        // Log the activity (if necessary)
+
         await logActivity({
             action: "Add Order",
             description: `Order was created`,
@@ -35,10 +34,10 @@ const createOrder = async (req, res) => {
             ipAddress: ipAddress,
         });
 
-        // Save the order to the database
+       
         await newOrder.save();
 
-        // Respond with the new order
+       
         res.status(201).json(newOrder);
 
     } catch (error) {
@@ -79,8 +78,8 @@ const Removeorder = async (req, res) => {
 const getOrder = async (req, res) => {
     try {
         const orders = await Order.find({})
-  .populate("Product.product", "name price ") // Populating the product information
-  .populate("user", "name email"); // Populating user details (make sure the user references exist)
+  .populate("Product.product", "name price ") 
+  .populate("user", "name email"); 
 
         if (!orders || orders.length === 0) {
             return res.status(404).json({ message: "No orders found" });
@@ -98,45 +97,35 @@ const getOrder = async (req, res) => {
 const updatestatusOrder = async (req, res) => {
     try {
         const { OrderId } = req.params;
-        const { status, Product } = req.body; 
+        const updates = req.body;
         const userId = req.user._id;
         const ipAddress = req.ip;
 
-
-        const order = await Order.findById(OrderId);
-
-        if (!order) {
-            return res.status(400).json({ message: "Order not found" });
+   
+        if (updates.Product && Array.isArray(updates.Product)) {
+            updates.totalAmount = updates.Product.reduce((sum, item) => sum + item.quantity * item.price, 0);
         }
 
-      
-        let totalAmount = 0;
-        Product.forEach((item) => {
-            totalAmount += item.quantity * item.price; 
-        });
+  
+        const updatedOrder = await Order.findByIdAndUpdate(OrderId, updates, { new: true });
 
-      
-        order.status = status || order.status; 
-        order.Product = Product || order.Product;
-        order.totalAmount = totalAmount; 
+        if (!updatedOrder) {
+            return res.status(404).json({ message: "Order not found" });
+        }
 
 
-        await order.save();
-
-        
         await logActivity({
             action: "Update Order",
-            description: `Order was updated with new total amount.`,
+            description: `Order updated successfully.`,
             entity: "order",
-            entityId: order._id,
+            entityId: updatedOrder._id,
             userId: userId,
             ipAddress: ipAddress,
         });
 
-        
-        res.status(200).json({ message: "Order successfully updated", order });
+        res.status(200).json({ message: "Order successfully updated", order: updatedOrder });
     } catch (error) {
-        res.status(500).json({ message: "Error in updating order status", error: error.message });
+        res.status(500).json({ message: "Error updating order", error: error.message });
     }
 };
 

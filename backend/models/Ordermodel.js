@@ -10,9 +10,9 @@ const OrderSchema= new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"User"
     },
-    Desciption:{
+    Description:{
         type:String,
-        require:true,
+        required:true,
 
     },
    Product:{
@@ -20,17 +20,17 @@ const OrderSchema= new mongoose.Schema({
         ref:"Product"},
     quantity:{
         type:Number,
-           require:true
+           required:true
     },
     price:{
         type:Number,
-        require:true
+        required:true
     }
    },
     
    totalAmount:{
     type:Number,
-    require:true,
+    required:true,
    },
    status:{
     type:String,

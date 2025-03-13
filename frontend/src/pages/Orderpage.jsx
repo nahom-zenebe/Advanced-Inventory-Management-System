@@ -50,7 +50,7 @@ function Orderpage() {
     dispatch(gettingallproducts());
     dispatch(gettingallCategory());
  
-  }, [dispatch]);
+  }, [dispatch,Authuser]);
 
   console.log(Authuser)
 
@@ -72,13 +72,18 @@ function Orderpage() {
   const handleEditSubmit = (event) => {
     event.preventDefault();
 
+
     if (!selectedOrder) return;
 
     const updatedData = {
-      user: Authuser.savedUser.id || " ",
+      user: Authuser?.id || " ",
       Description,
       status,
-      Product,
+      Product: {
+        product: Product,
+        quantity: Number(quantity),
+        price: Number(Price),
+      },
     };
 
     dispatch(updatestatusOrder({ id: selectedOrder._id, updatedData }))
@@ -130,9 +135,9 @@ console.log(OrderData)
 
   const handleEditClick = (order) => {
     setSelectedOrder(order);
-    setProduct(order.name);
-    setPrice(order.Price);
-    setQuantity(order.quantity);
+    setProduct(order.Product.product?._id);
+    setPrice(order.Product.price);
+    setQuantity(order.Product.quantity);
     setstatus(order.status);
     setDescription(order.Description);
     setIsFormVisible(true);
@@ -253,6 +258,7 @@ console.log(OrderData)
                   value={status}
                   onChange={(e) => setstatus(e.target.value)}
                 >
+                   <option value="">Select a status</option>
                   <option value="pending">Pending</option>
                   <option value="shipped">Shipped</option>
                   <option value="delivered">Delivered</option>
@@ -276,12 +282,13 @@ console.log(OrderData)
               <thead className="bg-gray-100">
                 <tr className="bg-base-100">
                   <th className="px-3 py-2 bg-base-100 border w-5">#</th>
-                  <th className="px-3 py-2 bg-base-100 border">Desciption</th>
                   <th className="px-3 py-2 bg-base-100 border">Product </th>
                   <th className="px-3 py-2 bg-base-100 border">qunatity</th>
                   <th className="px-3 py-2 bg-base-100 border">Price</th>
+                  <th className="px-3 py-2 bg-base-100 border">Description</th>
                   <th className="px-3 py-2  bg-base-100  border">totalAmount</th>
                   <th className="px-3 py-2 bg-base-100  border">status</th>
+                  <th className="px-3 py-2 bg-base-100 border">Created by</th>
                   <th className="px-3 py-2 bg-base-100 border">time stamp</th>
                   <th className="px-3 py-2 bg-base-100 border">Operations</th>
                 </tr>
@@ -294,17 +301,19 @@ console.log(OrderData)
 
                     <tr key={order._id} className="bg-base-100">
                       <td className="px-3 py-2 border">{index + 1}</td>
-                      <td className="px-3 py-2 border">{order.Description}</td>
                       <td className="px-3 py-2 border">book</td>{" "}
-                      {/* Product ID or name */}
+                      
                       <td className="px-3 py-2 border">
                         {order.Product.quantity}
                       </td>
                       <td className="px-3 py-2 border">
                         ${order.Product.price}
                       </td>
+                      <td className="px-3 py-2 border">{order.Description}</td>
+                 
                       <td className="px-3 py-2 border">{order.totalAmount}</td>
                       <td className="px-3 py-2 border">{order.status}</td>
+                      <td className="px-3 py-2 border">{order.user.name}</td>
                       <td className="px-3 py-2 border">
                         <FormattedTime timestamp={order.createdAt} />
                       </td>
