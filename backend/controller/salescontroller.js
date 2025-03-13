@@ -1,21 +1,16 @@
 const Sale = require("../models/Salesmodel");
 const Product = require("../models/Productmodel");
 
-
 module.exports.createSale = async (req, res) => {
   try {
-    const { customerName, products, paymentMethod,paymentStatus,status} = req.body;
+    const { customerName, products, paymentMethod, paymentStatus, status } = req.body;
 
-    if (!customerName || !products || !paymentMethod || !paymentStatus || !status) {
-      return res.status(400).json({ success: false, message: "Customer name, products, and payment method are required." });
+    if (!customerName || !products || !products.product || !products.quantity || !products.price || !paymentMethod) {
+      return res.status(400).json({ success: false, message: "All fields are required." });
     }
 
-    let totalAmount = 0;
-   
-    for (const product of products) {
-      const { product: productId, quantity, price } = product;
-      totalAmount += quantity * price;
-    }
+
+    const totalAmount = products.quantity * products.price;
 
     const newSale = new Sale({
       customerName,
@@ -23,8 +18,7 @@ module.exports.createSale = async (req, res) => {
       totalAmount,
       paymentMethod,
       paymentStatus,
-      status
-    
+      status,
     });
 
     await newSale.save();

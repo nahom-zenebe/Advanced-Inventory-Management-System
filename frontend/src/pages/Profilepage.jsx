@@ -115,35 +115,10 @@ function ProfilePage() {
           </div>
         </div>
 
-        <div className="mt-10 bg-base-100 bg-white p-8 rounded-lg shadow-lg text-center">
-          <h2 className="text-xl font-bold text-gray-800 mb-4">Contact Information</h2>
-          <div className="space-y-4">
-            <div>
-              <label className="text-gray-600 text-sm font-semibold">Phone:</label>
-              <p className="text-gray-900 text-lg font-medium">(123) 456-7890</p>
-            </div>
+       
+              
+          
 
-            <div>
-              <label className="text-gray-600 text-sm font-semibold">Address:</label>
-              <p className="text-gray-900 text-lg font-medium">123 Main Street, City, Country</p>
-            </div>
-
-            <div>
-              <label className="text-gray-600 text-sm font-semibold">Social Media:</label>
-              <div className="flex justify-center space-x-4">
-                <a href="#" className="text-blue-600 hover:text-blue-800">
-                  <i className="fab fa-facebook-square text-2xl"></i>
-                </a>
-                <a href="#" className="text-pink-500 hover:text-pink-700">
-                  <i className="fab fa-instagram text-2xl"></i>
-                </a>
-                <a href="#" className="text-blue-400 hover:text-blue-600">
-                  <i className="fab fa-twitter text-2xl"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );

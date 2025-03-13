@@ -34,9 +34,6 @@ function Salespage() {
   const [quantity, setQuantity] = useState("");
   const [paymentStatus , setpaymentStatus]=useState("");
   const[Status,setStatus]=useState("")
-  
-
-
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedSales, setselectedSales] = useState(null);
 
@@ -73,11 +70,11 @@ function Salespage() {
     if (!selectedSales) return;
   
     const updatedData = {
-      customerName: name,
-      products: [{ product: Product, quantity, price: Price }],
-      paymentMethod: Payment,
-      paymentStatus:paymentStatus,
-      status:Status
+      customerName: name, 
+      products: { product: Product, quantity, price: Price }, 
+      paymentMethod: Payment, 
+      paymentStatus,
+      status: Status
     };
   
     dispatch(EditSales({ id: selectedSales._id, updatedData }))
@@ -92,23 +89,33 @@ function Salespage() {
         toast.error("Failed to update sale");
       });
   };
-  
+
 
 
   const submitsales = async (event) => {
     event.preventDefault();
-    const salesData = { name, Product,Payment,paymentStatus,Status };
-
+  
+    const salesData = {
+      customerName: name, 
+      products: { product: Product, quantity, price: Price }, 
+      paymentMethod: Payment, 
+      paymentStatus,
+      status: Status
+    };
+  
     dispatch(CreateSales(salesData))
       .unwrap()
       .then(() => {
-        toast.success("sales added successfully");
+        toast.success("Sales added successfully");
         resetForm();
       })
       .catch(() => {
-        toast.error("sales add unsuccessful");
+        toast.error("Sales add unsuccessful");
       });
   };
+  
+
+
 
 
   const resetForm = () => {
@@ -122,18 +129,17 @@ function Salespage() {
 
   };
   
-
   const handleEditClick = (sales) => {
     setselectedSales(sales);
     setName(sales.customerName);
-    setProduct(sales.products[0]?.product || "");
+    setProduct(sales.products?.product || "");
     setPayment(sales.paymentMethod);
-    setPrice(sales.products[0]?.price || "");
-    setQuantity(sales.products[0]?.quantity || "");
-    setpaymentStatus(sales. paymentStatus)
-    setStatus(sales.status)
+    setPrice(sales.products?.price || "");
+    setQuantity(sales.products?.quantity || "");
+    setpaymentStatus(sales.paymentStatus);
+    setStatus(sales.status);
+    setIsFormVisible(true); 
   };
-  
  
 
 
@@ -142,7 +148,7 @@ function Salespage() {
 
 
 
- const displaySales = query.trim() !== "" ? searchdata :getallsales;
+ const displaySales = query.trim() !== "" ? searchdata : getallsales;
 
 
 
@@ -184,7 +190,7 @@ function Salespage() {
             </div>
 
             <h1 className="text-xl font-semibold mb-4">
-              {selectedSales ? "Edit Product" : "Add Product"}
+              {selectedSales ? "Edit Sales" : "Add Sales"}
             </h1>
 
             <form onSubmit={selectedSales ? handleEditSubmit : submitsales}>
@@ -207,7 +213,7 @@ function Salespage() {
                   className="w-full h-10 px-2 border-2 rounded-lg mt-2"
                 >
                   <option value="">Select a Product</option>
-                  {getallproduct .map((product) => (
+                  {getallproduct.map((product) => (
                     <option key={product._id} value={product._id}>
                       {product.name}
                     </option>
@@ -236,23 +242,24 @@ function Salespage() {
                   className="w-full h-10 px-2 border-2 rounded-lg mt-2"
                 />
               </div>
-
+         
 
               <div className="mb-4">
                 <label>Payment</label>
-                <input
-                  type="number"
-                  placeholder="Enter Payment"
-                  value={Payment}
-                  onChange={(e) => setPayment(e.target.value)}
-                  className="w-full h-10 px-2 border-2 rounded-lg mt-2"
-                />
+                <select className="w-full h-10 px-2 border-2 rounded-lg mt-2"
+                 value={Payment} onChange={(e)=>setPayment(e.target.value)}>
+                  <option value="">Select Payment Method</option>
+                  <option value={"cash"}>cash</option>
+                  <option value={"creditcard"}>creditcard</option>
+                  <option value={"banktransfer"}>banktransfer</option>
+                
+                </select>
               </div>
 
 
               <div className="mb-4">
                 <label>payment Status</label>
-                <select value={paymentStatus} onChange={(e)=>setpaymentStatus(e.target.value)}>
+                <select className="w-full h-10 px-2 border-2 rounded-lg mt-2" value={paymentStatus} onChange={(e)=>setpaymentStatus(e.target.value)}>
                   <option value="">Select Payment Status</option>
                   <option value={"pending"}>pending</option>
                   <option value={"paid"}>paid</option>
@@ -263,7 +270,7 @@ function Salespage() {
 
               <div className="mb-4">
                 <label>Status</label>
-                <select value={Status} onChange={(e)=>setStatus(e.target.value)}>
+                <select className="w-full h-10 px-2 border-2 rounded-lg mt-2" value={Status} onChange={(e)=>setStatus(e.target.value)}>
                   <option value="">Select Status</option>
                   <option value={"pending"}>pending</option>
                   <option value={"completed"}>completed</option>
@@ -277,7 +284,7 @@ function Salespage() {
                 type="submit"
                 className="bg-blue-800 text-white w-full h-12 rounded-lg hover:bg-blue-700 mt-4"
               >
-                {"Add Product"}
+                    {selectedSales ? "Edit Product" : "Add Product"}
               </button>
             </form>
           </div>
@@ -309,7 +316,7 @@ function Salespage() {
                       <td className="px-3 py-2 border">{sales.customerName
                       }</td>
                       <td className="px-3 py-2 border">
-                        {sales.products.length|| "No Category"}
+                        {sales.products.product.name }
                       </td>
                       <td className="px-3 py-2 border">
                        $ {sales.totalAmount}
