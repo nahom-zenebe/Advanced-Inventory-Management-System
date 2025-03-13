@@ -39,25 +39,32 @@ export const gettingallSales = createAsyncThunk(
 
  
 export const EditSales = createAsyncThunk(
-  "sales/sales",
+  "sales/updatesales",
   async ({ salesId, updatedData }, { rejectWithValue }) => {
+    if (!salesId) {
+      toast.error("Invalid Sale ID");
+      return rejectWithValue("Invalid Sale ID");
+    }
+
     try {
       const response = await axiosInstance.put(
-        `sales/sales/${salesId}`, 
-        updatedData, 
+        `sales/updatesales/${salesId}`,  
+        updatedData,
         { withCredentials: true }
       );
-      toast.success("Supplier updated successfully"); 
-      return response.data; 
+      toast.success("Sale updated successfully");  
+      return response.data;
     } catch (error) {
-      console.log(error)
+      console.error("EditSales Error:", error); 
       const errorMessage =
-        error.response?.data?.message || "Failed to update supplier. Please try again.";
+        error.response?.data?.message || "Failed to update sale. Please try again.";
       toast.error(errorMessage);
       return rejectWithValue(errorMessage);
     }
   }
 );
+
+
 
 export const searchsalesdata=createAsyncThunk(
   'sales/searchdata',async (query, { rejectWithValue }) => {

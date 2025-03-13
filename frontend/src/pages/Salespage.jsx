@@ -77,7 +77,7 @@ function Salespage() {
       status: Status
     };
   
-    dispatch(EditSales({ id: selectedSales._id, updatedData }))
+    dispatch(EditSales({ salesId: selectedSales._id, updatedData }))
       .unwrap()
       .then(() => {
         toast.success("Sale updated successfully");
@@ -132,7 +132,7 @@ function Salespage() {
   const handleEditClick = (sales) => {
     setselectedSales(sales);
     setName(sales.customerName);
-    setProduct(sales.products?.product || "");
+    setProduct(sales.products?.product._id || "");
     setPayment(sales.paymentMethod);
     setPrice(sales.products?.price || "");
     setQuantity(sales.products?.quantity || "");
@@ -316,7 +316,7 @@ function Salespage() {
                       <td className="px-3 py-2 border">{sales.customerName
                       }</td>
                       <td className="px-3 py-2 border">
-                        {sales.products.product.name }
+                      {sales.products?.product?.name || "No Product"}
                       </td>
                       <td className="px-3 py-2 border">
                        $ {sales.totalAmount}

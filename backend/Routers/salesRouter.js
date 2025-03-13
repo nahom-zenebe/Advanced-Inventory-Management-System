@@ -6,7 +6,7 @@ router.post("/createsales", createSale);
 router.get("/getallsales", getAllSales); 
 router.get("/searchdata", SearchSales); 
 router.get("/:saleId", getSaleById);
-router.put("/sales/:saleId",updateSale); 
+router.put("/updatesales/:saleId",updateSale); 
 
 
 

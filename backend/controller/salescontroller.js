@@ -57,7 +57,6 @@ module.exports.getSaleById = async (req, res) => {
   }
 };
 
-
 module.exports.updateSale = async (req, res) => {
   try {
     const { saleId } = req.params;
@@ -65,34 +64,55 @@ module.exports.updateSale = async (req, res) => {
 
 
     if (!customerName || !products || !paymentMethod) {
-      return res.status(400).json({ success: false, message: "Customer name, products, and payment method are required." });
+      return res.status(400).json({ 
+        success: false, 
+        message: "Customer name, products, and payment method are required." 
+      });
     }
 
-    
+
     const sale = await Sale.findById(saleId);
     if (!sale) {
-      return res.status(404).json({ success: false, message: "Sale not found." });
-    }
-
-    
-    let totalAmount = 0;
-    for (const product of products) {
-      const { product: productId, quantity, price } = product;
-      totalAmount += quantity * price;
+      return res.status(404).json({ 
+        success: false, 
+        message: "Sale not found." 
+      });
     }
 
    
+    const { quantity, price } = products;
+    if (!quantity || !price) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "Products must have a quantity and price." 
+      });
+    }
+
+  
+    const totalAmount = quantity * price;
+
+  
     sale.customerName = customerName;
-    sale.products = products;
+    sale.products = products; 
     sale.totalAmount = totalAmount;
     sale.paymentMethod = paymentMethod;
 
-    // Save the updated sale
+
     const updatedSale = await sale.save();
 
-    res.status(200).json({ success: true, message: "Sale updated successfully", sale: updatedSale });
+    
+    res.status(200).json({ 
+      success: true, 
+      message: "Sale updated successfully", 
+      sale: updatedSale 
+    });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Error updating sale", error });
+    console.error("Error updating sale:", error);
+    res.status(500).json({ 
+      success: false, 
+      message: "Error updating sale", 
+      error: error.message 
+    });
   }
 };
 
