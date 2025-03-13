@@ -1,5 +1,5 @@
 const Product=require('../models/Productmodel')
-const Category=require('../models/ Categorymodel')
+
 const logActivity=require('../libs/logger')
 
 module.exports.Addproduct=async(req,res)=>{
