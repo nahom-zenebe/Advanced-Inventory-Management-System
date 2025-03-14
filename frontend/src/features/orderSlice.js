@@ -52,7 +52,7 @@ export const createdOrder=createAsyncThunk('order/createorder',async(order,{reje
     'order/updatestatusOrder',
     async ({ OrderId, updatedData }, { rejectWithValue }) => {
       try {
-        const response = await axiosInstance.put(`order/updatestatusOrder/${OrderId}`, { OrderId, updatedData }, { withCredentials: true });
+        const response = await axiosInstance.put(`order/updatestatusOrder/${OrderId}`,  updatedData , { withCredentials: true });
         return response.data;
       } catch (error) {
        
@@ -104,23 +104,6 @@ export const createdOrder=createAsyncThunk('order/createorder',async(order,{reje
 
 
 
-  export const EditOrder = createAsyncThunk(
-    'supplier/updatesupplier',
-    async ({ OrderId, updatedData }, { rejectWithValue }) => {
-      try {
-        const response = await axiosInstance.put(
-          `updatesupplier/${ OrderId}`,
-          { OrderId, updatedData },
-          { withCredentials: true }
-        );
-        return response.data;
-      } catch (error) {
-        const errorMessage = error.response?.data?.message || "Failed to update supplier. Please try again.";
-        toast.error(errorMessage); 
-        return rejectWithValue(errorMessage);
-      }
-    }
-  );
 
   
 
@@ -214,7 +197,7 @@ extraReducers:(builder)=>{
  })
  
 
- .addCase( updatestatusOrder.rejected,(state,action)=>{
+ .addCase(updatestatusOrder.rejected,(state,action)=>{
    state.iseditorder=false
   toast.error( 'Error In founding  Order');
  })

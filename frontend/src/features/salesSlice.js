@@ -49,7 +49,7 @@ export const EditSales = createAsyncThunk(
     try {
       const response = await axiosInstance.put(
         `sales/updatesales/${salesId}`,  
-        updatedData,
+        {updatedData},
         { withCredentials: true }
       );
       toast.success("Sale updated successfully");  

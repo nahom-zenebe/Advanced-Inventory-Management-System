@@ -67,7 +67,7 @@ function Supplierpage() {
       productsSupplied: [Product],
     };
 
-    dispatch(EditSupplier({ id: selectedSupplier._id, updatedData }))
+    dispatch(EditSupplier({ supplierId: selectedSupplier._id, updatedData }))
       .unwrap()
       .then(() => {
         toast.success("Supplier updated successfully");
@@ -86,7 +86,7 @@ function Supplierpage() {
     setPhone(supplier.contactInfo?.phone);
     setEmail(supplier.contactInfo?.email);
     setAddress(supplier.contactInfo?.address);
-    setProduct(supplier?.productsSupplied);
+    setProduct(supplier?.productsSupplied._id);
     setIsFormVisible(true);
   };
 

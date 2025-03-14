@@ -101,11 +101,11 @@ module.exports.Addproduct=async(req,res)=>{
 
     module.exports.EditProduct = async (req, res) => {
       try {
-        const { productId, updatedData } = req.body; // Extract from body instead of params
+        const { productId, updatedData } = req.body;
         const userId = req.user._id;
         const ipAddress = req.ip;
     
-        // Validate updatedData
+   
         if (!updatedData || typeof updatedData !== 'object') {
           return res.status(400).json({ message: "Invalid update data provided." });
         }

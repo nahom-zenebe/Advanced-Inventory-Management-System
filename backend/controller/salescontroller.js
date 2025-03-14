@@ -60,58 +60,40 @@ module.exports.getSaleById = async (req, res) => {
 module.exports.updateSale = async (req, res) => {
   try {
     const { saleId } = req.params;
-    const { customerName, products, paymentMethod } = req.body;
+    const updatedData = req.body;
 
-
-    if (!customerName || !products || !paymentMethod) {
-      return res.status(400).json({ 
-        success: false, 
-        message: "Customer name, products, and payment method are required." 
+    if (!updatedData || !updatedData.products || !updatedData.products.quantity || !updatedData.products.price) {
+      return res.status(400).json({
+        success: false,
+        message: "Product, quantity, and price are required."
       });
     }
 
+    const sale = await Sale.findByIdAndUpdate(saleId, updatedData, { new: true });
 
-    const sale = await Sale.findById(saleId);
     if (!sale) {
-      return res.status(404).json({ 
-        success: false, 
-        message: "Sale not found." 
+      return res.status(404).json({
+        success: false,
+        message: "Sale not found."
       });
     }
 
-   
-    const { quantity, price } = products;
-    if (!quantity || !price) {
-      return res.status(400).json({ 
-        success: false, 
-        message: "Products must have a quantity and price." 
-      });
-    }
-
-  
-    const totalAmount = quantity * price;
-
-  
-    sale.customerName = customerName;
-    sale.products = products; 
-    sale.totalAmount = totalAmount;
-    sale.paymentMethod = paymentMethod;
-
+    const updatedTotalAmount = updatedData.products.quantity * updatedData.products.price;
+    sale.totalAmount = updatedTotalAmount;
 
     const updatedSale = await sale.save();
 
-    
-    res.status(200).json({ 
-      success: true, 
-      message: "Sale updated successfully", 
-      sale: updatedSale 
+    res.status(200).json({
+      success: true,
+      message: "Sale updated successfully",
+      sale: updatedSale
     });
   } catch (error) {
     console.error("Error updating sale:", error);
-    res.status(500).json({ 
-      success: false, 
-      message: "Error updating sale", 
-      error: error.message 
+    res.status(500).json({
+      success: false,
+      message: "Error updating sale",
+      error: error.message
     });
   }
 };
@@ -133,7 +115,7 @@ module.exports.SearchSales = async (req, res) => {
         { customerName: { $regex: query, $options: "i" } },
         { paymentMethod: { $regex: query, $options: "i" } }
       ]
-    }).populate("products.product"); // Ensure product details are included
+    }).populate("products.product"); 
 
     res.status(200).json({ sales: searchdata });
 

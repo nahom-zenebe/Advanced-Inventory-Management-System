@@ -43,7 +43,7 @@ function Orderpage() {
   const [quantity, setQuantity] = useState("");
   const [Description, setDescription] = useState("");
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [selectedOrder, setselectedOrder] = useState(null);
 
   useEffect(() => {
     dispatch(gettingallOrder());
@@ -52,7 +52,16 @@ function Orderpage() {
  
   }, [dispatch,Authuser]);
 
-  console.log(Authuser)
+  useEffect(() => {
+    dispatch(gettingallOrder());
+ 
+  }, [dispatch,  editorder]);
+
+
+
+
+
+
 
 
 
@@ -77,21 +86,23 @@ function Orderpage() {
 
     const updatedData = {
       user: Authuser?.id || " ",
-      Description,
+      description: Description,
       status,
-      Product: {
-        product: Product,
-        quantity: Number(quantity),
-        price: Number(Price),
+      products: {
+        
+          product: Product,
+          quantity: Number(quantity),
+          price: Number(Price),
+        
       },
     };
-
-    dispatch(updatestatusOrder({ id: selectedOrder._id, updatedData }))
+    
+    dispatch( updatestatusOrder({ OrderId: selectedOrder._id,  updatedData }))
       .unwrap()
       .then(() => {
         toast.success("Order updated successfully");
         setIsFormVisible(false);
-        setSelectedOrder(null);
+        setselectedOrder(null);
         resetForm();
       })
       .catch(() => {
@@ -113,7 +124,7 @@ function Orderpage() {
       Description,
       status,
     };
-console.log(OrderData)
+
     dispatch(createdOrder(OrderData))
       .unwrap()
       .then(() => {
@@ -134,7 +145,7 @@ console.log(OrderData)
   };
 
   const handleEditClick = (order) => {
-    setSelectedOrder(order);
+    setselectedOrder(order);
     setProduct(order.Product.product?._id);
     setPrice(order.Product.price);
     setQuantity(order.Product.quantity);
@@ -180,7 +191,7 @@ console.log(OrderData)
           <button
             onClick={() => {
               setIsFormVisible(true);
-              setSelectedOrder(null);
+              setselectedOrder(null);
             }}
             className="bg-blue-800 text-white w-40 h-12 rounded-lg flex items-center justify-center"
           >

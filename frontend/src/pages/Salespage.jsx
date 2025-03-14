@@ -65,30 +65,37 @@ function Salespage() {
   
 
   
-  const handleEditSubmit = (event) => {
-    event.preventDefault();
-    if (!selectedSales) return;
-  
-    const updatedData = {
-      customerName: name, 
-      products: { product: Product, quantity, price: Price }, 
-      paymentMethod: Payment, 
-      paymentStatus,
-      status: Status
-    };
-  
-    dispatch(EditSales({ salesId: selectedSales._id, updatedData }))
-      .unwrap()
-      .then(() => {
-        toast.success("Sale updated successfully");
-        setIsFormVisible(false);
-        selectedSales(null);
-        resetForm();
-      })
-      .catch(() => {
-        toast.error("Failed to update sale");
-      });
+ const handleEditSubmit = (event) => {
+  event.preventDefault();
+  if (!selectedSales) return;
+
+  const updatedData = {
+    customerName: name,
+    products: {
+      product: { _id: Product },
+      quantity: Number(quantity),
+      price: Number(Price)
+    },
+    paymentMethod: Payment,
+    paymentStatus,
+    status: Status
   };
+
+  console.log("Updated Data:", updatedData);
+
+  dispatch(EditSales({ salesId: selectedSales._id, updatedData }))
+    .unwrap()
+    .then(() => {
+      toast.success("Sale updated successfully");
+      setIsFormVisible(false);
+      setselectedSales(null);
+      resetForm();
+    })
+    .catch((error) => {
+      console.error("Error updating sale:", error); 
+      toast.error("Failed to update sale");
+    });
+};
 
 
 
