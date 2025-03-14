@@ -62,14 +62,30 @@ module.exports.updateSale = async (req, res) => {
     const { saleId } = req.params;
     const updatedData = req.body;
 
-    if (!updatedData || !updatedData.products || !updatedData.products.quantity || !updatedData.products.price) {
+  
+
+    if (
+      !updatedData ||
+      !updatedData.products ||
+      !updatedData.products.product ||
+      !updatedData.products.quantity ||
+      !updatedData.products.price
+    ) {
       return res.status(400).json({
         success: false,
         message: "Product, quantity, and price are required."
       });
     }
 
-    const sale = await Sale.findByIdAndUpdate(saleId, updatedData, { new: true });
+
+    const updatedTotalAmount = updatedData.products.quantity * updatedData.products.price;
+
+
+    const sale = await Sale.findByIdAndUpdate(
+      saleId,
+      { ...updatedData, totalAmount: updatedTotalAmount },
+      { new: true }
+    );
 
     if (!sale) {
       return res.status(404).json({
@@ -78,15 +94,10 @@ module.exports.updateSale = async (req, res) => {
       });
     }
 
-    const updatedTotalAmount = updatedData.products.quantity * updatedData.products.price;
-    sale.totalAmount = updatedTotalAmount;
-
-    const updatedSale = await sale.save();
-
     res.status(200).json({
       success: true,
       message: "Sale updated successfully",
-      sale: updatedSale
+      sale: sale
     });
   } catch (error) {
     console.error("Error updating sale:", error);
@@ -96,8 +107,7 @@ module.exports.updateSale = async (req, res) => {
       error: error.message
     });
   }
-};
-
+}
 
 
 module.exports.SearchSales = async (req, res) => {

@@ -42,7 +42,7 @@ function Salespage() {
   useEffect(() => {
    dispatch(gettingallSales())
   
-  }, [dispatch]);
+  }, [dispatch,  CreateSales,EditSales]);
 
  
   useEffect(() => {
@@ -59,7 +59,7 @@ function Salespage() {
 
  
   
- console.log( getallsales)
+ 
 
 
   
@@ -72,7 +72,7 @@ function Salespage() {
   const updatedData = {
     customerName: name,
     products: {
-      product: { _id: Product },
+      product: Product, 
       quantity: Number(quantity),
       price: Number(Price)
     },
@@ -81,7 +81,7 @@ function Salespage() {
     status: Status
   };
 
-  console.log("Updated Data:", updatedData);
+  console.log("Updated Data:", updatedData); 
 
   dispatch(EditSales({ salesId: selectedSales._id, updatedData }))
     .unwrap()
@@ -96,7 +96,6 @@ function Salespage() {
       toast.error("Failed to update sale");
     });
 };
-
 
 
   const submitsales = async (event) => {
@@ -291,7 +290,7 @@ function Salespage() {
                 type="submit"
                 className="bg-blue-800 text-white w-full h-12 rounded-lg hover:bg-blue-700 mt-4"
               >
-                    {selectedSales ? "Edit Product" : "Add Product"}
+                    {selectedSales ? "Edit sales" : "Add sales"}
               </button>
             </form>
           </div>

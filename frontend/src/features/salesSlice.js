@@ -48,14 +48,14 @@ export const EditSales = createAsyncThunk(
 
     try {
       const response = await axiosInstance.put(
-        `sales/updatesales/${salesId}`,  
-        {updatedData},
+        `sales/updatesales/${salesId}`,
+        updatedData, 
         { withCredentials: true }
       );
-      toast.success("Sale updated successfully");  
+      toast.success("Sale updated successfully");
       return response.data;
     } catch (error) {
-      console.error("EditSales Error:", error); 
+      console.error("EditSales Error:", error);
       const errorMessage =
         error.response?.data?.message || "Failed to update sale. Please try again.";
       toast.error(errorMessage);
@@ -63,7 +63,6 @@ export const EditSales = createAsyncThunk(
     }
   }
 );
-
 
 
 export const searchsalesdata=createAsyncThunk(
