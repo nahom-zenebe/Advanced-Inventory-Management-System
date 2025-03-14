@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import TopNavbar from "../Components/TopNavbar";
 import { IoCameraOutline } from "react-icons/io5";
@@ -10,73 +10,76 @@ import FormattedTime from "../lib/FormattedTime ";
 function ProfilePage() {
   const dispatch = useDispatch();
   const { Authuser } = useSelector((state) => state.auth);
-  const [images, setImage] = useState(null);
   const { userdata } = useSelector((state) => state.activity);
+  const [images, setImage] = useState(null);
 
-  useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem('authUser'));
-    if (userData) {
-      dispatch({ type: 'auth/setAuthUser', payload: userData });
-    }
-  }, [dispatch]);
 
   const handleImageUpload = async (e) => {
-    e.preventDefault();
     const file = e.target.files[0];
     if (!file) {
-      toast.error('No file selected');
+      toast.error("No file selected");
       return;
     }
-  
-    const storedUser = JSON.parse(localStorage.getItem('authUser'));
-    if (!storedUser || !storedUser.token) {
-      toast.error('User not authenticated. Please log in again.');
+
+
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (!storedUser ) {
+      toast.error("User not authenticated. Please log in again.");
       return;
     }
-  
+
+
     const reader = new FileReader();
     reader.readAsDataURL(file);
-  
+
     reader.onload = async () => {
-      const base64Image = reader.result; 
-  
+      const base64Image = reader.result;
+
       try {
+        
         const response = await dispatch(updateProfile(base64Image)).unwrap();
-        toast.success('Profile updated successfully');
-        setImage(response?.updatedUser?.ProfilePic);
+        toast.success("Profile updated successfully");
+        setImage(response?.updatedUser?.ProfilePic); 
       } catch (error) {
-        console.error('Error uploading image:', error);
-        toast.error(error || 'Failed to upload image. Please try again.');
+        console.error("Error uploading image:", error);
+        toast.error(error || "Failed to upload image. Please try again.");
       }
     };
-  
+
     reader.onerror = () => {
-      toast.error('Error reading file');
+      toast.error("Error reading file");
     };
   };
-  
-
-  
-  console.log(userdata);
 
   return (
     <div className="min-h-screen bg-base-100 bg-gray-100 text-gray-900">
       <TopNavbar />
-      <div className="container bg-base-100 mx-auto px-6 py-12">
+      <div className="container mx-auto px-6 py-12">
         <div className="flex mt-8">
+      
           <div className="bg-white w-72 rounded-xl shadow-lg p-6 text-center">
             <div className="relative mb-6">
               <img
                 className="border-4 ml-16 border-blue-500 h-32 w-32 rounded-full object-cover shadow-lg"
-                src={Authuser?.ProfilePic || images || image}
+                src={ Authuser?.ProfilePic||images|| image}
                 alt="Profile"
               />
-              <input type="file" id="fileInput" className="hidden" accept="image/*" onChange={handleImageUpload} />
-              <label htmlFor="fileInput" className="absolute bottom-2 right-12 bg-blue-600 p-2 rounded-full cursor-pointer hover:bg-blue-700 transition">
+              <input
+                type="file"
+                id="fileInput"
+                className="hidden"
+                accept="image/*"
+                onChange={handleImageUpload}
+              />
+              <label
+                htmlFor="fileInput"
+                className="absolute bottom-2 right-12 bg-blue-600 p-2 rounded-full cursor-pointer hover:bg-blue-700 transition"
+              >
                 <IoCameraOutline className="text-white text-lg" />
               </label>
             </div>
 
+          
             <div className="flex mt-4 ml-12 bg-base-100">
               <label className="flex text-gray-600 text-sm font-semibold">Name:</label>
               <p className="text-gray-900 text-lg font-medium">{Authuser?.name || "Guest"}</p>
@@ -93,32 +96,30 @@ function ProfilePage() {
             </div>
           </div>
 
+      
           <div className="bg-white rounded-xl bg-base-100 flex flex-col h-96 pt-10 w-5/6 ml-10 overflow-y-auto shadow-md">
             <h1 className="text-lg font-semibold mb-4 px-4">Recent Activity</h1>
             <div className="space-y-4 px-4">
-  {userdata && userdata.length > 0 ? (
-    
-    userdata[0].map((log, index) => (
-      <div key={index} className="border-b bg-base-100 py-4">
-        <h2 className="text-lg bg-base-100 font-medium text-gray-900">{log.action}</h2>
-        <p className="text-sm bg-base-100 text-gray-600"> {log.description}</p>
-        <p className="text-sm bg-base-100 text-gray-500">Affected part: <span className="font-medium">{log.entity}</span></p>
-        <p className="text-sm bg-base-100 text-gray-500">IP Address: <span className="font-medium">{log.ipAddress}</span></p>
-        <FormattedTime timestamp={log.createdAt} />
-      </div>
-    ))
-  ) : (
-    <p className="text-center bg-base-100 text-gray-500">No activity logs available</p>
-  )}
-</div>
-
+              {userdata && userdata.length > 0 ? (
+                userdata[0].map((log, index) => (
+                  <div key={index} className="border-b bg-base-100 py-4">
+                    <h2 className="text-lg bg-base-100 font-medium text-gray-900">{log.action}</h2>
+                    <p className="text-sm bg-base-100 text-gray-600">{log.description}</p>
+                    <p className="text-sm bg-base-100 text-gray-500">
+                      Affected part: <span className="font-medium">{log.entity}</span>
+                    </p>
+                    <p className="text-sm bg-base-100 text-gray-500">
+                      IP Address: <span className="font-medium">{log.ipAddress}</span>
+                    </p>
+                    <FormattedTime timestamp={log.createdAt} />
+                  </div>
+                ))
+              ) : (
+                <p className="text-center bg-base-100 text-gray-500">No activity logs available</p>
+              )}
+            </div>
           </div>
         </div>
-
-       
-              
-          
-
       </div>
     </div>
   );

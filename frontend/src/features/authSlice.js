@@ -35,7 +35,7 @@ export const login = createAsyncThunk(
     try {
       const response = await axiosInstance.post("auth/login", credentials, { withCredentials: true });
       localStorage.setItem("user", JSON.stringify(response.data.user)); 
-      localStorage.setItem("token", response.data.token); 
+      localStorage.setItem("token", response.data.user.token); 
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Login failed");
@@ -50,6 +50,7 @@ export const logout = createAsyncThunk(
     try {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
+      localStorage.removeItem("authUser");
       return null;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Logout failed");
@@ -61,30 +62,33 @@ export const updateProfile = createAsyncThunk(
   async (base64Image, { rejectWithValue }) => {
     try {
   
-      const storedUser = JSON.parse(localStorage.getItem('user')); 
-      
-      if (!storedUser || !storedUser.token) {
-        return rejectWithValue('User not authenticated');
+      const storedUser = JSON.parse(localStorage.getItem('user'));
+      const token = localStorage.getItem('token');
+
+
+      if (!storedUser || !token) {
+        return rejectWithValue('User not authenticated. Please log in again.');
       }
 
-      
+     
       const response = await axiosInstance.put(
         'auth/updateProfile',
-        { ProfilePic: base64Image }, 
+        { ProfilePic: base64Image },
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${storedUser.token}`, 
+            Authorization: `Bearer ${token}`,
           },
         }
       );
 
       const updatedData = response.data;
 
-      
+    
       if (updatedData && updatedData.updatedUser) {
-        localStorage.setItem('user', JSON.stringify(updatedData.updatedUser)); 
-        return updatedData.updatedUser; 
+       
+        localStorage.setItem('user', JSON.stringify(updatedData.updatedUser));
+        return updatedData.updatedUser; // Return the updated user object
       } else {
         throw new Error('Unexpected response structure');
       }
@@ -96,7 +100,6 @@ export const updateProfile = createAsyncThunk(
     }
   }
 );
-
 
 
 
@@ -193,7 +196,7 @@ const authSlice = createSlice({
       builder.addCase(updateProfile.fulfilled, (state, action) => {
         state.isupdateProfile = false;
         state.Authuser = { ...state.Authuser, user: action.payload }; 
-        localStorage.setItem("authUser", JSON.stringify(state.Authuser));
+      
       })
       
       

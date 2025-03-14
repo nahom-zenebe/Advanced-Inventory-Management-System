@@ -27,7 +27,7 @@ module.exports.signup = async (req, res) => {
       name,
       email,
       password: hashedpassword,
-      ProfilePic,
+      ProfilePic:"",
       role,
     });
 
@@ -156,7 +156,7 @@ module.exports.updateProfile = async (req, res) => {
     if (ProfilePic) {
       try {
        
-        const uploadResponse = await cloudinary.uploader.upload(ProfilePic, {
+        const uploadResponse = await Cloundinary.uploader.upload(ProfilePic, {
           folder: "profile_inventory_system", 
           upload_preset: "upload", 
         });

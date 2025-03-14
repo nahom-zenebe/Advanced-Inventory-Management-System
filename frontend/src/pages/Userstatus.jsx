@@ -15,6 +15,7 @@ import  UserRoleChart from '../lib/Usersgraph'
 function Userstatus() {
   const { staffuser, manageruser, adminuser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const { Authuser } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(staffUser());
@@ -36,7 +37,7 @@ function Userstatus() {
           {manageruser?.length > 0 ? (
             manageruser.map((user, index) => (
               <div key={index} className="flex bg-base-100 items-center space-x-4 p-2 border-b">
-                <img src={image} alt="User" className="w-10 bg-base-100 h-10 rounded-full" />
+                <img src={user?.ProfilePic||image} alt="User" className="w-10 bg-base-100 h-10 rounded-full" />
                 <div className="bg-base-100">
                   <p className="font-medium">{user.name}</p>
                   <p className="text-gray-600 text-sm">{user.email}</p>
@@ -53,7 +54,7 @@ function Userstatus() {
           {adminuser?.length > 0 ? (
             adminuser.map((user, index) => (
               <div key={index} className="flex bg-base-100 items-center space-x-4 p-2 border-b">
-                <img src={image} alt="User" className="w-10 h-10 bg-base-100 rounded-full" />
+                <img src={user?.ProfilePic||image} alt="User" className="w-10 h-10 bg-base-100 rounded-full" />
                 <div className="bg-base-100">
                   <p className="font-medium">{user.name}</p>
                   <p className="text-gray-600 text-sm">{user.email}</p>
@@ -70,7 +71,7 @@ function Userstatus() {
           {staffuser?.length > 0 ? (
             staffuser.map((user, index) => (
               <div key={index} className="flex bg-base-100 items-center space-x-4 p-2 border-b">
-                <img src={image} alt="User" className="w-10 h-10  bg-base-100 rounded-full" />
+                <img src={user?.ProfilePic||image} alt="User" className="w-10 h-10  bg-base-100 rounded-full" />
                 <div className="bg-base-100">
                   <p className="font-medium  bg-base-100">{user.name}</p>
                   <p className=" bg-base-100 text-sm">{user.email}</p>
