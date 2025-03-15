@@ -28,20 +28,20 @@ function Sidebar() {
         toast.error("Error in logout");
       });
   };
-
+console.log(Authuser)
   return (
     <div className="flex flex-col w-64 text-black min-h-screen p-6 shadow-lg ">
       <h1 className="text-2xl font-bold text-center text-gray-700 mb-10">Company Logo</h1>
 
       <nav className="space-y-4">
-        {/* Always visible - Dashboard */}
+  
         <div className="text-lg mt-10 flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
           <RxDashboard className="text-xl" />
           <Link to="/ManagerDashboard">Dashboard</Link>
         </div>
 
         {/* Manager-specific links */}
-        {Authuser?.role === "Manager" && (
+        {Authuser?.role === "manager" && (
           <ul className="space-y-2">
             <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
               <AiOutlineProduct className="text-xl" />
@@ -86,8 +86,8 @@ function Sidebar() {
           </ul>
         )}
 
-        {/* Admin-specific links */}
-        {Authuser?.role === "Admin" && (
+
+        {Authuser?.role === "admin" && (
           <ul className="space-y-2">
             <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
               <AiOutlineProduct className="text-xl" />
@@ -129,7 +129,7 @@ function Sidebar() {
         )}
 
         
-        {Authuser?.role === "Staff" && (
+        {Authuser?.role === "staff" && (
           <ul className="space-y-2">
             <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
               <AiOutlineProduct className="text-xl" />

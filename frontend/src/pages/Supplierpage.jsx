@@ -134,8 +134,13 @@ function Supplierpage() {
   return (
     <div className="bg-base-100 min-h-screen">
       <TopNavbar />
-      <div className="mt-10 ml-5">
-        <div className="flex items-center space-x-4">
+      <div className="mt-10 ml-5 mb-10">
+      <div className="bg-blue-950 w-56 rounded-xl  ml-10 block h-24">
+          <h1 className="text-white ml-12 block pt-5 font-bold">Total Supplier</h1>
+          <p className="text-white font-bold  pt-2  ml-24">{getallSupplier?.length || "0"}</p>
+
+        </div>
+        <div className="flex items-center space-x-4  mt-10">
           <input
             type="text"
             value={query}

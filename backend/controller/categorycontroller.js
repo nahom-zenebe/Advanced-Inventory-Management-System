@@ -79,7 +79,7 @@ module.exports.RemoveCategory=async(req,res)=>{
 
 module.exports.getCategory = async (req, res) => {
     try {
-      // Fetch all categories
+    
       const allCategory = await Category.find({});
   
       if (!allCategory) {
