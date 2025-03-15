@@ -14,11 +14,18 @@ import toast from 'react-hot-toast';
 import { LuUsers } from "react-icons/lu";
 
 
+
+
+
+
+
+
+  
 function Sidebar() {
 
   const dispatch = useDispatch();
   const navigator=useNavigate();
-
+  const { Authuser, isUserSignup } = useSelector((state) => state.auth);
 
 
   const handleLogout=async()=>{

@@ -54,8 +54,32 @@ function App() {
  
           </Route>
 
-          <Route path="/AdminDashboard" element={<AdminDashboard />} />
-          <Route path="/StaffDashboard" element={<StaffDashboard />} />
+          <Route path="/AdminDashboard" element={<AdminDashboard />} >
+          <Route path="product" element={<Productpage />} />
+            <Route path="order" element={<Orderpage />} />
+            <Route path="sales" element={<Salespage />} />
+            <Route path="stock-transaction" element={<StockTransaction />} />
+            <Route path="category" element={<Categorypage />} />
+            <Route path="inventory" element={<Inventorypage />} />
+            <Route path="notifications" element={<Notificationpage />} />
+            <Route path="Profilepage" element={<   Profilepage />} />
+            <Route path="supplier" element={<Supplierpage />} />
+            <Route path="activity-log" element={<Activitylogpage />} />
+ 
+          </Route>
+          <Route path="/StaffDashboard" element={<StaffDashboard />} >
+          <Route path="product" element={<Productpage />} />
+            <Route path="order" element={<Orderpage />} />
+            <Route path="sales" element={<Salespage />} />
+            <Route path="stock-transaction" element={<StockTransaction />} />
+            <Route path="category" element={<Categorypage />} />
+            <Route path="inventory" element={<Inventorypage />} />
+            <Route path="notifications" element={<Notificationpage />} />
+            <Route path="Profilepage" element={<   Profilepage />} />
+            <Route path="supplier" element={<Supplierpage />} />
+            <Route path="activity-log" element={<Activitylogpage />} />
+ 
+          </Route>
         </Routes>
       </div>
     </Router>

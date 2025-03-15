@@ -8,7 +8,7 @@ import FormattedTime from "../lib/FormattedTime ";
 import {
   CreateSales,gettingallSales,EditSales, searchsalesdata
 } from "../features/salesSlice";
-
+import SalesChart from '../lib/Salesgraph';
 import toast from "react-hot-toast";
 
 
@@ -167,6 +167,8 @@ function Salespage() {
 
       
       <div className="mt-12 ml-5">
+
+        <SalesChart className=" mb-10" />
         <div className="flex items-center space-x-4">
           <input
            value={query}
