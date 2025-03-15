@@ -7,97 +7,160 @@ import { TfiSupport } from "react-icons/tfi";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { RxActivityLog, RxDashboard } from "react-icons/rx";
 import { Link } from 'react-router-dom';
-import { useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import {logout  } from "../features/authSlice";
+import { logout } from "../features/authSlice";
 import toast from 'react-hot-toast';
 import { LuUsers } from "react-icons/lu";
 
-
-
-
-
-
-
-
-  
 function Sidebar() {
-
   const dispatch = useDispatch();
-  const navigator=useNavigate();
-  const { Authuser, isUserSignup } = useSelector((state) => state.auth);
+  const navigator = useNavigate();
+  const { Authuser } = useSelector((state) => state.auth); 
 
-
-  const handleLogout=async()=>{
-
+  const handleLogout = async () => {
     dispatch(logout())
-    .then(()=>{
-      toast.success("logout successfully")
-      navigator('/')
-    })
-    .catch((error)=>{
-      toast.error("error in logout")
-    })
-
-  }
-
-
-
+      .then(() => {
+        toast.success("Logout successfully");
+        navigator('/');
+      })
+      .catch((error) => {
+        toast.error("Error in logout");
+      });
+  };
 
   return (
-    <div className="flex flex-col    w-64 text-black min-h-screen p-6 shadow-lg ">
-      <h1 className="text-2xl  font-bold text-center text-gray-700 mb-10">Company Logo</h1>
-      
-      <nav className="space-y-4 ">
+    <div className="flex flex-col w-64 text-black min-h-screen p-6 shadow-lg ">
+      <h1 className="text-2xl font-bold text-center text-gray-700 mb-10">Company Logo</h1>
+
+      <nav className="space-y-4">
+        {/* Always visible - Dashboard */}
         <div className="text-lg mt-10 flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
-          <RxDashboard className="text-xl " />
+          <RxDashboard className="text-xl" />
           <Link to="/ManagerDashboard">Dashboard</Link>
         </div>
 
-        <ul className="space-y-2  ">
-          <li className="flex  items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
-            <AiOutlineProduct className="text-xl" />
-            <Link to="/ManagerDashboard/product ">Product</Link>
-          </li>
-          <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
-            <RxActivityLog className="text-xl" />
-            <Link to="/ManagerDashboard/activity-log ">Activity Log</Link>
-          </li>
-          <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
-            <TfiSupport className="text-xl" />
-            <Link to="/ManagerDashboard/supplier ">Supplier</Link>
-          </li>
-          <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
-            <MdPointOfSale className="text-xl" />
-            <Link to="/ManagerDashboard/sales ">Sales</Link>
-          </li>
-          <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
-            <FiShoppingCart className="text-xl" />
-            <Link to="/ManagerDashboard/order">Order</Link>
-          </li>
-          <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
-            <RiStockLine className="text-xl" />
-            <Link to="/ManagerDashboard/stock-transaction">Stock Transaction</Link>
-          </li>
-          <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
-            <IoNotificationsOutline className="text-xl" />
-            <Link to="/ManagerDashboard/notifications ">Notifications</Link>
-          </li>
-          <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
-            <MdOutlineInventory2 className="text-xl" />
-            <Link to="/ManagerDashboard/inventory ">Inventory</Link>
-          </li>
-          <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
-            <MdOutlineCategory className="text-xl" />
-            <Link to="/ManagerDashboard/category ">Category</Link>
-          </li>
-          <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
-          <LuUsers  className="text-xl"/>
-            <Link to="/ManagerDashboard/Userstatus ">Users</Link>
-          </li>
+        {/* Manager-specific links */}
+        {Authuser?.role === "Manager" && (
+          <ul className="space-y-2">
+            <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+              <AiOutlineProduct className="text-xl" />
+              <Link to="/ManagerDashboard/product">Product</Link>
+            </li>
+            <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+              <RxActivityLog className="text-xl" />
+              <Link to="/ManagerDashboard/activity-log">Activity Log</Link>
+            </li>
+            <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+              <TfiSupport className="text-xl" />
+              <Link to="/ManagerDashboard/supplier">Supplier</Link>
+            </li>
+            <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+              <MdPointOfSale className="text-xl" />
+              <Link to="/ManagerDashboard/sales">Sales</Link>
+            </li>
+            <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+              <FiShoppingCart className="text-xl" />
+              <Link to="/ManagerDashboard/order">Order</Link>
+            </li>
+            <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+              <RiStockLine className="text-xl" />
+              <Link to="/ManagerDashboard/stock-transaction">Stock Transaction</Link>
+            </li>
+            <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+              <IoNotificationsOutline className="text-xl" />
+              <Link to="/ManagerDashboard/notifications">Notifications</Link>
+            </li>
+            <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+              <MdOutlineInventory2 className="text-xl" />
+              <Link to="/ManagerDashboard/inventory">Inventory</Link>
+            </li>
+            <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+              <MdOutlineCategory className="text-xl" />
+              <Link to="/ManagerDashboard/category">Category</Link>
+            </li>
+            <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+              <LuUsers className="text-xl" />
+              <Link to="/ManagerDashboard/Userstatus">Users</Link>
+            </li>
+          </ul>
+        )}
+
+        {/* Admin-specific links */}
+        {Authuser?.role === "Admin" && (
+          <ul className="space-y-2">
+            <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+              <AiOutlineProduct className="text-xl" />
+              <Link to="/AdminDashboard/product">Product</Link>
+            </li>
+            <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+              <RxActivityLog className="text-xl" />
+              <Link to="/AdminDashboard/activity-log">Activity Log</Link>
+            </li>
+            <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+              <TfiSupport className="text-xl" />
+              <Link to="/AdminDashboard/supplier">Supplier</Link>
+            </li>
+            <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+              <MdPointOfSale className="text-xl" />
+              <Link to="/AdminDashboard/sales">Sales</Link>
+            </li>
+            <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+              <FiShoppingCart className="text-xl" />
+              <Link to="/AdminDashboard/order">Order</Link>
+            </li>
+            <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+              <RiStockLine className="text-xl" />
+              <Link to="/AdminDashboard/stock-transaction">Stock Transaction</Link>
+            </li>
+            <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+              <IoNotificationsOutline className="text-xl" />
+              <Link to="/AdminDashboard/notifications">Notifications</Link>
+            </li>
+            <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+              <MdOutlineInventory2 className="text-xl" />
+              <Link to="/AdminDashboard/inventory">Inventory</Link>
+            </li>
+            <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+              <MdOutlineCategory className="text-xl" />
+              <Link to="/AdminDashboard/category">Category</Link>
+            </li>
+          </ul>
+        )}
 
         
-        </ul>
+        {Authuser?.role === "Staff" && (
+          <ul className="space-y-2">
+            <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+              <AiOutlineProduct className="text-xl" />
+              <Link to="/StaffDashboard/product">Product</Link>
+            </li>
+            <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+              <RxActivityLog className="text-xl" />
+              <Link to="/StaffDashboard/activity-log">Activity Log</Link>
+            </li>
+            <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+              <TfiSupport className="text-xl" />
+              <Link to="/StaffDashboard/supplier">Supplier</Link>
+            </li>
+            <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+              <MdPointOfSale className="text-xl" />
+              <Link to="/StaffDashboard/sales">Sales</Link>
+            </li>
+            <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+              <FiShoppingCart className="text-xl" />
+              <Link to="/StaffDashboard/order">Order</Link>
+            </li>
+            <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+              <RiStockLine className="text-xl" />
+              <Link to="/StaffDashboard/stock-transaction">Stock Transaction</Link>
+            </li>
+            <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
+              <IoNotificationsOutline className="text-xl" />
+              <Link to="/StaffDashboard/notifications">Notifications</Link>
+            </li>
+          </ul>
+        )}
       </nav>
 
       <div className="mt-auto border-t pt-4">
