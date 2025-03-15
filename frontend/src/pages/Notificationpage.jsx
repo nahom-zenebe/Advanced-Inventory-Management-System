@@ -13,11 +13,11 @@ import toast from 'react-hot-toast';
 function NotificationPage() {
   const dispatch = useDispatch();
   const { notifications } = useSelector((state) => state.notification);
-
+  const { Authuser } = useSelector((state) => state.auth);
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const { Authuser, isUserSignup } = useSelector((state) => state.auth);
+ 
 
 
   const socket = io("http://localhost:3002", {
@@ -25,22 +25,21 @@ function NotificationPage() {
   });
 
   useEffect(() => {
-    socket.on("newNotification", (notification) => {
-      toast.success(`newNotification: ${notification.name}`);
-      dispatch(getAllNotifications()); 
-    });
+    dispatch(getAllNotifications()); 
 
    
+    socket.on("newNotification", (newNotification) => {
+      toast.success(`New Notification: ${newNotification.name}`);
+      dispatch(getAllNotifications());
+    });
+
     return () => {
-      socket.off("newNotification");
+      socket.off("newNotification"); 
     };
   }, [dispatch]);
 
 
 
-  useEffect(() => {
-    dispatch(getAllNotifications())
-  }, [dispatch]);
 
   const resetForm = () => {
     setName("");
@@ -80,7 +79,7 @@ function NotificationPage() {
 
         {isFormVisible && (
           <div className=" p-6 rounded-lg  bg-base-100 shadow-md mb-6">
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex  bg-base-100 justify-between items-center mb-4">
               <h2 className="text-xl font-semibold">Add Notification</h2>
               <MdClose className="text-2xl cursor-pointer" onClick={() => setIsFormVisible(false)} />
             </div>
@@ -118,10 +117,10 @@ function NotificationPage() {
           {notifications.length > 0 ? (
             notifications.map((notification) => (
               <div key={notification._id} className="flex items-center bg-base-300  p-4 rounded-lg shadow-md">
-                <img src={image} alt="User" className="w-12 h-12 bg-base-300 rounded-full mr-4" />
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold">{Authuser?.name||notification.name}</h3>
-                  <p className="text-gray-600 text-sm">{notification.type}</p>
+                <img src={Authuser?.ProfilePic||image} alt="User" className="w-12 h-12 bg-base-300 rounded-full mr-4" />
+                <div className="flex-1 ">
+                  <h3 className="text-lg  font-semibold">{Authuser?.name||notification.name}</h3>
+                  <p className="  text-sm">{notification.type}</p>
                 </div>
                 <button
                   onClick={() => dispatch(deleteNotification(notification._id))}

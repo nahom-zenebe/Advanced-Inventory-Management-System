@@ -1,5 +1,4 @@
 const Notification = require("../models/Notificationmodel");
-const {io}=require("../server")
 
 module.exports.createNotification = async (req, res) => {
   try {
@@ -12,12 +11,12 @@ module.exports.createNotification = async (req, res) => {
     const notification = new Notification({ name, type });
     await notification.save();
 
-    const allNotifications = await Notification.find().sort({ createdAt: -1 });
 
-  
-    io.emit("newNotificationList", allNotifications);
 
-    console.log(notification);
+    const io=req.app.get("io")
+
+    io.emit("newNotification",notification)
+   
 
 
 

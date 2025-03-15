@@ -19,7 +19,7 @@ export const createNotification = createAsyncThunk(
         Notification,
         { withCredentials: true }
       );
-      return response.data.notification; // Ensure only the notification object is returned
+      return response.data.notification; 
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || "Notification creation failed"
