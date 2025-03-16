@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/authSlice";
 import toast from 'react-hot-toast';
 import { LuUsers } from "react-icons/lu";
-
+import logo1 from '../images/logo1.png'
 function Sidebar() {
   const dispatch = useDispatch();
   const navigator = useNavigate();
@@ -31,7 +31,7 @@ function Sidebar() {
 console.log(Authuser)
   return (
     <div className="flex flex-col w-64 text-black min-h-screen p-6 shadow-lg ">
-      <h1 className="text-2xl font-bold text-center text-gray-700 mb-10">Company Logo</h1>
+      <h1 className="text-2xl font-bold text-center text-gray-700 mb-10"> <img src={logo1} className='w-56' alt="sample logo"></img></h1>
 
       <nav className="space-y-4">
   
