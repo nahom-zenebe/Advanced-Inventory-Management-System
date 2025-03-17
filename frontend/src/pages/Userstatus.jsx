@@ -3,11 +3,13 @@ import TopNavbar from "../Components/TopNavbar";
 import { IoMdAdd } from "react-icons/io";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import { TiDelete } from "react-icons/ti";
 import image from "../images/user.png";
 import {
   staffUser,
   managerUser,
-  adminUser
+  adminUser,
+  removeusers
 } from "../features/authSlice";
 import toast from "react-hot-toast";
 import  UserRoleChart from '../lib/Usersgraph'
@@ -21,11 +23,24 @@ function Userstatus() {
     dispatch(staffUser());
     dispatch(managerUser());
     dispatch(adminUser());
-  }, [dispatch]);
+  }, [dispatch,removeusers]);
 
   console.log(staffuser);
   console.log(adminuser);
   console.log(manageruser);
+
+
+  const handleremove=async(UserId)=>{
+
+    dispatch(removeusers(UserId))
+    .then(()=>{
+      toast.success("user remove successffully")
+    })
+    .catch((err)=>{
+      toast.error("error in remove user")
+    })
+
+  }
 
   return (
     <div className="min-h-screen bg-base-100">
@@ -42,6 +57,7 @@ function Userstatus() {
                   <p className="font-medium">{user.name}</p>
                   <p className="text-gray-600 text-sm">{user.email}</p>
                 </div>
+                <div><TiDelete  onClick={()=>handleremove( user._id)}  className="text-red-600 text-2xl"/></div>
               </div>
             ))
           ) : (
@@ -59,6 +75,8 @@ function Userstatus() {
                   <p className="font-medium">{user.name}</p>
                   <p className="text-gray-600 text-sm">{user.email}</p>
                 </div>
+                <div><TiDelete  onClick={()=>handleremove( user._id)} className="text-red-600 text-2xl" /></div>
+              
               </div>
             ))
           ) : (
@@ -76,6 +94,7 @@ function Userstatus() {
                   <p className="font-medium  bg-base-100">{user.name}</p>
                   <p className=" bg-base-100 text-sm">{user.email}</p>
                 </div>
+                <div><TiDelete onClick={()=>handleremove( user._id)} className="text-red-600 text-2xl" /></div>
               </div>
             ))
           ) : (

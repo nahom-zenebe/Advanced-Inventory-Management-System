@@ -72,10 +72,6 @@ console.log(Authuser)
               <Link to="/ManagerDashboard/notifications">Notifications</Link>
             </li>
             <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
-              <MdOutlineInventory2 className="text-xl" />
-              <Link to="/ManagerDashboard/inventory">Inventory</Link>
-            </li>
-            <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
               <MdOutlineCategory className="text-xl" />
               <Link to="/ManagerDashboard/category">Category</Link>
             </li>
@@ -116,10 +112,6 @@ console.log(Authuser)
             <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
               <IoNotificationsOutline className="text-xl" />
               <Link to="/AdminDashboard/notifications">Notifications</Link>
-            </li>
-            <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
-              <MdOutlineInventory2 className="text-xl" />
-              <Link to="/AdminDashboard/inventory">Inventory</Link>
             </li>
             <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
               <MdOutlineCategory className="text-xl" />

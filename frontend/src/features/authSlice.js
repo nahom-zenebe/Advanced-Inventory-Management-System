@@ -103,6 +103,8 @@ export const updateProfile = createAsyncThunk(
 
 
 
+
+
 export const staffUser=createAsyncThunk('auth/staffuser',async(_,{rejectWithValue})=>{
   try {
 
@@ -136,11 +138,21 @@ export const adminUser=createAsyncThunk('auth/adminuser',async(_,{rejectWithValu
     return response.data
     
   } catch (error) {
-    return rejectWithValue(error.response?.data?.message || 'Failed to get admin user user');
+    return rejectWithValue(error.response?.data?.message || 'Failed to get admin  user');
   }
 })
 
+export const removeusers=createAsyncThunk("auth/removeuser",async(UserId,{rejectWithValue})=>{
+  try {
 
+    const response=await axiosInstance.delete(`auth/removeuser/${UserId}`,UserId,{ withCredentials: true });
+
+    return response.data
+
+  } catch (error) {
+     return rejectWithValue(error.response?.data?.message || 'Failed to delete  user');
+  }
+})
 
 const authSlice = createSlice({
   name: "auth",
@@ -199,10 +211,7 @@ const authSlice = createSlice({
       
       })
       
-      
-
-
-
+    
 
       .addCase(staffUser.fulfilled, (state, action) => {
      
@@ -246,9 +255,22 @@ const authSlice = createSlice({
       
        toast.error( action.payload|| 'Error In adding product logout');
       })
+
+
+      .addCase(removeusers.fulfilled, (state, action) => {
+      
+      
+        toast.success("delete user  successfully");
+      })
+      
+     
+      .addCase(removeusers.rejected,(state,action)=>{
+      
+       toast.error( action.payload|| 'Error In delete  ');
+      })
     
 
-    
+
 
   
   },

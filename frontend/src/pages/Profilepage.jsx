@@ -52,13 +52,13 @@ function ProfilePage() {
   };
 
   return (
-    <div className="min-h-screen bg-base-100 bg-gray-100 text-gray-900">
+    <div className="min-h-screen bg-base-100 text-gray-900">
       <TopNavbar />
-      <div className="container mx-auto px-6 py-12">
-        <div className="flex mt-8">
+      <div className="container  bg-base-100mx-auto px-6 py-12">
+        <div className=" flex bg-base-100 mt-8">
       
-          <div className="bg-white w-72 rounded-xl shadow-lg p-6 text-center">
-            <div className="relative mb-6">
+          <div className=" bg-base-100 border-gray-600 w-72 rounded-xl shadow-lg p-6 text-center">
+            <div className="border-gray-600 relative mb-6 bg-base-100">
               <img
                 className="border-4 ml-16 border-blue-500 h-32 w-32 rounded-full object-cover shadow-lg"
                 src={ Authuser?.ProfilePic||images|| image}
@@ -82,23 +82,23 @@ function ProfilePage() {
           
             <div className="flex mt-4 ml-12 bg-base-100">
               <label className="flex text-gray-600 text-sm font-semibold">Name:</label>
-              <p className="text-gray-900 text-lg font-medium">{Authuser?.name || "Guest"}</p>
+              <p className="bg-base-100 mn-3  text-gray-600 text-lg font-medium">{Authuser?.name || "Guest"}</p>
             </div>
 
             <div className="mt-6 flex ml-12 bg-base-100">
               <label className="flex text-gray-600 text-sm font-semibold">Email:</label>
-              <p className="text-gray-900 text-lg font-medium">{Authuser?.email || "Guest@gmail.com"}</p>
+              <p className="bg-base-100   text-gray-600 text-lg font-medium">{Authuser?.email || "Guest@gmail.com"}</p>
             </div>
 
             <div className="mt-6 flex ml-12 bg-base-100">
               <label className="flex text-gray-600 text-sm font-semibold">Role:</label>
-              <p className="text-gray-900 text-lg font-medium capitalize">{Authuser?.role || "staff"}</p>
+              <p className="bg-base-100  text-gray-600 text-lg font-medium capitalize">{Authuser?.role || "staff"}</p>
             </div>
           </div>
 
       
-          <div className="bg-white rounded-xl bg-base-100 flex flex-col h-96 pt-10 w-5/6 ml-10 overflow-y-auto shadow-md">
-            <h1 className="text-lg font-semibold mb-4 px-4">Recent Activity</h1>
+          <div className="border-2 border-gray-600 rounded-xl bg-base-100 flex flex-col h-96 pt-10 w-5/6 ml-10 overflow-y-auto shadow-md">
+            <h1 className="text-lg  font-semibold  text-gray-600 mb-4 px-4">Recent Activity</h1>
             <div className="space-y-4 px-4">
               {userdata && userdata.length > 0 ? (
                 userdata[0].map((log, index) => (

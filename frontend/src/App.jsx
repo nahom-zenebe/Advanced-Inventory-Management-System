@@ -14,7 +14,6 @@ import Orderpage from './pages/Orderpage';
 import Salespage from './pages/Salespage';
 import StockTransaction from './pages/StockTransaction';
 import Categorypage from './pages/Categorypage';
-import Inventorypage from './pages/Inventorypage';
 import Notificationpage from './pages/Notificationpage';
 import Supplierpage from './pages/Supplierpage';
 import Activitylogpage from './pages/Activitylogpage';
@@ -46,7 +45,6 @@ function App() {
             <Route path="sales" element={<Salespage />} />
             <Route path="stock-transaction" element={<StockTransaction />} />
             <Route path="category" element={<Categorypage />} />
-            <Route path="inventory" element={<Inventorypage />} />
             <Route path="notifications" element={<Notificationpage />} />
             <Route path="Profilepage" element={<   Profilepage />} />
             <Route path="supplier" element={<Supplierpage />} />
@@ -61,7 +59,6 @@ function App() {
             <Route path="sales" element={<Salespage />} />
             <Route path="stock-transaction" element={<StockTransaction />} />
             <Route path="category" element={<Categorypage />} />
-            <Route path="inventory" element={<Inventorypage />} />
             <Route path="notifications" element={<Notificationpage />} />
             <Route path="Profilepage" element={<   Profilepage />} />
             <Route path="supplier" element={<Supplierpage />} />
@@ -74,7 +71,6 @@ function App() {
             <Route path="sales" element={<Salespage />} />
             <Route path="stock-transaction" element={<StockTransaction />} />
             <Route path="category" element={<Categorypage />} />
-            <Route path="inventory" element={<Inventorypage />} />
             <Route path="notifications" element={<Notificationpage />} />
             <Route path="Profilepage" element={<   Profilepage />} />
             <Route path="supplier" element={<Supplierpage />} />
