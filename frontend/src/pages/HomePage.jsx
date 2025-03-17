@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FaArrowRightLong } from "react-icons/fa6";
 import Navbar from '../Components/Navbar';
+import Footer from "../Components/Footer"
 import { Link } from 'react-router-dom';
 
 function HomePage() {
@@ -21,9 +22,9 @@ function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-b from-green-500/10 to-yellow-500/10"></div>
         </div>
 
-        {/* Content */}
-        <div className="text-center max-w-2xl relative z-10 mt-20">
-          <h1 className='text-xl text-blue-400 mb-10 animate-pulse'>✧ Modern and Scalable</h1>
+    
+        <div className="text-center max-w-2xl relative z-10 mt-10">
+          <h1 className='text-xl text-blue-800 mb-10 animate-pulse'>✧ Modern and Scalable</h1>
           <h1 className="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
             Comprehensive Inventory Management Tools
           </h1>
@@ -60,9 +61,9 @@ function HomePage() {
           {/* Stats Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
             {[
-              { value: "+24%", label: "Higher leads" },
+              { value: "+84%", label: "higer Effiecny " },
               { value: "99%", label: "Customer satisfaction score" },
-              { value: "4weeks+", label: "work time" },
+              { value: "24/7", label: "work time" },
             ].map((stat, index) => (
               <div
                 key={index}
@@ -80,6 +81,8 @@ function HomePage() {
          
         </div>
       </div>
+
+      <Footer/>
     </div>
   );
 }
