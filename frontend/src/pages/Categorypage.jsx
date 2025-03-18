@@ -119,17 +119,7 @@ function Categorypage() {
           <p className="text-white font-bold  pt-2  ml-24">{getallCategory?.length || "0"}</p>
 
         </div>
-        <div className="bg-blue-950 ml-10 rounded-xl block w-56 h-24">
-        <h1 className="text-white font-bold ml-12 pt-5">Total store value</h1>
-        <p className="text-white font-bold pt-2 ml-24">$
   
-</p>
-
-</div>
-<div className="bg-blue-950 bg-base-100 w-56 rounded-xl ml-10 block h-24">
-     <h1 className="text-white font-bold ml-12 pt-5">Total Category</h1>
-     <p className="text-white font-bold   pt-2  ml-24"> { "0"}</p>
-</div>
 </div>
 
       <div className='flex'>

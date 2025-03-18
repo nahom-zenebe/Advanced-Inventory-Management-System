@@ -5,11 +5,9 @@ import { Outlet } from 'react-router-dom';
 function ManagerDashboard() {
   return (
     <div className="flex bg-base-100 bg-gray-200 min-h-screen">
-    
-      <Sidebar />
-
-
-      <div className="flex-1 ">
+      <Sidebar className="fixed top-0 left-0 h-full" />
+      
+      <div className="flex-1 ml-64"> 
         <Outlet />
       </div>
     </div>
@@ -17,3 +15,4 @@ function ManagerDashboard() {
 }
 
 export default ManagerDashboard;
+
