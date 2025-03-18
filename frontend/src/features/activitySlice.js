@@ -89,12 +89,12 @@ const activitySlice = createSlice({
       .addCase(addActivityLog.fulfilled, (state, action) => {
         state.isAdding = false;
         state.activityLogs.push(action.payload); 
-        toast.success("Activity log added successfully");
+  
       })
       .addCase(addActivityLog.rejected, (state, action) => {
         state.isAdding = false;
         state.error = action.payload; 
-        toast.error(action.payload || "Error adding activity log");
+  
       })
 
 
@@ -108,12 +108,12 @@ const activitySlice = createSlice({
       .addCase( getsingleUserActivityLogs.fulfilled, (state, action) => {
         
         state.userdata.push(action.payload); 
-        toast.success("Activity log added successfully");
+       
       })
       .addCase( getsingleUserActivityLogs.rejected, (state, action) => {
 
         state.error = action.payload; 
-        toast.error(action.payload || "Error adding activity log");
+      
       })
    
       

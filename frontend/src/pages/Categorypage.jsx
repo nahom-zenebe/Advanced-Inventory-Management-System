@@ -213,7 +213,6 @@ function Categorypage() {
                   <th className="px-3 py-2 bg-base-100 border">Name</th>
                   <th className="px-3 py-2 bg-base-100 border">Total Product</th>
                   <th className="px-3 py-2 bg-base-100 border">Description</th>
-                  <th className="px-3 py-2 bg-base-100 border">Stock Quantity</th>
                   <th className="px-3 py-2 bg-base-100 border">Created At</th>
                   <th className="px-3 py-2 bg-base-100 w-72 border">Operations</th>
                 </tr>
@@ -230,9 +229,6 @@ function Categorypage() {
                       </td>
                       <td className="px-3 py-2 border">
                         {Category.description}
-                      </td>
-                      <td className="px-3 py-2 border">
-                        10
                       </td>
                       <td className="px-3 py-2 border">
                         <FormattedTime timestamp={Category.createdAt}/>

@@ -132,13 +132,13 @@ extraReducers:(builder)=>{
   .addCase(gettingallOrder.fulfilled, (state, action) => {
     state.isgetorder = false;
     state.getorder = action.payload; 
-    toast.success("Orders fetched successfully");
+   
   })
   
  
   .addCase( gettingallOrder.rejected,(state,action)=>{
      state.isgetorder=false
-   toast.error( action.payload|| 'Error In adding Order ');
+   
   })
 
 
@@ -152,14 +152,14 @@ extraReducers:(builder)=>{
   .addCase(createdOrder.fulfilled, (state, action) => {
     state.isorderadd = false;
     state.getorder.push(action.payload);
-    toast.success("Order removed successfully");
+
   })
   
   
  
   .addCase( createdOrder.rejected,(state,action)=>{
      state.isorderadd=false
-   toast.error( 'Error In remove Order ');
+
   })
 
 
@@ -172,13 +172,13 @@ extraReducers:(builder)=>{
   .addCase(Removedorder.fulfilled, (state, action) => {
     state.isorderremove = false;
     state.getorder = state.getorder.filter(order => order._id !== action.meta.arg);
-    toast.success('Order removed successfully');
+  
   })
   
  
   .addCase(Removedorder.rejected,(state,action)=>{
      state.isorderremove=false   
-     toast.error( 'Order In remove ');
+  
   
   })
 
@@ -199,7 +199,7 @@ extraReducers:(builder)=>{
 
  .addCase(updatestatusOrder.rejected,(state,action)=>{
    state.iseditorder=false
-  toast.error( 'Error In founding  Order');
+
  })
 
  .addCase(  SearchOrder.pending,(state)=>{
@@ -217,7 +217,7 @@ extraReducers:(builder)=>{
 
 .addCase( SearchOrder.rejected,(state,action)=>{
  state.issearchdata=false
-toast.error( 'Error In founding  Order');
+
 })
 
 

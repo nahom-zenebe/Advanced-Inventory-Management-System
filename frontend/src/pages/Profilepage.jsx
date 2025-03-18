@@ -97,7 +97,7 @@ function ProfilePage() {
           </div>
 
       
-          <div className="border-2 border-gray-600 rounded-xl bg-base-100 flex flex-col h-96 pt-10 w-5/6 ml-10 overflow-y-auto shadow-md">
+          <div className=" rounded-xl bg-base-100 flex flex-col h-96 pt-10 w-5/6 ml-10 overflow-y-auto shadow-md">
             <h1 className="text-lg  font-semibold  text-gray-600 mb-4 px-4">Recent Activity</h1>
             <div className="space-y-4 px-4">
               {userdata && userdata.length > 0 ? (

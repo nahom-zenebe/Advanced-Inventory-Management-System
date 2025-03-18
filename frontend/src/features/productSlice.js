@@ -142,14 +142,14 @@ extraReducers:(builder)=>{
   .addCase(Removeproduct.fulfilled, (state, action) => {
     state.isproductremove = false;
     state.getallproduct = state.getallproduct.filter(product => product._id !== action.meta.arg);
-    toast.success("Product removed successfully");
+
   })
   
   
  
   .addCase( Removeproduct.rejected,(state,action)=>{
      state.isproductremove=false
-   toast.error( 'Error In remove product logout');
+
   })
 
 
@@ -162,14 +162,14 @@ extraReducers:(builder)=>{
   .addCase(Addproduct.fulfilled,(state,action)=>{
    state.isproductadd=false
    state.getallproduct.push(action.payload);
-   toast.success( 'product remove successfully');
+  
  
   })
   
  
   .addCase(Addproduct.rejected,(state,action)=>{
      state.isproductadd=false   
-     toast.error( 'Error In remove product');
+
   
   })
 
@@ -191,7 +191,7 @@ extraReducers:(builder)=>{
  
   .addCase(   Searchproduct.rejected,(state,action)=>{
     state.issearchdata=false
-   toast.error( 'Error In founding  product');
+  
   })
 
 
@@ -212,7 +212,7 @@ extraReducers:(builder)=>{
 
  .addCase( EditProduct.rejected,(state,action)=>{
    state.iseditedProduct=false
-  toast.error( 'Error In founding  product');
+  
  })
 
 

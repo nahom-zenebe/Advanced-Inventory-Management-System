@@ -86,7 +86,7 @@ const categorySlice = createSlice({
       
       .addCase(gettingallCategory.rejected, (state, action) => {
         state.isgetallCategory = false;
-        toast.error(action.payload || 'Error retrieving categories');
+   
       })
 
 
@@ -97,11 +97,11 @@ const categorySlice = createSlice({
       .addCase(CreateCategory.fulfilled, (state, action) => {
         state.iscreatedCategory = false;
         state.getallCategory.push(action.payload);
-        toast.success("Category created successfully");
+   
       })
       .addCase(CreateCategory.rejected, (state, action) => {
         state.iscreatedCategory = false;
-        toast.error('Error creating category');
+  
       })
 
 
@@ -118,14 +118,14 @@ const categorySlice = createSlice({
       .addCase(RemoveCategory.fulfilled, (state, action) => {
         state.iscategoryremove = true;
         state.getallCategory= state.getallCategory.filter(category => category ._id !== action.meta.arg);
-        toast.success("category removed successfully");
+   
       })
       
       
      
       .addCase( RemoveCategory.rejected,(state,action)=>{
          state.iscategoryremove=true
-       toast.error( 'Error In remove category');
+  
       })
     
       
@@ -139,7 +139,7 @@ const categorySlice = createSlice({
      
       .addCase(SearchCategory.rejected,(state,action)=>{
       
-       toast.error( 'Error In founding  product');
+      
       })
     
     

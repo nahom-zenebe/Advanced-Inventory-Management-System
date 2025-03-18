@@ -129,7 +129,7 @@ const supplierSlice = createSlice({
       
       .addCase(gettingallSupplier.rejected, (state, action) => {
         state. isallSupplier = false;
-        toast.error(action.payload || 'Error retrieving Suppliers');
+
       })
 
 
@@ -147,7 +147,7 @@ const supplierSlice = createSlice({
       
       .addCase(deleteSupplier.rejected, (state, action) => {
         state.isSupplierremove = false;
-        toast.error(action.payload || 'Error retrieving   Supplier');
+
       })
 
  .addCase(SearchSupplier.fulfilled,(state,action)=>{
@@ -160,7 +160,7 @@ const supplierSlice = createSlice({
 
  .addCase(  SearchSupplier.rejected,(state,action)=>{
  
-  toast.error( 'Error In founding  Supplier');
+
  })
 
 
@@ -176,7 +176,7 @@ const supplierSlice = createSlice({
 
 .addCase(EditSupplier.rejected,(state,action)=>{
 
-toast.error( 'Error In founding  Supplier');
+
 })
 
 

@@ -119,11 +119,11 @@ const salesSlice = createSlice({
       .addCase( CreateSales .fulfilled, (state, action) => {
         state.iscreatedsales = false;
         state.getallsales.push(action.payload);
-        toast.success("sales created successfully");
+  
       })
       .addCase( CreateSales .rejected, (state, action) => {
         state.iscreatedsales = false;
-        toast.error('Error creating sales');
+
       })
 
 
@@ -136,7 +136,7 @@ const salesSlice = createSlice({
        
        .addCase(EditSales.rejected,(state,action)=>{
        
-       toast.error( 'Error In founding sales');
+
        })
        
 
@@ -149,8 +149,7 @@ const salesSlice = createSlice({
       
      
       .addCase(searchsalesdata.rejected,(state,action)=>{
-     
-       toast.error( 'Error In founding  sales');
+
       })
     
     

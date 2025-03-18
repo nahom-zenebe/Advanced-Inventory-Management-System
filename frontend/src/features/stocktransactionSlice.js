@@ -75,7 +75,7 @@ const stocktransactionSlice = createSlice({
       
       .addCase(getAllStockTransactions.rejected, (state, action) => {
         state.isgetallStocks = false;
-        toast.error(action.payload || 'Error retrieving stock transcations');
+      
       })
 
 
@@ -86,11 +86,11 @@ const stocktransactionSlice = createSlice({
       .addCase(createStockTransaction .fulfilled, (state, action) => {
         state.iscreatedStocks = false;
         state.getallStocks.push(action.payload);
-        toast.success("Stock created successfully");
+
       })
       .addCase(createStockTransaction .rejected, (state, action) => {
         state.iscreatedStocks = false;
-        toast.error('Error creating Stock');
+
       })
 
      .addCase( searchstockdata.fulfilled,(state,action)=>{
@@ -102,7 +102,7 @@ const stocktransactionSlice = createSlice({
      
      .addCase(searchstockdata.rejected,(state,action)=>{
 
-      toast.error( 'Error In founding  stocks');
+  
      })
    
 
