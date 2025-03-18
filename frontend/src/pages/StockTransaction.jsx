@@ -208,7 +208,7 @@ const[query,setquery]=useState("");
 
 
 <div className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">Product List</h2>
+          <h2 className="text-xl font-semibold mb-4">StockTransaction List</h2>
           <div className="overflow-x-auto">
             <table className="min-w-full bg-base-100  border mb-24 border-gray-200 rounded-lg shadow-md">
               <thead className="">

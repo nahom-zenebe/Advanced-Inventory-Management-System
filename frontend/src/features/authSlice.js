@@ -160,7 +160,7 @@ const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Signup
+     
       .addCase(signup.pending, (state) => {
         state.isUserSignup = true;
       })
@@ -168,11 +168,11 @@ const authSlice = createSlice({
         state.isUserSignup = false;
         state.Authuser = action.payload.savedUser; 
         state.token = action.payload.token; 
-        toast.success("Successfully signed up!");
+
       })
       .addCase(signup.rejected, (state, action) => {
         state.isUserSignup = false;
-        toast.error(action.payload || "Error during signup");
+
       })
 
       
@@ -183,11 +183,11 @@ const authSlice = createSlice({
         state.isUserLogin = false;
         state.Authuser = action.payload.user; 
         state.token = action.payload.token; 
-        toast.success("Successfully logged in!");
+ 
       })
       .addCase(login.rejected, (state, action) => {
         state.isUserLogin = false;
-        toast.error(action.payload || "Error during login");
+
       })
 
     
@@ -197,7 +197,7 @@ const authSlice = createSlice({
         toast.success("Successfully logged out!");
       })
       .addCase(logout.rejected, (state, action) => {
-        toast.error(action.payload || "Error during logout");
+     
       })
 
       .addCase(updateProfile.pending, (state) => {
@@ -216,13 +216,13 @@ const authSlice = createSlice({
       .addCase(staffUser.fulfilled, (state, action) => {
      
         state. staffuser = action.payload
-        toast.success("getting user successfully");
+
       })
       
      
       .addCase(staffUser.rejected,(state,action)=>{
 
-       toast.error( action.payload|| 'Error In user getting');
+ 
       })
 
       
@@ -231,13 +231,13 @@ const authSlice = createSlice({
       .addCase(managerUser.fulfilled, (state, action) => {
     
         state.manageruser = action.payload
-        toast.success("getting user successfully");
+
       })
       
      
       .addCase(managerUser.rejected,(state,action)=>{
    
-       toast.error( action.payload|| 'Error In getting user');
+      
       })
     
 
@@ -247,26 +247,26 @@ const authSlice = createSlice({
       .addCase(adminUser.fulfilled, (state, action) => {
       
         state.adminuser = action.payload
-        toast.success("Products fetched successfully");
+        
       })
       
      
       .addCase(adminUser.rejected,(state,action)=>{
       
-       toast.error( action.payload|| 'Error In adding product logout');
+       
       })
 
 
       .addCase(removeusers.fulfilled, (state, action) => {
       
       
-        toast.success("delete user  successfully");
+        
       })
       
      
       .addCase(removeusers.rejected,(state,action)=>{
       
-       toast.error( action.payload|| 'Error In delete  ');
+      
       })
     
 

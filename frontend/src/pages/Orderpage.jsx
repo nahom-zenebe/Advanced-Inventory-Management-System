@@ -287,7 +287,7 @@ function Orderpage() {
         )}
 
         <div className="mt-10">
-          <h2 className="text-xl font-semibold mb-4">Product List</h2>
+          <h2 className="text-xl font-semibold mb-4">Order List</h2>
           <div className="overflow-x-auto">
             <table className=" bg-base-100 min-w-full bg-white border mb-24 border-gray-200 rounded-lg shadow-md">
               <thead className="bg-gray-100">

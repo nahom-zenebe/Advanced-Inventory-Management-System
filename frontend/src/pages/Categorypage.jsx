@@ -74,7 +74,7 @@ function Categorypage() {
 
   
 
-  // Handle add product form submission
+
   const submitCategory = async (event) => {
     event.preventDefault();
     const CategoryData = { name, description};
@@ -90,7 +90,7 @@ function Categorypage() {
       });
   };
 
-  // Reset form fields
+
   const resetForm = () => {
     setname("");
     setdescription("");
@@ -135,7 +135,6 @@ function Categorypage() {
            setSelectedProduct(null);
 
       }} className="bg-blue-800 ml-10 text-white w-40 h-12 rounded-lg flex items-center justify-center"><IoMdAdd className='text-xl mr-3'/>Add Category</button>
-      <button className="bg-blue-800 ml-5 text-white w-40 h-12 rounded-lg flex items-center justify-center"><FaFileExport className='text-xl mr-3' />Export</button>
       </div>
 
       </div>

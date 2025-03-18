@@ -183,7 +183,7 @@ function Productpage() {
         </div>
 
         {isFormVisible && (
-          <div className="absolute top-10 bg-gray-100 right-0 h-svh p-6 border-2 border-gray-300 rounded-lg shadow-md transition-transform transform">
+          <div className="absolute top-16 bg-gray-100 right-0 h-svh p-6 border-2 border-gray-300 rounded-lg shadow-md transition-transform transform">
             <div className="text-right">
               <MdKeyboardDoubleArrowLeft
                 onClick={() => setIsFormVisible(false)}
@@ -276,7 +276,10 @@ function Productpage() {
                   <th className="px-3 py-2 border">Name</th>
                   <th className="px-3 py-2 border">Category</th>
                   <th className="px-3 py-2 border">Description</th>
+                  <th className="px-3 py-2 border">quantity</th>
                   <th className="px-3 py-2 border">Price</th>
+
+
                   <th className="px-3 py-2 w-72 border">Operations</th>
                 </tr>
               </thead>
@@ -293,6 +296,7 @@ function Productpage() {
                       <td className="px-3 py-2 border">
                         {product.Desciption}
                       </td>
+                      <td className="px-3 py-2 border">{product.quantity}</td>
                       <td className="px-3 py-2 border">${product.Price}</td>
                       <td className="px-4  py-2 border">
                         <button
