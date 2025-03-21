@@ -23,6 +23,17 @@ module.exports.createSale = async (req, res) => {
 
     await newSale.save();
 
+    const product = await Product.findOne({ _id: Product.product }); 
+    if (!product) {
+        return res.status(404).json({ message: "Product not found" });
+    }
+    
+  
+    product.quantity += Product.quantity;
+    
+ 
+    await product.save();
+
     res.status(201).json({ success: true, message: "Sale created successfully", sale: newSale });
   } catch (error) {
     res.status(500).json({ success: false, message: "Error creating sale", error });

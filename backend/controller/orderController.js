@@ -1,5 +1,6 @@
 const Order = require('../models/Ordermodel');
 const logActivity = require('../libs/logger');
+const Product=require('../models/Productmodel')
 
 const createOrder = async (req, res) => {
     try {
@@ -15,7 +16,19 @@ const createOrder = async (req, res) => {
 
        
         const totalOrderAmount = Product.quantity * Product.price;
-      
+       const product = await Product.findOne({ _id: Product.product }); 
+       if (!product) {
+           return res.status(404).json({ message: "Product not found" });
+       }
+       
+     
+       product.quantity += Product.quantity;
+       
+    
+       await product.save();
+       
+
+
         const newOrder = new Order({
             user,
             Description,
