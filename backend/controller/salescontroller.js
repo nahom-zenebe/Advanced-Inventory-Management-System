@@ -23,13 +23,13 @@ module.exports.createSale = async (req, res) => {
 
     await newSale.save();
 
-    const product = await Product.findOne({ _id: Product.product }); 
+    const product = await Product.findOne({ _id: products.product }); 
     if (!product) {
         return res.status(404).json({ message: "Product not found" });
     }
     
   
-    product.quantity += Product.quantity;
+    product.quantity -= products.quantity;
     
  
     await product.save();
