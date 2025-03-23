@@ -10,7 +10,7 @@ const createOrder = async (req, res) => {
       const ipAddress = req.ip;
   
     
-      if (!user || !Description || !Product || !status || !Product.product || !Product.quantity) {
+      if (!user || !Description || !Product || !status || !Product.product ||!Product.Price|| !Product.quantity) {
         return res.status(400).json({ message: "Please provide all necessary information" });
       }
   
@@ -20,28 +20,28 @@ const createOrder = async (req, res) => {
         return res.status(404).json({ message: "Product not found" });
       }
   
-      // Validate quantity
+   
       if (Product.quantity <= 0) {
         return res.status(400).json({ message: "Quantity must be greater than zero" });
       }
   
-      // Check stock
+    
       if (product.quantity < Product.quantity) {
         return res.status(400).json({ message: "Insufficient stock" });
       }
   
-      // Calculate total amount
+ 
       const totalOrderAmount = product.Price * Product.quantity;
   
-      // Update product stock
+      
       product.quantity -= Product.quantity;
       await product.save();
   
-      // Create the order
       const newOrder = new Order({
         user,
         Description,
         Product: Product.product,
+        Price:Product.Price,
         quantity: Product.quantity,
         totalAmount: totalOrderAmount,
         status,
@@ -57,10 +57,10 @@ const createOrder = async (req, res) => {
         ipAddress: ipAddress,
       });
   
-      // Save the order
+    
       await newOrder.save();
   
-      // Return the order
+     
       res.status(201).json(newOrder);
     } catch (error) {
       console.error('Error creating order:', error);
