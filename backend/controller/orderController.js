@@ -4,59 +4,69 @@ const Product=require('../models/Productmodel')
 
 const createOrder = async (req, res) => {
     try {
-        const { user, Description, Product, status } = req.body;
-     
-        const userId = req.user._id;
-        const ipAddress = req.ip;
-
-      
-        if (!user || !Description || !Product || !status) {
-            return res.status(400).json({ message: "Please provide all necessary information" });
-        }
-
-       
-        const totalOrderAmount = Product.quantity * Product.price;
-       const product = await Product.findOne({ _id: Product.product }); 
-       if (!product) {
-           return res.status(404).json({ message: "Product not found" });
-       }
-       
-     
-       product.quantity += Product.quantity;
-       
+      const { user, Description, Product, status } = req.body;
+  
+      const userId = req.user._id;
+      const ipAddress = req.ip;
+  
     
-       await product.save();
-       
-
-
-        const newOrder = new Order({
-            user,
-            Description,
-            Product,
-            totalAmount: totalOrderAmount,
-            status
-        });
-
-
-        await logActivity({
-            action: "Add Order",
-            description: `Order was created`,
-            entity: "order",
-            entityId: newOrder._id,
-            userId: userId,
-            ipAddress: ipAddress,
-        });
-
-       
-        await newOrder.save();
-
-       
-        res.status(201).json(newOrder);
-
+      if (!user || !Description || !Product || !status || !Product.product || !Product.quantity) {
+        return res.status(400).json({ message: "Please provide all necessary information" });
+      }
+  
+   
+      const product = await Product.findOne({ _id: Product.product });
+      if (!product) {
+        return res.status(404).json({ message: "Product not found" });
+      }
+  
+      // Validate quantity
+      if (Product.quantity <= 0) {
+        return res.status(400).json({ message: "Quantity must be greater than zero" });
+      }
+  
+      // Check stock
+      if (product.quantity < Product.quantity) {
+        return res.status(400).json({ message: "Insufficient stock" });
+      }
+  
+      // Calculate total amount
+      const totalOrderAmount = product.Price * Product.quantity;
+  
+      // Update product stock
+      product.quantity -= Product.quantity;
+      await product.save();
+  
+      // Create the order
+      const newOrder = new Order({
+        user,
+        Description,
+        Product: Product.product,
+        quantity: Product.quantity,
+        totalAmount: totalOrderAmount,
+        status,
+      });
+  
+      
+      await logActivity({
+        action: "Add Order",
+        description: `Order was created`,
+        entity: "order",
+        entityId: newOrder._id,
+        userId: userId,
+        ipAddress: ipAddress,
+      });
+  
+      // Save the order
+      await newOrder.save();
+  
+      // Return the order
+      res.status(201).json(newOrder);
     } catch (error) {
-        res.status(500).json({ message: "Error in creating order", error: error.message });
+      console.error('Error creating order:', error);
+      res.status(500).json({ message: "Error in creating order", error: error.message });
     }
-};
+  };
 
 
 const Removeorder = async (req, res) => {

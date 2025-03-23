@@ -128,11 +128,11 @@ function Orderpage() {
     dispatch(createdOrder(OrderData))
       .unwrap()
       .then(() => {
-        toast.success("Product added successfully");
+        toast.success("order added successfully");
         resetForm();
       })
       .catch(() => {
-        toast.error("Product add unsuccessful");
+        toast.error("order add unsuccessful");
       });
   };
 
