@@ -14,7 +14,7 @@ import { gettingallCategory } from "../features/categorySlice";
 import toast from "react-hot-toast";
 
 function Productpage() {
-  const { getallproduct,editedProduct, isproductadd, searchdata } = useSelector(
+  const { getallproduct, editedProduct, isproductadd, searchdata } = useSelector(
     (state) => state.product
   );
   const { getallCategory } = useSelector((state) => state.category);
@@ -25,18 +25,15 @@ function Productpage() {
   const [Price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
   const [Desciption, setDesciption] = useState("");
+  const [dateAdded, setDateAdded] = useState(new Date().toISOString().split('T')[0]); // Initialize with current date
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  
   useEffect(() => {
     dispatch(gettingallproducts());
     dispatch(gettingallCategory());
-  }, [dispatch,editedProduct,Addproduct]);
-  console.log(getallproduct)
+  }, [dispatch, editedProduct, isproductadd]);
 
-
- 
   useEffect(() => {
     if (query.trim() !== "") {
       const repeatTimeout = setTimeout(() => {
@@ -47,10 +44,6 @@ function Productpage() {
       dispatch(gettingallproducts());
     }
   }, [query, dispatch]);
-
-
- 
-
 
   const handleremove = async (productId) => {
     dispatch(Removeproduct(productId))
@@ -63,7 +56,6 @@ function Productpage() {
       });
   };
 
-  
   const handleEditSubmit = (event) => {
     event.preventDefault();
 
@@ -75,6 +67,7 @@ function Productpage() {
       Price,
       quantity,
       Desciption,
+      dateAdded: selectedProduct.dateAdded || new Date().toISOString() // Preserve original date or set new one
     };
 
     dispatch(EditProduct({ id: selectedProduct._id, updatedData }))
@@ -90,10 +83,16 @@ function Productpage() {
       });
   };
 
-
   const submitProduct = async (event) => {
     event.preventDefault();
-    const productData = { name, Desciption, Category, Price, quantity };
+    const productData = { 
+      name, 
+      Desciption, 
+      Category, 
+      Price, 
+      quantity,
+      dateAdded: new Date(dateAdded).toISOString() // Convert to ISO string
+    };
 
     dispatch(Addproduct(productData))
       .unwrap()
@@ -106,15 +105,14 @@ function Productpage() {
       });
   };
 
-
   const resetForm = () => {
     setName("");
     setCategory("");
     setPrice("");
     setQuantity("");
     setDesciption("");
+    setDateAdded(new Date().toISOString().split('T')[0]); // Reset to current date
   };
-  
 
   const handleEditClick = (product) => {
     setSelectedProduct(product);
@@ -123,11 +121,15 @@ function Productpage() {
     setPrice(product.Price);
     setQuantity(product.quantity);
     setDesciption(product.Desciption);
+    // Format the date for the input field (YYYY-MM-DD)
+    if (product.dateAdded) {
+      const date = new Date(product.dateAdded);
+      setDateAdded(date.toISOString().split('T')[0]);
+    } else {
+      setDateAdded(new Date().toISOString().split('T')[0]);
+    }
     setIsFormVisible(true);
   };
-
-  
- 
 
   const displayProducts = query.trim() !== "" ? searchdata : getallproduct;
 
@@ -135,33 +137,25 @@ function Productpage() {
     <div className="bg-base-100 min-h-screen">
       <TopNavbar />
 
-
-
-
-      <div className="mt-10 flex ">
-      <div className="bg-blue-950 w-56 rounded-xl  ml-10 block h-24">
+      <div className="mt-10 flex">
+        <div className="bg-blue-950 w-56 rounded-xl ml-10 block h-24">
           <h1 className="text-white ml-12 block pt-5 font-bold">Total Product</h1>
-          <p className="text-white font-bold  pt-2  ml-24">{getallproduct?.length ||"0"}</p>
-
+          <p className="text-white font-bold pt-2 ml-24">{getallproduct?.length || "0"}</p>
         </div>
         <div className="bg-blue-950 ml-10 rounded-xl block w-56 h-24">
-        <h1 className="text-white font-bold ml-12 pt-5">Total store value</h1>
-        <p className="text-white font-bold pt-2 ml-24">$
-  {
-    getallproduct?.reduce((totalAmount, product) => {
-      return totalAmount + product.Price;
-    }, 0) || "0"
-  }
-</p>
-
-</div>
-<div className="bg-blue-950 bg-base-100 w-56 rounded-xl ml-10 block h-24">
-     <h1 className="text-white font-bold ml-12 pt-5">Total Category</h1>
-     <p className="text-white font-bold   pt-2  ml-24"> {getallCategory?.length ||"0"}</p>
-</div>
-
-
+          <h1 className="text-white font-bold ml-12 pt-5">Total store value</h1>
+          <p className="text-white font-bold pt-2 ml-24">$
+            {getallproduct?.reduce((totalAmount, product) => {
+              return totalAmount + product.Price;
+            }, 0) || "0"}
+          </p>
+        </div>
+        <div className="bg-blue-950 bg-base-100 w-56 rounded-xl ml-10 block h-24">
+          <h1 className="text-white font-bold ml-12 pt-5">Total Category</h1>
+          <p className="text-white font-bold pt-2 ml-24"> {getallCategory?.length || "0"}</p>
+        </div>
       </div>
+
       <div className="mt-12 ml-5">
         <div className="flex items-center space-x-4">
           <input
@@ -204,6 +198,7 @@ function Productpage() {
                   onChange={(e) => setName(e.target.value)}
                   type="text"
                   className="w-full h-10 px-2 border-2 rounded-lg mt-2"
+                  required
                 />
               </div>
 
@@ -213,6 +208,7 @@ function Productpage() {
                   value={Category}
                   onChange={(e) => setCategory(e.target.value)}
                   className="w-full h-10 px-2 border-2 rounded-lg mt-2"
+                  required
                 >
                   <option value="">Select a category</option>
                   {getallCategory?.map((category) => (
@@ -224,13 +220,14 @@ function Productpage() {
               </div>
 
               <div className="mb-4">
-                <label>Desciption</label>
+                <label>Description</label>
                 <input
                   value={Desciption}
                   placeholder="Enter product description"
                   onChange={(e) => setDesciption(e.target.value)}
                   type="text"
                   className="w-full h-10 px-2 border-2 rounded-lg mt-2"
+                  required
                 />
               </div>
 
@@ -242,6 +239,8 @@ function Productpage() {
                   value={Price}
                   onChange={(e) => setPrice(e.target.value)}
                   className="w-full h-10 px-2 border-2 rounded-lg mt-2"
+                  required
+                  min="0"
                 />
               </div>
 
@@ -253,6 +252,19 @@ function Productpage() {
                   value={quantity}
                   onChange={(e) => setQuantity(e.target.value)}
                   className="w-full h-10 px-2 border-2 rounded-lg mt-2"
+                  required
+                  min="0"
+                />
+              </div>
+
+              <div className="mb-4">
+                <label>Date Added</label>
+                <input
+                  type="date"
+                  value={dateAdded}
+                  onChange={(e) => setDateAdded(e.target.value)}
+                  className="w-full h-10 px-2 border-2 rounded-lg mt-2"
+                  required
                 />
               </div>
 
@@ -272,51 +284,58 @@ function Productpage() {
             <table className="min-w-full bg-base-100 border mb-24 border-gray-200 rounded-lg shadow-md">
               <thead className="">
                 <tr>
-                <th className="px-3 py-2 border w-5">#</th>
+                  <th className="px-3 py-2 border w-5">#</th>
                   <th className="px-3 py-2 border">Name</th>
                   <th className="px-3 py-2 border">Category</th>
                   <th className="px-3 py-2 border">Description</th>
-                  <th className="px-3 py-2 border">quantity</th>
+                  <th className="px-3 py-2 border">Quantity</th>
                   <th className="px-3 py-2 border">Price</th>
-
-
+                  <th className="px-3 py-2 border">Date Added</th>
                   <th className="px-3 py-2 w-72 border">Operations</th>
                 </tr>
               </thead>
               <tbody>
                 {Array.isArray(displayProducts) &&
                 displayProducts.length > 0 ? (
-                  displayProducts.map((product,index) => (
-                    <tr key={product._id} >
-                       <td className="px-3 py-2 border">{index+1}</td>
-                      <td className="px-3 py-2 border">{product.name}</td>
-                      <td className="px-3 py-2 border">
-                        {product.Category?.name || "No Category"}
-                      </td>
-                      <td className="px-3 py-2 border">
-                        {product.Desciption}
-                      </td>
-                      <td className="px-3 py-2 border">{product.quantity}</td>
-                      <td className="px-3 py-2 border">${product.Price}</td>
-                      <td className="px-4  py-2 border">
-                        <button
-                          onClick={() => handleremove(product._id)}
-                          className="h-10 w-24 bg-red-500 hover:bg-red-700 rounded-md text-white"
-                        >
-                          Remove
-                        </button>
-                        <button
-                          onClick={() => handleEditClick(product)}
-                          className="h-10 w-24 bg-green-500 ml-10 hover:bg-green-700 rounded-md text-white"
-                        >
-                          Edit
-                        </button>
-                      </td>
-                    </tr>
-                  ))
+                  displayProducts.map((product, index) => {
+                    // Format the date for display
+                    const formattedDate = product.dateAdded 
+                      ? new Date(product.dateAdded).toLocaleDateString() 
+                      : 'N/A';
+                    
+                    return (
+                      <tr key={product._id}>
+                        <td className="px-3 py-2 border">{index+1}</td>
+                        <td className="px-3 py-2 border">{product.name}</td>
+                        <td className="px-3 py-2 border">
+                          {product.Category?.name || "No Category"}
+                        </td>
+                        <td className="px-3 py-2 border">
+                          {product.Desciption}
+                        </td>
+                        <td className="px-3 py-2 border">{product.quantity}</td>
+                        <td className="px-3 py-2 border">${product.Price}</td>
+                        <td className="px-3 py-2 border">{formattedDate}</td>
+                        <td className="px-4 py-2 border">
+                          <button
+                            onClick={() => handleremove(product._id)}
+                            className="h-10 w-24 bg-red-500 hover:bg-red-700 rounded-md text-white"
+                          >
+                            Remove
+                          </button>
+                          <button
+                            onClick={() => handleEditClick(product)}
+                            className="h-10 w-24 bg-green-500 ml-10 hover:bg-green-700 rounded-md text-white"
+                          >
+                            Edit
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })
                 ) : (
                   <tr>
-                    <td colSpan="5" className="text-center py-4">
+                    <td colSpan="8" className="text-center py-4">
                       No products found.
                     </td>
                   </tr>

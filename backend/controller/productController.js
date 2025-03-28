@@ -3,6 +3,8 @@ const Product=require('../models/Productmodel')
 const logActivity=require('../libs/logger')
 
 module.exports.Addproduct=async(req,res)=>{
+  const userId=req.user._id;
+  const ipAddress=req.ip
 
     try {
 
@@ -21,7 +23,7 @@ module.exports.Addproduct=async(req,res)=>{
 
         await createdProduct.save();
 
-       /* await logActivity({
+       await logActivity({
 
      action:"Add Product",
       description:`Product ${name} was added`,
@@ -30,7 +32,7 @@ module.exports.Addproduct=async(req,res)=>{
       userId:userId,
       ipAddress:ipAddress,
 
-        })*/
+        })
      
      
         res.status(201).json({ message: "Product created successfully" });
