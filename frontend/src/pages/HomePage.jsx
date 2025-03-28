@@ -1,84 +1,76 @@
 import React, { useState } from 'react';
-import { FaArrowRightLong } from "react-icons/fa6";
+import { FaArrowRightLong, FaPlus, FaMinus } from "react-icons/fa6";
 import Navbar from '../Components/Navbar';
-import Footer from "../Components/Footer"
+import Footer from "../Components/Footer";
 import { Link } from 'react-router-dom';
 
 function HomePage() {
   const [arrowShow, setArrowShow] = useState(false);
+  const [openFAQ, setOpenFAQ] = useState(null);
 
   const handleButtonHover = () => {
     setArrowShow(true);
   };
 
+  const toggleFAQ = (index) => {
+    setOpenFAQ(openFAQ === index ? null : index);
+  };
+
   return (
-    <div className='min-h-screen bg-gradient-to-br from-white to-gray-200 text-white overflow-hidden'>
+    <div className='min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 text-indigo-900 overflow-hidden'>
       <Navbar />
 
       <div className="min-h-screen flex flex-col items-center justify-center p-6 relative">
         
-        <div className="absolute inset-0 opacity-20 animate-gradient">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10"></div>
-          <div className="absolute inset-0 bg-gradient-to-b from-green-500/10 to-yellow-500/10"></div>
+        <div className="absolute inset-0 opacity-30 animate-gradient">
+          <div className="absolute inset-0 bg-gradient-to-r from-indigo-100/40 to-purple-100/40"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-blue-100/40 to-teal-100/40"></div>
         </div>
 
-    
         <div className="text-center max-w-2xl relative z-10 mt-10">
-          <h1 className='text-xl text-blue-800 mb-10 animate-pulse'>✧ Modern and Scalable</h1>
-          <h1 className="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
+          <h1 className='text-lg text-indigo-600 mb-10 animate-pulse'>✧ Modern and Scalable</h1>
+          <h1 className="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600">
             Comprehensive Inventory Management Tools
           </h1>
-          <p className="text-xl text-gray-900 mb-8">
+          <p className="text-xl text-gray-700 mb-8">
             Experience the perfect blend of power and simplicity. Connect your data, teams, and customers with our AI-driven CRM platform that scales with your business.
           </p>
 
-        
-          <div className="flex space-x-4 justify-center mb-12">
-            <button
-              onMouseEnter={handleButtonHover}
-              className="group flex items-center bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl"
-            >
-              <Link to='/SignupPage'>Get Started</Link>
-              <FaArrowRightLong
-                className={`ml-2 mt-1 transition-all duration-300 ${arrowShow ? "opacity-100 translate-x-2" : "opacity-0"} group-hover:opacity-100 group-hover:translate-x-2`}
-              />
-            </button>
+          <hr className='border-t border-indigo-200 mb-10' />
 
-            <button
-              onMouseEnter={handleButtonHover}
-              className="group flex items-center bg-gradient-to-r from-gray-700 to-gray-800 text-white px-8 py-3 rounded-lg hover:from-gray-600 hover:to-gray-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl"
-            >
-              View Demos
-              <FaArrowRightLong
-                className={`ml-2 mt-1 transition-all duration-300 ${arrowShow ? "opacity-100 translate-x-2" : "opacity-0"} group-hover:opacity-100 group-hover:translate-x-2`}
-              />
-            </button>
+          <div className='grid grid-cols-3 gap-5'>
+            <div className='bg-indigo-600 rounded-lg border border-indigo-700 w-56 justify-center hover:shadow-xl items-center flex flex-col h-56 transition-all duration-300'>
+              <h1 className='text-indigo-50 text-xl font-medium'>Customer satisfaction</h1>
+              <p className='text-white text-3xl font-bold'>70%</p>
+            </div>
+            <div className='bg-blue-600 rounded-lg border border-blue-700 w-56 justify-center hover:shadow-xl items-center flex flex-col h-56 transition-all duration-300'>
+              <h1 className='text-blue-50 text-xl font-medium'>Management efficiency</h1>
+              <p className='text-white text-3xl font-bold'>60%</p>
+            </div>
+            <div className='bg-violet-600 rounded-lg border border-violet-700 w-56 justify-center hover:shadow-xl items-center flex flex-col h-56 transition-all duration-300'>
+              <h1 className='text-violet-50 text-xl font-medium'>Workload decrease</h1>
+              <p className='text-white text-3xl font-bold'>50%</p>
+            </div>
           </div>
 
-          {/* Divider */}
-          <hr className='border-t-2 border-gray-700 mb-10' />
-
-          {/* Stats Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+          <hr className='border-t border-indigo-200 mt-10 mb-10' />
+          
+          <div className="max-w-2xl mt-24 mx-auto text-left mb-12">
+            <h2 className="text-3xl font-bold text-indigo-700 mb-6">Frequently Asked Questions</h2>
             {[
-              { value: "+84%", label: "higer Effiecny " },
-              { value: "99%", label: "Customer satisfaction score" },
-              { value: "24/7", label: "work time" },
-            ].map((stat, index) => (
-              <div
-                key={index}
-                className="bg-gray-800/50 backdrop-blur-md p-6 rounded-lg text-center border border-gray-700/50 hover:border-blue-400 transition-all duration-300 hover:scale-105"
-              >
-                <p className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
-                  {stat.value}
-                </p>
-                <p className="text-lg text-gray-300 mt-2">{stat.label}</p>
+              { question: "What is this platform about?", answer: "Our platform provides AI-driven inventory management and CRM solutions designed to streamline business operations and enhance productivity." },
+              { question: "Is there a free trial available?", answer: "Yes! We offer a 14-day free trial with full access to all features." },
+              { question: "Can I integrate this with other tools?", answer: "Absolutely! Our platform supports integration with various third-party tools, including ERP systems and payment gateways." }
+            ].map((faq, index) => (
+              <div key={index} className="mb-4 border-b border-indigo-100 pb-4">
+                <button className="flex items-center justify-between w-full text-lg font-semibold text-indigo-700 hover:text-indigo-900 transition-colors" onClick={() => toggleFAQ(index)}>
+                  {faq.question}
+                  {openFAQ === index ? <FaMinus className="text-indigo-500" /> : <FaPlus className="text-indigo-500" />}
+                </button>
+                {openFAQ === index && <p className="text-gray-600 mt-2">{faq.answer}</p>}
               </div>
             ))}
           </div>
-
-         
-         
         </div>
       </div>
 

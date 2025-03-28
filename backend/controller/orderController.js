@@ -15,27 +15,9 @@ const createOrder = async (req, res) => {
       }
   
    
-      const product = await Product.findOne({ _id: Product.product });
-      if (!product) {
-        return res.status(404).json({ message: "Product not found" });
-      }
-  
-   
-      if (Product.quantity <= 0) {
-        return res.status(400).json({ message: "Quantity must be greater than zero" });
-      }
-  
-    
-      if (product.quantity < Product.quantity) {
-        return res.status(400).json({ message: "Insufficient stock" });
-      }
-  
- 
-      const totalOrderAmount = product.Price * Product.quantity;
-  
       
-      product.quantity -= Product.quantity;
-      await product.save();
+      
+    
   
       const newOrder = new Order({
         user,
