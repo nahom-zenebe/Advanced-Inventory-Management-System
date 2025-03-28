@@ -19,6 +19,7 @@ import Supplierpage from "./pages/Supplierpage";
 import Activitylogpage from "./pages/Activitylogpage";
 import Dashboardpage from "./pages/Dashboardpage";
 import Userstatus from "./pages/Userstatus";
+import NotificationPageRead from "./pages/Notificationpageread"
 import ProtectedRoute from "./lib/ProtectedRoute";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -62,8 +63,8 @@ function App() {
               element={<ProtectedRoute element={<Categorypage />} />}
             />
             <Route
-              path="notifications"
-              element={<ProtectedRoute element={<Notificationpage />} />}
+              path="NotificationPageRead"
+              element={<ProtectedRoute element={<NotificationPageRead />} />}
             />
             <Route
               path="Profilepage"
@@ -150,8 +151,8 @@ function App() {
               element={<ProtectedRoute element={<Categorypage />} />}
             />
             <Route
-              path="notifications"
-              element={<ProtectedRoute element={<Notificationpage />} />}
+              path="NotificationPageRead"
+              element={<ProtectedRoute element={<NotificationPageRead/>} />}
             />
             <Route
               path="Profilepage"

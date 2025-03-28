@@ -69,7 +69,7 @@ console.log(Authuser)
             </li>
             <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
               <IoNotificationsOutline className="text-xl" />
-              <Link to="/ManagerDashboard/notifications">Notifications</Link>
+              <Link to="/ManagerDashboard/NotificationPageRead">Notifications</Link>
             </li>
             <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
               <MdOutlineCategory className="text-xl" />
@@ -111,7 +111,7 @@ console.log(Authuser)
             </li>
             <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
               <IoNotificationsOutline className="text-xl" />
-              <Link to="/AdminDashboard/notifications">Notifications</Link>
+              <Link to="/AdminDashboard/notifications">Create Notifications</Link>
             </li>
             <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
               <MdOutlineCategory className="text-xl" />
@@ -149,7 +149,7 @@ console.log(Authuser)
             </li>
             <li className="flex items-center space-x-3 text-gray-700 hover:text-blue-700 cursor-pointer p-2 rounded-md transition">
               <IoNotificationsOutline className="text-xl" />
-              <Link to="/StaffDashboard/notifications">Notifications</Link>
+              <Link to="/StaffDashboard/NotificationPageRead">Notifications</Link>
             </li>
           </ul>
         )}
