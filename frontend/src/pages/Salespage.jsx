@@ -319,26 +319,26 @@ function Salespage() {
                 {Array.isArray(displaySales) &&
                displaySales.length > 0 ? (
                 displaySales.map((sales,index) => (
-                    <tr key={sales._id} className="">
+                    <tr key={sales?._id} className="">
                        <td className="px-3 py-2 border">{index+1}</td>
-                      <td className="px-3 py-2 border">{sales.customerName
+                      <td className="px-3 py-2 border">{sales?.customerName
                       }</td>
                       <td className="px-3 py-2 border">
                       {sales.products?.product?.name || "No Product"}
                       </td>
                       <td className="px-3 py-2 border">
-                       $ {sales.totalAmount}
+                       $ {sales?.totalAmount}
                       </td>
                      
                       <td className="px-3 py-2 border">
-                        {sales.status
+                        {sales?.status
                         }
                       </td>
-                      <td className="px-3 py-2 border">< FormattedTime  timestamp={sales.createdAt}/></td>
-                      <td className="px-3 py-2 border">{sales.paymentMethod}</td>
+                      <td className="px-3 py-2 border">< FormattedTime  timestamp={sales?.createdAt}/></td>
+                      <td className="px-3 py-2 border">{sales?.paymentMethod}</td>
 
                       <td className="px-3 py-2 border">
-                        {sales.paymentStatus
+                        {sales?.paymentStatus
                         || "hwllomd"}
                       </td>
 
