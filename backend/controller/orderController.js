@@ -4,50 +4,44 @@ const ProductModel = require('../models/Productmodel');
 
 const createOrder = async (req, res) => {
     try {
-        const { user, Description, Product: productData, status } = req.body;
-        
-        // Normalize price field (accept both Price and price)
-        const price = productData.Price || productData.price;
-        const quantity = productData.quantity;
-
-        // Validate required fields
+        const { user, Description,Product, status } = req.body;
+  
         if (!user) return res.status(400).json({ message: "User ID is required" });
         if (!Description) return res.status(400).json({ message: "Description is required" });
         if (!status) return res.status(400).json({ message: "Status is required" });
-        if (!productData?.product) return res.status(400).json({ message: "Product ID is required" });
-        if (price === undefined) return res.status(400).json({ message: "Price is required" });
-        if (!quantity) return res.status(400).json({ message: "Quantity is required" });
+        if (!Product?.product) return res.status(400).json({ message: "Product ID is required" });
+        if (!Product?.price) return res.status(400).json({ message: "Price is required" });
+        if (!Product?.quantity) return res.status(400).json({ message: "Quantity is required" });
 
-        // Rest of your controller logic using `price` variable...
+      const {product,price,quantity}=Product;
+
         const totalOrderAmount = price * quantity;
 
-        const product = await ProductModel.findById(productData.product);
-        if (!product) return res.status(404).json({ message: "Product not found" });
+        const productRecord = await ProductModel.findById(product);
+        if (!productRecord) return res.status(404).json({ message: "Product not found" });
 
-        if (product.quantity < quantity) {
+        if (productRecord.quantity < quantity) {
             return res.status(400).json({ 
                 message: "Insufficient product quantity",
-                available: product.quantity,
+                available: productRecord.quantity,
                 requested: quantity
             });
         }
 
-        product.quantity -= quantity;
-        await product.save();
+        productRecord.quantity -= quantity;
+        await productRecord.save();
 
         const newOrder = new Order({
             user,
             Description,
-            Product: productData.product,
-            Price: price, 
-            quantity,
+            Product,
             totalAmount: totalOrderAmount,
             status,
         });
 
         await newOrder.save();
         
-        // ... rest of your success handling
+        res.status(201).json({ success: true, message: "Order created successfully", order: newOrder });
     } catch (error) {
         console.error('Error creating order:', error);
         res.status(500).json({ 
@@ -93,7 +87,7 @@ const Removeorder = async (req, res) => {
 const getOrder = async (req, res) => {
     try {
         const orders = await Order.find({})
-  .populate("Product.product", "name price ") 
+  .populate("Product.product", "name ProductModelrice ") 
   .populate("user", "name email"); 
 
         if (!orders || orders.length === 0) {
@@ -118,7 +112,7 @@ const updatestatusOrder = async (req, res) => {
 
    
         if (updates.Product && Array.isArray(updates.Product)) {
-            updates.totalAmount = updates.Product.reduce((sum, item) => sum + item.quantity * item.price, 0);
+            updates.totalAmount = updates.Product.reduce((sum, item) => sum + item.quantity * item.ProductModelrice, 0);
         }
 
   

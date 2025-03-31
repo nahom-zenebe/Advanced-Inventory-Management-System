@@ -92,7 +92,7 @@ function Orderpage() {
         
           product: Product,
           quantity: Number(quantity),
-          price: Number(Price),
+          Price: Number(Price),
         
       },
     };
@@ -113,7 +113,7 @@ function Orderpage() {
   const submitOrder = async (event) => {
     event.preventDefault();
   
-    // Validate inputs
+
     if (!Product || !Price || !quantity) {
       toast.error("Product, Price and Quantity are required");
       return;
@@ -124,8 +124,8 @@ function Orderpage() {
       Description,
       status,
       Product: {
-        product: Product,
-        Price: Number(Price),  
+        product: Product,  
+        price: Number(Price), 
         quantity: Number(quantity)
       }
     };
@@ -150,11 +150,11 @@ function Orderpage() {
 
   const handleEditClick = (order) => {
     setselectedOrder(order);
-    setProduct(order.Product.product?._id);
-    setPrice(order.Product.Price);
-    setQuantity(order.Product.quantity);
-    setstatus(order.status);
-    setDescription(order.Description);
+    setProduct(order.Product.product?._id || "");
+    setPrice(order.Product?.price|| "");
+    setQuantity(order.Product?.quantity|| "");
+    setstatus(order.status|| "");
+    setDescription(order.Description|| "");
     setIsFormVisible(true);
   };
 
@@ -248,7 +248,7 @@ function Orderpage() {
                 <label>Price</label>
                 <input
                   type="number"
-                  placeholder="Enter order price"
+                  placeholder="Enter order Price"
                   value={Price}
                   onChange={(e) => setPrice(e.target.value)}
                   className="w-full h-10 px-2 border-2 rounded-lg mt-2"
@@ -316,23 +316,23 @@ function Orderpage() {
                   displayOrder.map((order, index) => (
                   
 
-                    <tr key={order._id} className="bg-base-100">
+                    <tr key={order?._id} className="bg-base-100">
                       <td className="px-3 py-2 border">{index + 1}</td>
                       <td className="px-3 py-2 border">book</td>{" "}
                       
                       <td className="px-3 py-2 border">
-                        {order.Product.quantity}
+                        {order.Product?.quantity}
                       </td>
                       <td className="px-3 py-2 border">
-                        ${order.Product.price}
+                        ${order.Product?.price}
                       </td>
-                      <td className="px-3 py-2 border">{order.Description}</td>
+                      <td className="px-3 py-2 border">{order?.Description}</td>
                  
-                      <td className="px-3 py-2 border">{order.totalAmount}</td>
-                      <td className="px-3 py-2 border">{order.status}</td>
-                      <td className="px-3 py-2 border">{order.user.name}</td>
+                      <td className="px-3 py-2 border">{order?.totalAmount}</td>
+                      <td className="px-3 py-2 border">{order?.status}</td>
+                      <td className="px-3 py-2 border">{order.user?.name}</td>
                       <td className="px-3 py-2 border">
-                        <FormattedTime timestamp={order.createdAt} />
+                        <FormattedTime timestamp={order?.createdAt} />
                       </td>
                       <td className="px-4 py-2 border">
                         <button
