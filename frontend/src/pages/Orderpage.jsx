@@ -112,28 +112,32 @@ function Orderpage() {
 
   const submitOrder = async (event) => {
     event.preventDefault();
-
-    const Productvalue = {
-      product: Product,
-      quantity: Number(quantity),
-      price: Number(Price),
-    };
-    const OrderData = {
-      user: Authuser?.id || " ",
-      Product: Productvalue,
+  
+    // Validate inputs
+    if (!Product || !Price || !quantity) {
+      toast.error("Product, Price and Quantity are required");
+      return;
+    }
+  
+    const orderData = {
+      user: Authuser?.id || "",
       Description,
       status,
+      Product: {
+        product: Product,
+        Price: Number(Price),  
+        quantity: Number(quantity)
+      }
     };
-
-    dispatch(createdOrder(OrderData))
-      .unwrap()
-      .then(() => {
-        toast.success("order added successfully");
-        resetForm();
-      })
-      .catch(() => {
-        toast.error("order add unsuccessful");
-      });
+  
+    try {
+      const result = await dispatch(createdOrder(orderData)).unwrap();
+      toast.success("Order created successfully");
+      resetForm();
+    } catch (error) {
+      console.error("Order creation failed:", error);
+      toast.error(error.message || "Failed to create order");
+    }
   };
 
   const resetForm = () => {
@@ -147,7 +151,7 @@ function Orderpage() {
   const handleEditClick = (order) => {
     setselectedOrder(order);
     setProduct(order.Product.product?._id);
-    setPrice(order.Product.price);
+    setPrice(order.Product.Price);
     setQuantity(order.Product.quantity);
     setstatus(order.status);
     setDescription(order.Description);

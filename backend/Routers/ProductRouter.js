@@ -4,7 +4,7 @@ const {Addproduct,getTopProductsByQuantity,RemoveProduct,SearchProduct,EditProdu
 const {authmiddleware,adminmiddleware,managermiddleware}=require('../middleware/Authmiddleware')
 
 
-router.post("/addproduct",Addproduct)
+router.post("/addproduct",authmiddleware,Addproduct)
 router.delete("/removeproduct/:productId",authmiddleware,RemoveProduct)
 router.get("/getproduct",authmiddleware,getProduct)
 router.get("/searchproduct",authmiddleware,SearchProduct)
