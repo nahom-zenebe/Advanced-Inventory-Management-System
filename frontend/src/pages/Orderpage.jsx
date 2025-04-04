@@ -334,7 +334,7 @@ function Orderpage() {
                       <td className="px-3 py-2 border">
                         <FormattedTime timestamp={order?.createdAt} />
                       </td>
-                      <td className="px-4 py-2 border">
+                      <td className="px-4 py-2 grid grid-cols-1 border">
                         <button
                           onClick={() => handleremove(order._id)}
                           className="h-10 w-24 bg-red-500 hover:bg-red-700 rounded-md text-white"

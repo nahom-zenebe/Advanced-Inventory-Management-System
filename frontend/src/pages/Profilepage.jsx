@@ -13,7 +13,7 @@ function ProfilePage() {
   const { userdata } = useSelector((state) => state.activity);
   const [images, setImage] = useState(null);
 
-
+console.log(userdata)
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) {
@@ -120,6 +120,7 @@ function ProfilePage() {
             </div>
           </div>
         </div>
+
       </div>
     </div>
   );
