@@ -78,33 +78,32 @@ module.exports.RemoveCategory=async(req,res)=>{
 
 
 module.exports.getCategory = async (req, res) => {
-    try {
-    
-      const allCategory = await Category.find({});
-  
-      if (!allCategory) {
-        return res.status(404).json({ message: "Categories not found" });
-      }
-  
-      
-      const categorieswithProductCount = await Promise.all(
-        allCategory.map(async (category) => {
-          
-          const productCount = await Product.countDocuments({ category:category._id });
-  
-          return {
-            ...category.toObject(),  
-            productCount: productCount,  
-          };
-        })
-      );
-  
-      res.status(200).json({ categorieswithProductCount });
-  
-    } catch (error) {
-      res.status(500).json({ message: "Error getting categories", error: error.message });
+  try {
+    const allCategory = await Category.find({});
+
+    if (!allCategory || allCategory.length === 0) {
+      return res.status(404).json({ message: "Categories not found" });
     }
-  };
+
+   
+    const categoriesWithCount = await Promise.all(
+      allCategory.map(async (category) => {
+        const count = await Product.countDocuments({ Category: category._id }); 
+        return {
+          ...category.toObject(),
+          productCount: count,
+        };
+      })
+    );
+    
+
+    res.status(200).json({ categoriesWithCount });
+
+  } catch (error) {
+    res.status(500).json({ message: "Error getting categories", error: error.message });
+  }
+};
+
   
 
 module.exports.updateCategory=async(req,res)=>{

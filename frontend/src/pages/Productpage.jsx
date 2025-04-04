@@ -3,6 +3,7 @@ import TopNavbar from "../Components/TopNavbar";
 import { IoMdAdd } from "react-icons/io";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import FormattedTime from "../lib/FormattedTime ";
 import {
   Addproduct,
   gettingallproducts,
@@ -111,7 +112,7 @@ function Productpage() {
     setPrice("");
     setQuantity("");
     setDesciption("");
-    setDateAdded(new Date().toISOString().split('T')[0]); // Reset to current date
+   
   };
 
   const handleEditClick = (product) => {
@@ -121,13 +122,8 @@ function Productpage() {
     setPrice(product.Price);
     setQuantity(product.quantity);
     setDesciption(product.Desciption);
-    // Format the date for the input field (YYYY-MM-DD)
-    if (product.dateAdded) {
-      const date = new Date(product.dateAdded);
-      setDateAdded(date.toISOString().split('T')[0]);
-    } else {
-      setDateAdded(new Date().toISOString().split('T')[0]);
-    }
+  
+   
     setIsFormVisible(true);
   };
 
@@ -257,16 +253,7 @@ function Productpage() {
                 />
               </div>
 
-              <div className="mb-4">
-                <label>Date Added</label>
-                <input
-                  type="date"
-                  value={dateAdded}
-                  onChange={(e) => setDateAdded(e.target.value)}
-                  className="w-full h-10 px-2 border-2 rounded-lg mt-2"
-                  required
-                />
-              </div>
+              
 
               <button
                 type="submit"
@@ -290,7 +277,7 @@ function Productpage() {
                   <th className="px-3 py-2 border">Description</th>
                   <th className="px-3 py-2 border">Quantity</th>
                   <th className="px-3 py-2 border">Price</th>
-                  <th className="px-3 py-2 border">Date Added</th>
+                  <th className="px-3 py-2 border">Date </th>
                   <th className="px-3 py-2 w-72 border">Operations</th>
                 </tr>
               </thead>
@@ -315,7 +302,7 @@ function Productpage() {
                         </td>
                         <td className="px-3 py-2 border">{product.quantity}</td>
                         <td className="px-3 py-2 border">${product.Price}</td>
-                        <td className="px-3 py-2 border">{formattedDate}</td>
+                        <td className="px-3 py-2 border"><FormattedTime timestamp={product?.createdAt} /></td>
                         <td className="px-4 py-2 border">
                           <button
                             onClick={() => handleremove(product._id)}
