@@ -51,6 +51,7 @@ module.exports = (app) => {
     }
   });
 
+  
   router.get("/getrecentActivitys",async(req,res)=>{
     try{
       const logs=await ActivityLog.find().sort({createdAt: -1}).limit(3);

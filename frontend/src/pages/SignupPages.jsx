@@ -132,7 +132,7 @@ function SignupPage() {
         </div>
       </div>
 
-      {/* Right Side - Artistic Design */}
+      
       <div
         className="w-full sm:w-1/2 bg-black p-10 text-white flex flex-col justify-center relative overflow-hidden"
         style={{
