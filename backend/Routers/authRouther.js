@@ -6,6 +6,8 @@ const {authmiddleware,adminmiddleware,managermiddleware}=require('../middleware/
 
 
 
+
+
 router.post("/signup",signup)
 router.post("/login",login)
 router.delete("/removeuser/:UserId",removeuser)
