@@ -31,7 +31,7 @@ const io = new Server(server, {
 });
 
 app.use(cors({
-  origin: process.env.Frontend_URL,
+  origin: "https://advanced-inventory-management-system-1.onrender.com" ,
   methods: ["GET", "POST","PUT","DELETE"],
   credentials: true,
 }));
