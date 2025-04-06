@@ -12,7 +12,7 @@ function Dashboardpage() {
   const { recentuser } = useSelector((state) => state.activity);
   const dispatch = useDispatch();
 
-  const socket = io("http://localhost:3002", {
+  const socket = io("https://advanced-inventory-management-system-backend.vercel.app", {
     withCredentials: true,
   });
 

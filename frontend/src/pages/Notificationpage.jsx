@@ -19,7 +19,7 @@ function NotificationPage() {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io(`${process.env.REACT_APP_BACKEND_URL}`, {
+    const newSocket = io("https://advanced-inventory-management-system-backend.vercel.app", {
       withCredentials: true,
     });
     setSocket(newSocket);

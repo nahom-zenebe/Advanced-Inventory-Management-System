@@ -24,14 +24,14 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: process.env.Frontend_URL,
+    origin: "https://advanced-inventory-management-system.vercel.app",
     methods: ["GET", "POST","PUT","DELETE"],
     credentials: true,
   },
 });
 
 app.use(cors({
-  origin: process.env.Frontend_URL ,
+  origin: "https://advanced-inventory-management-system.vercel.app" ,
   methods: ["GET", "POST","PUT","DELETE"],
   credentials: true,
 }));
