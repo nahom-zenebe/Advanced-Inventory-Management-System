@@ -21,6 +21,7 @@ function NotificationPage() {
   useEffect(() => {
     const newSocket = io("https://advanced-inventory-management-system-v1.onrender.com", {
       withCredentials: true,
+      transports: ["websocket", "polling"],
     });
     setSocket(newSocket);
 
