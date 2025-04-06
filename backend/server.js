@@ -31,7 +31,7 @@ const io = new Server(server, {
 });
 
 app.use(cors({
-  origin: "https://advanced-inventory-management-system-1.onrender.com" ,
+  origin: "https://advanced-inventory-management-system.vercel.app/" ,
   methods: ["GET", "POST","PUT","DELETE"],
   credentials: true,
 }));
