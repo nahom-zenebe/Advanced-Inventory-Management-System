@@ -68,7 +68,7 @@ function Productpage() {
       Price,
       quantity,
       Desciption,
-      dateAdded: selectedProduct.dateAdded || new Date().toISOString() // Preserve original date or set new one
+      dateAdded: selectedProduct.dateAdded || new Date().toISOString() 
     };
 
     dispatch(EditProduct({ id: selectedProduct._id, updatedData }))
@@ -92,7 +92,7 @@ function Productpage() {
       Category, 
       Price, 
       quantity,
-      dateAdded: new Date(dateAdded).toISOString() // Convert to ISO string
+      dateAdded: new Date(dateAdded).toISOString() 
     };
 
     dispatch(Addproduct(productData))
