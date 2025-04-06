@@ -19,7 +19,7 @@ function NotificationPage() {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io("http://localhost:3002", {
+    const newSocket = io(`${process.env.REACT_APP_BACKEND_URL}`, {
       withCredentials: true,
     });
     setSocket(newSocket);
