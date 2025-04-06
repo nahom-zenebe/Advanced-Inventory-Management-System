@@ -46,7 +46,7 @@ function Categorypage() {
   }, [dispatch]);
 
   
-  console.log(getallCategory);
+
 
 
   useEffect(() => {

@@ -50,7 +50,7 @@ const navigator=useNavigate()
 
   useEffect(() => {
     if (Authuser) {
-      console.log("User already authenticated:", Authuser);
+      
     }
   }, [Authuser]);
 

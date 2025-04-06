@@ -28,7 +28,7 @@ function Sidebar() {
         toast.error("Error in logout");
       });
   };
-console.log(Authuser)
+
   return (
     <div className="flex flex-col w-64 text-black min-h-screen p-6 shadow-lg ">
       <h1 className="text-2xl font-bold text-center text-gray-700 mb-10"> <img src={logo1} className='w-56 bg-white' alt="sample logo"></img></h1>

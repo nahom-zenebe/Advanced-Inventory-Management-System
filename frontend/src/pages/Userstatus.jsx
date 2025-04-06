@@ -25,9 +25,7 @@ function Userstatus() {
     dispatch(adminUser());
   }, [dispatch,removeusers]);
 
-  console.log(staffuser);
-  console.log(adminuser);
-  console.log(manageruser);
+  
 
 
   const handleremove=async(UserId)=>{
