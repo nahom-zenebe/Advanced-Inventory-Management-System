@@ -14,7 +14,7 @@ function Activitylogpage() {
   const { Authuser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  const socket = io("https://advanced-inventory-management-system-backend.vercel.app", { withCredentials: true });
+  const socket = io("https://advanced-inventory-management-system-v1.onrender.com", { withCredentials: true });
 
   useEffect(() => {
     if (Authuser?.id) {
