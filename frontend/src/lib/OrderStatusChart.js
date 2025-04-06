@@ -1,7 +1,7 @@
 import { Bar } from 'react-chartjs-2';
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getstatusgraphOrder } from "../features/orderSlice"; // Make sure this action is correctly defined
+import { getstatusgraphOrder } from "../features/orderSlice";  
 import {
   Chart as ChartJS,
   CategoryScale,
