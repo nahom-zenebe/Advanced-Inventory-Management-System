@@ -30,11 +30,7 @@ const io = new Server(server, {
   },
 });
 
-app.use(cors({
-  origin: "https://advanced-inventory-management-system.vercel.app" ,
-  methods: ["GET", "POST","PUT","DELETE"],
-  credentials: true,
-}));
+
 
 
 io.on("connection", (socket) => {
