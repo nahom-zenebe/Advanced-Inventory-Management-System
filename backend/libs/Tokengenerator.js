@@ -19,10 +19,11 @@ const generateToken = async (user, res) => {
 
     res.cookie("Inventorymanagmentsystem", token, {
       maxAge: 7 * 24 * 60 * 60 * 1000,
-      httpOnly: true, 
-      sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax', 
-      secure: process.env.NODE_ENV === 'production',
+      httpOnly: true,
+      sameSite: 'None',
+      secure: true,
     });
+    
 
     return token; 
   } catch (error) {
