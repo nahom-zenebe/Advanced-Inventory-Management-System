@@ -11,7 +11,7 @@ router.get("/searchcategory",authmiddleware,Searchcategory)
 
 
 router.delete("/removecategory/:CategoryId",authmiddleware,RemoveCategory)
-router.put("/updateCategory",authmiddleware,updateCategory)
+router.put("/updateCategory/:CategoryId",authmiddleware,updateCategory)
 
 
 
