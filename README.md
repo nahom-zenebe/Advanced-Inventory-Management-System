@@ -35,29 +35,58 @@ A full-stack Inventory Management System built with the MERN stack (MongoDB, Exp
 ---
 ## 📦 Installation
 
-### 1. Clone the repo
+### Docker Compose
+
+To run MongoDB, the backend, and the production frontend together:
+
 ```bash
-git clone https://github.com/yourusername/inventory-management-mern.git
-cd inventory-management-mern
-```
-```
-# Backend
-cd server
-npm install
-```
-```
-PORT=5000
-MONGO_URI=mongodb://localhost:27017/inventory
-JWT_SECRET=your_jwt_secret
-
-```
-```
-cd ../client
-npm install
+docker compose up --build
 ```
 
+The frontend is available at `http://localhost:3000` and the API at `http://localhost:3003`.
+
+Stop the services with:
+
+```bash
+docker compose down
 ```
-# Backend
-cd server
-npm run dev
+
+### Local development
+
+Install the backend dependencies and configure the backend environment:
+
+```bash
+cd backend
+npm install
 ```
+
+Create `backend/.env`:
+
+```
+PORT=3003
+MONGODB_URL=mongodb://localhost:27017/inventory
+SecretKey=your_jwt_secret
+```
+
+Start the backend:
+
+```bash
+npm start
+```
+
+In a second terminal, install and start the frontend:
+
+```bash
+cd frontend
+npm install
+npm start
+```
+
+Run the test suites locally:
+
+```bash
+cd backend && npm test
+cd ../frontend && CI=true npm test -- --watchAll=false
+```
+
+Every push and pull request to `main` or `master` runs the backend tests and the frontend tests/build through GitHub Actions.
